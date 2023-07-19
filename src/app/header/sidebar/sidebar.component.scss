@@ -1,0 +1,69 @@
+@use "../../../styles.scss" as *;
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-purple-dark;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @media (min-width: 47rem) {
+    display: none;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $color-primary;
+  height: 100vh;
+  width: 28rem;
+  padding: 8rem 0 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 3rem;
+  }
+
+  &__list-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: $color-secondary;
+    }
+  }
+
+  &__close-icon {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  &__auth {
+    padding: 1.5rem 3rem 0 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-top: 0.15rem solid $color-secondary;
+
+    &:hover {
+      color: $color-secondary;
+    }
+  }
+
+  @media (min-width: 47rem) {
+    display: none;
+  }
+}
