@@ -1,0 +1,5 @@
+<app-navbar (showSidebar)="setSidebarIsShown()"></app-navbar>
+<app-sidebar
+  (hideSidebar)="setSidebarIsHidden()"
+  *ngIf="sidebarIsShown"
+></app-sidebar>
