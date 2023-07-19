@@ -1,6 +1,10 @@
 <div class="overlay" (click)="setSidebarIsHidden()"></div>
 
 <div class="sidebar">
+  <div class="sidebar__close-icon" (click)="setSidebarIsHidden()">
+    <mat-icon>close</mat-icon>
+  </div>
+
   <ul class="sidebar__list">
     <li class="sidebar__list-item">
       <mat-icon>home</mat-icon>

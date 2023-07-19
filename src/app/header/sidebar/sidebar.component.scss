@@ -38,9 +38,17 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
+      color: $color-secondary;
     }
+  }
+
+  &__close-icon {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
   }
 
   &__auth {
@@ -49,6 +57,10 @@
     align-items: center;
     gap: 1.5rem;
     border-top: 0.15rem solid $color-secondary;
+
+    &:hover {
+      color: $color-secondary;
+    }
   }
 
   @media (min-width: 47rem) {

@@ -10,6 +10,7 @@ $color-secondary-dark: #6264cf;
 $color-purple-dark: #090018;
 $color-accent-orange: #ffd8be;
 $color-black: #111d13;
+$color-dark-gray: #202020;
 
 @mixin flex($justContent: center, $alignItems: center, $direction: row, $gap) {
   display: flex;
@@ -33,6 +34,7 @@ body {
   font-family: $roboto-font;
   background-color: $color-primary;
   font-size: 1.6rem;
+  color: $color-dark-gray;
 }
 
 .btn {
