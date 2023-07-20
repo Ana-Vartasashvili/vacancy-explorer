@@ -3,12 +3,11 @@
 .overlay {
   width: 100vw;
   height: 100vh;
-  background-color: $color-dark-gray;
-  opacity: 0.5;
+  background-color: darken($color-dark-gray, 60%);
+  opacity: 0.6;
   z-index: 10;
-  position: absolute;
-  top: 0;
-  left: 0;
+
+  @include position();
 
   @media (min-width: 47rem) {
     display: none;
@@ -16,53 +15,48 @@
 }
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  // background-color: $color-primary;
+  z-index: 9999;
+  background-color: $color-black;
+  color: $color-white;
+  font-size: 2rem;
   height: 100vh;
   width: 28rem;
-  padding: 8rem 0 4rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 8rem 0 3rem 0;
+  @include flex(0, column, space-between, start);
+  @include position(fixed);
 
   &__list {
+    width: 100%;
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 0 3rem;
+    @include flex(0, column, center, start);
   }
 
   &__list-item {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
+    width: 100%;
+    padding: 2rem 4rem;
+    @include flex(1.5rem, row, start);
     transition: all 0.2s ease-in-out;
 
-    // &:hover {
-    //   color: $color-secondary;
-    // }
+    &:hover {
+      background-color: $color-pink;
+      color: $color-black;
+    }
   }
 
   &__close-icon {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
+    transform: scale(1.5);
+    @include position(absolute, 2.8rem, 3rem);
   }
 
-  &__auth {
-    // padding: 1.5rem 3rem 0 3rem;
-    // display: flex;
-    // align-items: center;
-    // gap: 1.5rem;
-    // border-top: 0.15rem solid $color-secondary;
+  &__login {
+    padding: 1.5rem 3rem 0 3rem;
+    width: 100%;
+    border-top: 0.15rem solid $color-white;
+    @include flex(1rem, row, start);
 
-    // &:hover {
-    //   color: $color-secondary;
-    // }
+    &:hover {
+      color: $color-pink;
+    }
   }
 
   @media (min-width: 47rem) {

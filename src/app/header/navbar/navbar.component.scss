@@ -2,7 +2,7 @@
 
 .nav {
   border-bottom: $border-width-sm solid $color-black;
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   padding-left: 3rem;
   @include flex(0, row, space-between);
 
@@ -31,7 +31,7 @@
 
   &__menu-icon {
     display: none;
-    font-size: 3rem;
+    transform: scale(1.5);
 
     @media (max-width: 47rem) {
       display: block;
