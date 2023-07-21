@@ -1,0 +1,39 @@
+@use "../../../styles.scss" as *;
+
+.vacancy {
+  width: 100%;
+  padding: 2.5rem 3rem;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 0 0.3rem 0.1rem lighten($color-dark-gray, 75%);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 2.5rem 0.1rem lighten($color-dark-gray, 75%);
+  }
+
+  &__title {
+    font-size: 2rem;
+    padding: 2rem 0;
+    border-bottom: $border-width-sm solid lighten($color-blue, 30%);
+  }
+
+  &__info {
+    margin-top: 1.5rem;
+    @include flex(0, row, space-between, start);
+  }
+
+  &__location-company {
+    @include flex(1rem, column, start, start);
+  }
+
+  &__location {
+    transform: translateX(-0.6rem);
+    color: lighten($color-dark-gray, 30%);
+    @include flex;
+  }
+
+  &__publish-date {
+    color: lighten($color-dark-gray, 20%);
+  }
+}

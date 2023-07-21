@@ -6,8 +6,7 @@
   background-color: darken($color-dark-gray, 60%);
   opacity: 0.6;
   z-index: 10;
-
-  @include position();
+  @include position(fixed);
 
   @media (min-width: 47rem) {
     display: none;

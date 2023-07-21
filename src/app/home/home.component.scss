@@ -1,0 +1,54 @@
+@use "../../styles.scss" as *;
+
+.home {
+  padding: 0 5rem 9rem 5rem;
+
+  @media (max-width: 86rem) {
+    padding: 0 3rem 9rem 3rem;
+  }
+}
+
+.vacancies {
+  width: 85vw;
+  margin: 0 auto;
+  margin-top: 7rem;
+
+  &__header {
+    @include flex(0, row, space-between);
+  }
+
+  &__title {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 46rem) {
+      font-size: 2.6rem;
+    }
+  }
+
+  &__view-all {
+    font-size: 1.9rem;
+    cursor: pointer;
+    @include flex;
+
+    &:hover {
+      border-bottom: $border-width-sm solid $color-blue;
+      color: $color-blue;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 4rem;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    @media (max-width: 73rem) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 46rem) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

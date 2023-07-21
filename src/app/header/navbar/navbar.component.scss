@@ -4,6 +4,10 @@
   border-bottom: $border-width-sm solid $color-black;
   font-size: 1.8rem;
   padding-left: 3rem;
+  z-index: 10;
+  width: 100%;
+  background-color: $color-white;
+  @include position(fixed);
   @include flex(0, row, space-between);
 
   &__list {
