@@ -6,8 +6,24 @@
   </div>
 
   <ul class="sidebar__list">
-    <li class="sidebar__list-item">Home</li>
-    <li class="sidebar__list-item">Vacancies</li>
+    <li class="sidebar__list-item">
+      <a
+        class="sidebar__list-item-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+    </li>
+
+    <li class="sidebar__list-item">
+      <a
+        class="sidebar__list-item-link"
+        routerLink="/vacancies"
+        routerLinkActive="active"
+        >Vacancies</a
+      >
+    </li>
   </ul>
 
   <div class="sidebar__login">

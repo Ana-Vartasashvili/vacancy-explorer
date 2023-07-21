@@ -1,0 +1,66 @@
+@use "../../styles.scss" as *;
+
+.vacancies {
+  &__wrapper {
+    width: 70vw;
+    margin: 0 auto;
+
+    @media (max-width: 65rem) {
+      width: 100%;
+    }
+  }
+
+  &__main-content {
+    width: 70%;
+    padding: 2rem 0;
+
+    @media (max-width: 46rem) {
+      width: 100%;
+    }
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+    @include flex(1.4rem, row, flex-start, center);
+  }
+
+  &__filter-icon {
+    border: 0.1rem solid $color-black;
+    padding: 2rem 2rem;
+    border-radius: 50%;
+    @include flex;
+
+    @media (min-width: 46rem) {
+      display: none;
+    }
+  }
+
+  &__search {
+    width: fit-content;
+    padding: 0.25rem 1rem;
+    border-radius: 3rem;
+    border: 0.1rem solid $color-black;
+    @include flex;
+  }
+
+  &__search-input {
+    width: 20rem;
+    padding: 1rem;
+    outline: none;
+    border: none;
+
+    @media (max-width: 23rem) {
+      width: 100%;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 65rem) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

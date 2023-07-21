@@ -1,10 +1,10 @@
 @use "../../styles.scss" as *;
 
 .home {
-  padding: 0 5rem 9rem 5rem;
+  padding: 0 2rem 9rem 2rem;
 
   @media (max-width: 86rem) {
-    padding: 0 3rem 9rem 3rem;
+    padding-bottom: 9rem;
   }
 }
 

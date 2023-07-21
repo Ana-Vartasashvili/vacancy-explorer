@@ -4,8 +4,24 @@
   </div>
 
   <ul class="nav__list">
-    <li class="nav__list-item">Home</li>
-    <li class="nav__list-item">Vacancies</li>
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__list-item"
+        >Home</a
+      >
+    </li>
+
+    <li>
+      <a
+        routerLink="/vacancies"
+        routerLinkActive="active"
+        class="nav__list-item"
+        >Vacancies</a
+      >
+    </li>
   </ul>
 
   <div class="nav__auth">
