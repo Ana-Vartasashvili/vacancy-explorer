@@ -1,20 +1,18 @@
 @use "../../../styles.scss" as *;
 
 .nav {
-  padding: 2.2rem 4rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 0.15rem solid $color-secondary-dark;
-
-  @media (max-width: 47rem) {
-    padding: 2rem;
-  }
+  border-bottom: $border-width-sm solid $color-black;
+  font-size: 1.8rem;
+  padding-left: 3rem;
+  z-index: 10;
+  width: 100%;
+  background-color: $color-white;
+  @include position(fixed);
+  @include flex(0, row, space-between);
 
   &__list {
     list-style: none;
-
-    @include flex(center, center, row, 4rem);
+    @include flex(4rem);
 
     @media (max-width: 47rem) {
       display: none;
@@ -23,16 +21,10 @@
 
   &__list-item {
     cursor: pointer;
-    transition: all 0.2s;
 
     &:hover {
-      color: $color-secondary;
+      border-bottom: $border-width-sm solid $color-black;
     }
-  }
-
-  &__auth {
-    display: flex;
-    gap: 1.6rem;
   }
 
   .btn--signup {
@@ -42,22 +34,11 @@
   }
 
   &__menu-icon {
-    color: $color-black;
     display: none;
-    font-size: 3rem;
+    transform: scale(1.5);
 
     @media (max-width: 47rem) {
       display: block;
     }
-  }
-}
-
-.btn--login {
-  background-color: $color-primary;
-  color: $color-black;
-  border: 0.2rem solid $color-secondary;
-
-  &:hover {
-    color: $color-primary;
   }
 }
