@@ -9,17 +9,22 @@
 }
 
 .vacancies {
-  width: 85vw;
+  width: 75vw;
+  max-width: 180rem;
   margin: 0 auto;
   margin-top: 7rem;
 
+  @media (max-width: 65rem) {
+    width: 100%;
+  }
+
   &__header {
-    @include flex(0, row, space-between);
+    @include flex(1.8rem, row, space-between);
+    margin-bottom: 2.8rem;
   }
 
   &__title {
     font-size: 4rem;
-    margin-bottom: 2rem;
 
     @media (max-width: 46rem) {
       font-size: 2.6rem;
