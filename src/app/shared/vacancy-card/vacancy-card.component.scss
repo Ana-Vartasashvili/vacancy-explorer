@@ -19,8 +19,8 @@
   }
 
   &__info {
-    margin-top: 1.5rem;
     @include flex(0, row, space-between, flex-start);
+    margin-top: 1.5rem;
   }
 
   &__location-company {
@@ -28,9 +28,9 @@
   }
 
   &__location {
+    @include flex;
     transform: translateX(-0.6rem);
     color: lighten($color-dark-gray, 30%);
-    @include flex;
   }
 
   &__publish-date {

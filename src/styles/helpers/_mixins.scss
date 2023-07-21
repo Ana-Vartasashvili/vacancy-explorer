@@ -1,0 +1,18 @@
+@mixin flex(
+  $gap: 0,
+  $direction: row,
+  $justContent: center,
+  $alignItems: center
+) {
+  display: flex;
+  justify-content: $justContent;
+  align-items: $alignItems;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin position($position: absolute, $top: 0, $left: 0) {
+  position: $position;
+  top: $top;
+  left: $left;
+}
