@@ -11,6 +11,12 @@
   gap: $gap;
 }
 
+@mixin grid($gap: 0, $columns: 1fr 1fr) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+}
+
 @mixin position($position: absolute, $top: 0, $left: 0) {
   position: $position;
   top: $top;

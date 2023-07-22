@@ -1,4 +1,4 @@
-@use "../../../styles.scss" as *;
+@import "../../../styles.scss";
 
 .nav {
   @include position(fixed);
@@ -17,15 +17,13 @@
     @media (max-width: 47rem) {
       display: none;
     }
+  }
 
-    &__item {
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+  &__list-item {
+    @extend %link-default;
 
-      &:hover {
-        border-bottom: $border-width-sm solid $color-black;
-      }
+    &:hover {
+      border-bottom: $border-width-sm solid $color-black;
     }
   }
 

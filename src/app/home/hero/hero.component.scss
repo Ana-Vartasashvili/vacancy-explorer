@@ -1,4 +1,4 @@
-@use "../../../styles.scss" as *;
+@import "../../../styles.scss";
 
 .hero {
   @include flex(4rem, row, space-between);
@@ -52,7 +52,7 @@
   }
 
   &__search {
-    @include flex();
+    @extend %flex-layout;
     width: 100%;
     font-size: 2rem;
     border-radius: $border-radius-sm;
@@ -86,7 +86,7 @@
   }
 
   &__search-icon {
-    @include flex;
+    @extend %flex-layout;
     font-size: 5rem;
     width: 5rem;
     height: 5rem;

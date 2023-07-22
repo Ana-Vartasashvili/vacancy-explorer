@@ -1,4 +1,4 @@
-@use "../../styles.scss" as *;
+@import "../../styles.scss";
 
 .home {
   padding: 0 2rem 9rem 2rem;
@@ -34,19 +34,20 @@
   &__view-all {
     font-size: 1.9rem;
     cursor: pointer;
-    @include flex;
+    @extend %flex-layout;
 
     &:hover {
       border-bottom: $border-width-sm solid $color-blue;
       color: $color-blue;
     }
+
+    &__link {
+      @extend %link-default;
+    }
   }
 
   &__list {
-    display: grid;
-    gap: 4rem;
-    justify-content: center;
-    grid-template-columns: 1fr 1fr 1fr;
+    @include grid(4rem, 1fr 1fr 1fr);
 
     @media (max-width: 73rem) {
       grid-template-columns: 1fr 1fr;

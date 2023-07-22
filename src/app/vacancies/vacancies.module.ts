@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../shared/shared.module';
+import { VacanciesFilterComponent } from './vacancies-filter/vacancies-filter.component';
 import { VacanciesListComponent } from './vacancies-list/vacancies-list.component';
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
 
 @NgModule({
-  declarations: [VacanciesListComponent, VacanciesComponent],
+  declarations: [
+    VacanciesListComponent,
+    VacanciesComponent,
+    VacanciesFilterComponent,
+  ],
   imports: [VacanciesRoutingModule, MatIconModule, SharedModule],
 })
 export class VacanciesModule {}

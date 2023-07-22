@@ -2,6 +2,7 @@
 
 .vacancies {
   &__wrapper {
+    @include flex(2rem);
     width: 70vw;
     margin: 0 auto;
 
@@ -25,7 +26,7 @@
   }
 
   &__filter-icon {
-    @include flex;
+    @extend %flex-layout;
     border: 0.1rem solid $color-black;
     padding: 2rem 2rem;
     border-radius: 50%;
@@ -36,7 +37,7 @@
   }
 
   &__search {
-    @include flex;
+    @extend %flex-layout;
     width: fit-content;
     padding: 0.25rem 1rem;
     border-radius: 3rem;
@@ -49,10 +50,10 @@
     &__input {
       width: 20rem;
       padding: 1rem;
+      font-size: 1.5rem;
       outline: none;
       border: none;
       transition: width 0.2s;
-      width: 100%;
 
       &:focus {
         width: 21rem;
@@ -71,9 +72,7 @@
   }
 
   &__list {
-    display: grid;
-    gap: 2.5rem;
-    grid-template-columns: 1fr 1fr;
+    @include grid(2.5rem);
 
     @media (max-width: 65rem) {
       grid-template-columns: 1fr;
