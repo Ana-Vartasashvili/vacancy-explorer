@@ -1,5 +1,8 @@
-.filter {
-  &__wrapper {
-    background-color: red;
-  }
+@import "../../../styles.scss";
+
+.filters {
+  position: fixed;
+  padding: 2.2rem 0 2.2rem 0;
+  width: 25rem;
+  height: 100%;
 }

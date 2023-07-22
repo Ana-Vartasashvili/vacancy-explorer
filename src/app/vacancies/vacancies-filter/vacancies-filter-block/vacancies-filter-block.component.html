@@ -1,0 +1,24 @@
+<div class="dropdown">
+  <div class="dropdown__trigger" (click)="toggleDropdownBlock()">
+    <p>Select sphere</p>
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </div>
+
+  <div class="dropdown-block" *ngIf="dropdownBlockIsShown">
+    <div class="dropdown__option">
+      <input type="checkbox" class="dropdown__option-input" id="sales-option" />
+      <label class="dropdown__option-label" for="sales-option">Sales</label>
+    </div>
+
+    <div class="dropdown__option">
+      <input
+        type="checkbox"
+        class="dropdown__option-input"
+        id="customer-relations-option"
+      />
+      <label class="dropdown__option-label" for="customer-relations-option"
+        >Customer relations</label
+      >
+    </div>
+  </div>
+</div>

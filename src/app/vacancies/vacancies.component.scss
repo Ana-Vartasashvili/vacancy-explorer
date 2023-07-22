@@ -1,9 +1,12 @@
 @use "../../styles.scss" as *;
 
 .vacancies {
-  &__wrapper {
-    @include flex(2rem);
-    width: 70vw;
+  min-height: 100vh;
+
+  &__container {
+    @include flex(2rem, row, center, start);
+    min-height: calc(100vh - 6.3rem);
+    max-width: 180rem;
     margin: 0 auto;
 
     @media (max-width: 65rem) {
@@ -12,7 +15,8 @@
   }
 
   &__main-content {
-    width: 70%;
+    margin-left: 25rem;
+    width: 60%;
     padding: 2rem 0;
 
     @media (max-width: 46rem) {
@@ -68,14 +72,6 @@
       @media (max-width: 23rem) {
         width: 100%;
       }
-    }
-  }
-
-  &__list {
-    @include grid(2.5rem);
-
-    @media (max-width: 65rem) {
-      grid-template-columns: 1fr;
     }
   }
 }

@@ -1,0 +1,26 @@
+@import "../../../../styles.scss";
+
+.dropdown {
+  &__trigger {
+    @include flex(0, row, space-between);
+    cursor: pointer;
+    margin-bottom: 1.2rem;
+  }
+
+  .dropdown-block {
+    @include flex(1rem, column, start, start);
+    font-size: 1.4rem;
+  }
+
+  &__option {
+    @include flex(0.7rem);
+  }
+
+  &__option-input {
+    cursor: pointer;
+  }
+
+  &__option-label {
+    cursor: pointer;
+  }
+}
