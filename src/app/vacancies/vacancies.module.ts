@@ -8,6 +8,7 @@ import { VacanciesFilterComponent } from './vacancies-filter/vacancies-filter.co
 import { VacanciesListComponent } from './vacancies-list/vacancies-list.component';
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
+import { VacanciesFilterOptionComponent } from './vacancies-filter/vacancies-filter-option/vacancies-filter-option.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { VacanciesComponent } from './vacancies.component';
     VacanciesComponent,
     VacanciesFilterComponent,
     VacanciesFilterBlockComponent,
+    VacanciesFilterOptionComponent,
   ],
   imports: [VacanciesRoutingModule, MatIconModule, SharedModule, CommonModule],
 })

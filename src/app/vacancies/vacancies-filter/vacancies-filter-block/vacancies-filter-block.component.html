@@ -1,26 +1,16 @@
-<div class="dropdown">
-  <div class="dropdown__trigger" (click)="toggleDropdownBlock()">
-    <p>Select sphere</p>
+<div class="filter-block">
+  <div class="filter-block__trigger" (click)="toggleDropdownBlock()">
+    <p>{{ filterType }}</p>
     <mat-icon [@openClose]="dropdownBlockIsShown ? 'open' : 'close'"
       >keyboard_arrow_down</mat-icon
     >
   </div>
 
-  <div class="dropdown-block" *ngIf="dropdownBlockIsShown" @fade>
-    <div class="dropdown__option">
-      <input type="checkbox" class="dropdown__option-input" id="sales-option" />
-      <label class="dropdown__option-label" for="sales-option">Sales</label>
-    </div>
-
-    <div class="dropdown__option">
-      <input
-        type="checkbox"
-        class="dropdown__option-input"
-        id="customer-relations-option"
-      />
-      <label class="dropdown__option-label" for="customer-relations-option"
-        >Customer relations</label
-      >
-    </div>
+  <div class="filter-options" *ngIf="dropdownBlockIsShown" @fade>
+    <app-vacancies-filter-option
+      *ngFor="let option of filterOptions"
+      [optionTitle]="option.optionName"
+      [optionIdentifier]="option.optionIdentifier"
+    ></app-vacancies-filter-option>
   </div>
 </div>

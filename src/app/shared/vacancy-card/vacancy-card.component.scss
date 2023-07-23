@@ -4,12 +4,14 @@
   width: 100%;
   padding: 3rem;
   border-radius: $border-radius-sm;
-  box-shadow: 0 0 0.3rem 0.1rem lighten($color-dark-gray, 75%);
   cursor: pointer;
-  transition: box-shadow 0.2s ease-in-out;
+  border: $border-width-sm solid $color-black;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    box-shadow: 0 0 2.5rem 0.1rem lighten($color-dark-gray, 75%);
+    transform: translate(-0.25rem, -0.25rem);
+    box-shadow: 0.5rem 0.5rem 0 $color-black;
+    border: $border-width-sm solid $color-black;
   }
 
   &__title {
