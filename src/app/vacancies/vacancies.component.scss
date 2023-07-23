@@ -4,7 +4,7 @@
   min-height: 100vh;
 
   &__container {
-    @include flex(2rem, row, center, start);
+    @include flex(2rem, row, center, flex-start);
     min-height: calc(100vh - 6.3rem);
     max-width: 180rem;
     margin: 0 auto;
