@@ -9,8 +9,12 @@
   }
 
   .filter-options {
-    @include flex(1rem, column, start, start);
+    @include flex(1rem, column, flex-start, flex-start);
     font-size: 1.4rem;
     margin-bottom: 2rem;
+  }
+
+  .none {
+    display: none;
   }
 }

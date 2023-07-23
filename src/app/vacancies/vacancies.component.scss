@@ -87,6 +87,6 @@
 
   @media (max-width: 46rem) {
     display: block;
-    @include overlay(6.3rem);
+    @include overlay(6.3rem, 0.5);
   }
 }

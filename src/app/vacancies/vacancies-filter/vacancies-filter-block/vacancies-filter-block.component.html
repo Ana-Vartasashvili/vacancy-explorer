@@ -6,7 +6,7 @@
     >
   </div>
 
-  <div class="filter-options" *ngIf="dropdownBlockIsShown" @fade>
+  <div class="filter-options" [ngClass]="{ none: !dropdownBlockIsShown }" @fade>
     <app-vacancies-filter-option
       *ngFor="let option of filterOptions"
       [optionTitle]="option.optionName"

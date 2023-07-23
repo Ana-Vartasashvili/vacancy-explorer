@@ -23,12 +23,12 @@
   left: $left;
 }
 
-@mixin overlay($margin-top: 0) {
+@mixin overlay($margin-top: 0, $opacity: 0.6) {
   @include position(fixed);
   width: 100vw;
   height: 100vh;
   background-color: darken($color-dark-gray, 60%);
-  opacity: 0.6;
+  opacity: $opacity;
   z-index: 8;
   overflow: hidden;
   margin-top: $margin-top;
