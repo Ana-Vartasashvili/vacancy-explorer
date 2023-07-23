@@ -10,7 +10,7 @@ import {
 export const FilterBlockAnimation = trigger('fade', [
   transition(':enter', [
     animate(
-      '200ms',
+      '180ms',
       keyframes([
         style({ opacity: 0, height: 0 }),
         style({ opacity: 1, height: '*' }),

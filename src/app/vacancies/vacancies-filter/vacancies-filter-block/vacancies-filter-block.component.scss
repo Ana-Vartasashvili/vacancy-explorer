@@ -5,6 +5,7 @@
     @include flex(0, row, space-between);
     cursor: pointer;
     margin-bottom: 1rem;
+    color: darken($color-pink, 62%);
   }
 
   .filter-options {
