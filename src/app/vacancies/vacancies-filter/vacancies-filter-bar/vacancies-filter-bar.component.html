@@ -1,0 +1,7 @@
+<div class="filter-bar">
+  <app-vacancies-filter-block
+    *ngFor="let filter of filters"
+    [filterType]="filter.filterType"
+    [filterOptions]="filter.options"
+  ></app-vacancies-filter-block>
+</div>

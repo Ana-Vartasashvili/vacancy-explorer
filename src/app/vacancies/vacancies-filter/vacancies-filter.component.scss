@@ -5,4 +5,8 @@
   padding: 2.2rem 0 2.2rem 0;
   width: 25rem;
   height: 100%;
+
+  @media (max-width: 46rem) {
+    display: none;
+  }
 }

@@ -8,11 +8,7 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
   sidebarIsShown = false;
 
-  setSidebarIsShown() {
-    this.sidebarIsShown = true;
-  }
-
-  setSidebarIsHidden() {
-    this.sidebarIsShown = false;
+  setSidebarIsShown(isShown: boolean) {
+    this.sidebarIsShown = isShown;
   }
 }

@@ -1,16 +1,7 @@
 @import "../../../styles.scss";
 
 .overlay {
-  @include position(fixed);
-  width: 100vw;
-  height: 100vh;
-  background-color: darken($color-dark-gray, 60%);
-  opacity: 0.6;
-  z-index: 10;
-
-  @media (min-width: 47rem) {
-    display: none;
-  }
+  @include overlay;
 }
 
 .sidebar {
@@ -20,7 +11,8 @@
   background-color: $color-black;
   color: $color-white;
   font-size: 2rem;
-  height: 100vh;
+  overflow: hidden;
+  height: 100%;
   width: 28rem;
   padding: 8rem 0 3rem 0;
 
