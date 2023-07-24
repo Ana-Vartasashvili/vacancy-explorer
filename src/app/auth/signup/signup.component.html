@@ -1,50 +1,36 @@
 <app-auth-form-container authHeading="Sign Up">
-  <form class="form" [formGroup]="signupForm">
-    <input
-      type="text"
-      id="firstname"
-      placeholder="First Name"
-      class="input"
-      formControlName="firstName"
-    />
-    <!-- <app-auth-input
-        inputIdentifier="firstName"
-        inputPlaceholder="First Name"
-        ></app-auth-input> -->
+  <form class="form" [formGroup]="signupForm" (submit)="onSubmit()">
+    <app-auth-input
+      [form]="signupForm"
+      controlName="firstName"
+      inputPlaceholder="First Name"
+    ></app-auth-input>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Last Name"
-      class="input"
-      formControlName="lastName"
-    />
+    <app-auth-input
+      [form]="signupForm"
+      controlName="lastName"
+      inputPlaceholder="Last Name"
+    ></app-auth-input>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Email"
-      class="input"
-      formControlName="email"
-    />
+    <app-auth-input
+      [form]="signupForm"
+      controlName="email"
+      inputPlaceholder="Email"
+    ></app-auth-input>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Password"
-      class="input"
-      formControlName="password"
-    />
+    <app-auth-input
+      [form]="signupForm"
+      controlName="password"
+      inputPlaceholder="Password"
+    ></app-auth-input>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Confirm Password"
-      class="input"
-      formControlName="confirmPassword"
-    />
+    <app-auth-input
+      [form]="signupForm"
+      controlName="confirmPassword"
+      inputPlaceholder="Confirm Password"
+    ></app-auth-input>
 
-    <button type="submit" class="btn btn--with-shadow btn--signup">
+    <button type="submit" class="btn btn--with-shadow btn--auth">
       Sign Up
     </button>
   </form>

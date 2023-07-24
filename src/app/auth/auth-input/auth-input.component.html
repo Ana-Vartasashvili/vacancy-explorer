@@ -1,7 +1,8 @@
 <input
   type="text"
-  [id]="inputIdentifier"
+  [id]="controlName"
   [placeholder]="inputPlaceholder"
   class="input"
-  [formControlName]="inputIdentifier"
+  (change)="updateFormControlValue()"
+  [(ngModel)]="inputValue"
 />
