@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 
 .input {
+  position: relative;
   width: 100%;
   margin-bottom: 1.8rem;
   padding: 1.3rem 0.5rem;
@@ -9,5 +10,19 @@
 
   &:focus {
     outline: none;
+  }
+
+  &__error {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    color: red;
+    font-size: 1.3rem;
+  }
+}
+
+.ng-invalid {
+  .ng-touched {
+    border: 0.1rem solid red;
   }
 }
