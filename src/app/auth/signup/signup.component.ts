@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { passwordMatchValidator } from '../auth-validator';
 
 @Component({
   selector: 'app-signup',
@@ -28,33 +29,12 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
       ]),
-      confirmPassword: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl(null, [
+        Validators.required,
+        passwordMatchValidator('password'),
+      ]),
     });
   }
-
-  // matchPassword(password: string, confirmPassword: string) {
-  //   return (formGroup: FormGroup) => {
-  //     const passwordControl = formGroup.controls[password];
-  //     const confirmPasswordControl = formGroup.controls[confirmPassword];
-
-  //     if (!passwordControl || !confirmPasswordControl) {
-  //       return null;
-  //     }
-
-  //     if (
-  //       confirmPasswordControl.errors &&
-  //       !confirmPasswordControl.errors['passwordMismatch']
-  //     ) {
-  //       return null;
-  //     }
-
-  //     if (passwordControl.value !== confirmPasswordControl.value) {
-  //       confirmPasswordControl.setErrors({ passwordMismatch: true });
-  //     } else {
-  //       confirmPasswordControl.setErrors(null);
-  //     }
-  //   };
-  // }
 
   onSubmit() {
     console.log(this.signupForm);

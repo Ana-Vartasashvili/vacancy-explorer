@@ -1,34 +1,44 @@
 <app-auth-form-container authHeading="Sign Up">
   <form class="form" [formGroup]="signupForm" (submit)="onSubmit()">
-    <app-auth-input
-      [form]="signupForm"
-      controlName="firstName"
-      inputPlaceholder="First Name"
-    ></app-auth-input>
+    <input
+      type="text"
+      id="firstName"
+      placeholder="First Name"
+      class="input"
+      formControlName="firstName"
+    />
 
-    <app-auth-input
-      [form]="signupForm"
-      controlName="lastName"
-      inputPlaceholder="Last Name"
-    ></app-auth-input>
+    <input
+      type="text"
+      id="lastName"
+      placeholder="Last Name"
+      class="input"
+      formControlName="lastName"
+    />
 
-    <app-auth-input
-      [form]="signupForm"
-      controlName="email"
-      inputPlaceholder="Email"
-    ></app-auth-input>
+    <input
+      type="text"
+      id="email"
+      placeholder="Email"
+      class="input"
+      formControlName="email"
+    />
 
-    <app-auth-input
-      [form]="signupForm"
-      controlName="password"
-      inputPlaceholder="Password"
-    ></app-auth-input>
+    <input
+      type="text"
+      id="password"
+      placeholder="Password"
+      class="input"
+      formControlName="password"
+    />
 
-    <app-auth-input
-      [form]="signupForm"
-      controlName="confirmPassword"
-      inputPlaceholder="Confirm Password"
-    ></app-auth-input>
+    <input
+      type="text"
+      id="confirmPassword"
+      placeholder="Confirm Password"
+      class="input"
+      formControlName="confirmPassword"
+    />
 
     <button type="submit" class="btn btn--with-shadow btn--auth">
       Sign Up
