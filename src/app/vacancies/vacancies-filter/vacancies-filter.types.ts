@@ -6,7 +6,7 @@ export interface FilterOption {
 }
 
 export interface Filter {
-  filterType: string;
+  filterName: string;
   options: FilterOption[];
 }
 

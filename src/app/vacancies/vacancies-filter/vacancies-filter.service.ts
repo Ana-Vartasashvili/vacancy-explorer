@@ -9,7 +9,7 @@ export class VacanciesFilterService {
   filtersForm: FormGroup;
   filters: Filter[] = [
     {
-      filterType: 'Sphere',
+      filterName: 'Sphere',
       options: [
         { optionName: 'Sales', optionIdentifier: 'sales' },
         {
@@ -23,7 +23,7 @@ export class VacanciesFilterService {
       ],
     },
     {
-      filterType: 'Working Type',
+      filterName: 'Working Type',
       options: [
         { optionName: 'Office', optionIdentifier: 'office' },
         { optionName: 'Hybrid', optionIdentifier: 'hybrid' },
@@ -31,7 +31,7 @@ export class VacanciesFilterService {
       ],
     },
     {
-      filterType: 'Employement Type',
+      filterName: 'Employement Type',
       options: [
         { optionName: 'Full time', optionIdentifier: 'full-time' },
         { optionName: 'Part time', optionIdentifier: 'part-time' },
@@ -50,10 +50,10 @@ export class VacanciesFilterService {
       let controls: FormControls = {};
 
       filter.options.forEach((option) => {
-        controls[option.optionName] = new FormControl('');
+        controls[option.optionIdentifier] = new FormControl('');
       });
 
-      formGroups[filter.filterType] = new FormGroup(controls);
+      formGroups[filter.filterName] = new FormGroup(controls);
     });
 
     return new FormGroup(formGroups);

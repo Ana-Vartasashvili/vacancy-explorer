@@ -1,7 +1,39 @@
-<div class="filters">
-  <app-vacancies-filter-block
+<form class="filters" [formGroup]="filtersForm">
+  <div
+    class="filter-block"
     *ngFor="let filter of filters"
-    [filterType]="filter.filterType"
-    [filterOptions]="filter.options"
-  ></app-vacancies-filter-block>
-</div>
+    [formGroupName]="filter.filterName"
+  >
+    <div
+      class="filter-block__trigger"
+      (click)="setFilterBlockIsOpen(filter.filterName)"
+    >
+      <p>{{ filter.filterName }}</p>
+      <mat-icon
+        [@openClose]="filterBlockIsOpen(filter.filterName) ? 'open' : 'close'"
+        >keyboard_arrow_down</mat-icon
+      >
+    </div>
+
+    <div
+      class="filter-options"
+      *ngIf="filterBlockIsOpen(filter.filterName)"
+      @fade
+    >
+      <div class="filter-option" *ngFor="let option of filter.options">
+        <input
+          type="checkbox"
+          class="filter-option__input"
+          id="{{ option.optionIdentifier }}"
+          name="{{ option.optionIdentifier }}"
+          [formControlName]="option.optionIdentifier"
+        />
+        <label
+          class="filter-option__label"
+          for="{{ option.optionIdentifier }}"
+          >{{ option.optionName }}</label
+        >
+      </div>
+    </div>
+  </div>
+</form>

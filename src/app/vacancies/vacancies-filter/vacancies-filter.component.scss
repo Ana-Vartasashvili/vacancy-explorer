@@ -9,4 +9,63 @@
   @media (max-width: 46rem) {
     display: none;
   }
+
+  .filter-block {
+    &__trigger {
+      @include flex(0, row, space-between);
+      cursor: pointer;
+      margin-bottom: 1rem;
+      color: darken($color-pink, 62%);
+    }
+
+    .filter-options {
+      @include flex(1rem, column, flex-start, flex-start);
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .none {
+      display: none;
+    }
+  }
+
+  .filter-option {
+    @include flex(0.6rem);
+
+    &__input {
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      @include flex;
+      appearance: none;
+      -webkit-appearance: none;
+      height: 1.35rem;
+      width: 1.35rem;
+      border: 0.15rem solid $color-black;
+      border-radius: 0.2rem;
+      cursor: pointer;
+
+      &::after {
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        font-weight: bold;
+        font-size: 1rem;
+        color: $color-dark-gray;
+        display: none;
+      }
+
+      &:checked {
+        background-color: $color-pink;
+      }
+
+      &:checked::after {
+        display: block;
+      }
+    }
+
+    &__label {
+      cursor: pointer;
+    }
+  }
 }
