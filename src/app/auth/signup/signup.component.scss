@@ -1,0 +1,43 @@
+@import "../../../styles.scss";
+
+.signup {
+  min-height: calc(100vh - 6.3rem);
+
+  .signup-container {
+    @include flex(3rem, column);
+    padding-top: 5rem;
+  }
+
+  &__heading {
+    font-size: 3rem;
+  }
+
+  .signup-form {
+    border: $border-width-sm solid $color-black;
+    border-radius: $border-radius-sm;
+    padding: 4rem 3.5rem;
+    width: 50rem;
+    max-width: 100rem;
+
+    &__field {
+      @include flex(0.5rem, column, flex-start, flex-start);
+    }
+
+    &__input {
+      width: 100%;
+      margin-bottom: 1.8rem;
+      padding: 1.3rem 0.5rem;
+      border: 0.1rem solid $color-gray;
+      border-radius: $border-radius-sm;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .btn--signup {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}

@@ -14,6 +14,11 @@ const appRoutes: Routes = [
         (module) => module.VacanciesModule
       ),
   },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.module').then((module) => module.AuthModule),
+  },
 ];
 
 @NgModule({
