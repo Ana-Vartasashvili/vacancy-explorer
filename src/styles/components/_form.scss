@@ -1,0 +1,14 @@
+@import "../utils/mixins";
+
+.form {
+  border: $border-width-sm solid $color-black;
+  border-radius: $border-radius-sm;
+  padding: 4rem 3.5rem;
+  width: 50rem;
+  max-width: 100rem;
+
+  @media (max-width: 35rem) {
+    width: 100%;
+    padding: 3rem 2rem;
+  }
+}
