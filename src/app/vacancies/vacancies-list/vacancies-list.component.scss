@@ -1,0 +1,9 @@
+@import "../../../styles.scss";
+
+.vacancies-list {
+  @include grid(2.5rem);
+
+  @media (max-width: 65rem) {
+    grid-template-columns: 1fr;
+  }
+}

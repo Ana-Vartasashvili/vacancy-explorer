@@ -1,0 +1,35 @@
+<section class="vacancies">
+  <div class="vacancies__container">
+    <app-vacancies-filter></app-vacancies-filter>
+
+    <div
+      *ngIf="filterbarIsShown"
+      class="overlay"
+      (click)="setFilterbarIsShown(false)"
+    ></div>
+    <app-vacancies-filter-bar
+      *ngIf="filterbarIsShown"
+    ></app-vacancies-filter-bar>
+
+    <div class="vacancies__main-content">
+      <div class="vacancies__header">
+        <mat-icon
+          (click)="setFilterbarIsShown(true)"
+          class="vacancies__filter-icon"
+          >filter_list</mat-icon
+        >
+
+        <div class="vacancies__search">
+          <mat-icon>search</mat-icon>
+          <input
+            type="text"
+            class="vacancies__search__input"
+            placeholder="Search"
+          />
+        </div>
+      </div>
+
+      <app-vacancies-list></app-vacancies-list>
+    </div>
+  </div>
+</section>

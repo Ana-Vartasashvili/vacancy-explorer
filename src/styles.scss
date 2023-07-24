@@ -1,39 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap");
-
-$roboto-font: "Roboto", sans-serif;
-$montserrat-font: "Montserrat", sans-serif;
-$poppins-font: "Poppins", sans-serif;
-
-$color-white: #fefeff;
-$color-blue: #4633ff;
-$color-pink: #ff90e8;
-$color-black: #000;
-$color-gray: #9a9aa0;
-$color-dark-gray: #202020;
-
-$border-width-sm: 0.2rem;
-$border-width-md: 0.3rem;
-
-$border-radius-sm: 0.4rem;
-
-@mixin flex(
-  $gap: 0,
-  $direction: row,
-  $justContent: center,
-  $alignItems: center
-) {
-  display: flex;
-  justify-content: $justContent;
-  align-items: $alignItems;
-  flex-direction: $direction;
-  gap: $gap;
-}
-
-@mixin position($position: absolute, $top: 0, $left: 0) {
-  position: $position;
-  top: $top;
-  left: $left;
-}
+@import "./styles/components/btn";
+@import "./styles/utils/mixins";
+@import "./styles/utils/variables";
+@import "./styles/utils/helpers";
 
 * {
   margin: 0;
@@ -46,46 +14,21 @@ html {
 }
 
 body {
-  font-family: $roboto-font;
+  font-family: Arial, Helvetica, sans-serif;
   background-color: $color-white;
   font-size: 1.6rem;
   color: $color-black;
 }
 
-.btn {
-  background-color: $color-black;
-  outline: none;
-  border: none;
-  border-left: 0.2rem solid $color-black;
-  border-right: 0.2rem solid $color-black;
-  cursor: pointer;
-  color: $color-white;
-  padding: 2.1rem 2.5rem;
-  font-size: inherit;
-
-  &:hover {
-    background-color: $color-pink;
-    color: $color-black;
-  }
+body::-webkit-scrollbar {
+  width: 0.8rem;
 }
 
-.btn--white {
+body::-webkit-scrollbar-track {
   background-color: $color-white;
-  color: $color-black;
-  border-right: none;
 }
 
-.btn--with-shadow {
-  border: none;
-  padding: 1.4rem 2.4rem;
-  border-radius: $border-radius-sm;
-  transition: all 0.2s ease-in-out;
-  color: $color-white;
-
-  &:hover {
-    transform: translate(-0.25rem, -0.25rem);
-    box-shadow: 0.5rem 0.5rem 0 $color-pink;
-    background-color: $color-black;
-    color: $color-white;
-  }
+body::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: darkgrey;
 }

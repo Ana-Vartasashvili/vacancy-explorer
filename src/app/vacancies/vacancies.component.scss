@@ -1,0 +1,92 @@
+@use "../../styles.scss" as *;
+
+.vacancies {
+  min-height: 100vh;
+
+  &__container {
+    @include flex(2rem, row, center, flex-start);
+    min-height: calc(100vh - 6.3rem);
+    max-width: 180rem;
+    margin: 0 auto;
+
+    @media (max-width: 65rem) {
+      width: 100%;
+    }
+
+    @media (max-width: 46rem) {
+      display: block;
+    }
+  }
+
+  &__main-content {
+    margin-left: 25rem;
+    width: 60%;
+    padding: 2rem 0;
+
+    @media (max-width: 46rem) {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  &__header {
+    @include flex(1.4rem, row, flex-start, center);
+    margin-bottom: 2rem;
+  }
+
+  &__filter-icon {
+    @extend %flex-layout;
+    border: 0.1rem solid $color-black;
+    padding: 2rem 2rem;
+    border-radius: 50%;
+
+    @media (min-width: 46rem) {
+      display: none;
+    }
+  }
+
+  &__search {
+    @include flex(0, row, start);
+    width: fit-content;
+    padding: 0.25rem 1rem;
+    border-radius: 3rem;
+    border: 0.1rem solid $color-black;
+
+    @media (max-width: 46rem) {
+      width: 100%;
+      text-align: start;
+    }
+
+    &__input {
+      width: 20rem;
+      padding: 1rem;
+      font-size: 1.5rem;
+      outline: none;
+      border: none;
+      transition: width 0.2s;
+
+      &:focus {
+        width: 21rem;
+      }
+
+      @media (max-width: 46rem) {
+        &:focus {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 23rem) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.overlay {
+  display: none;
+
+  @media (max-width: 46rem) {
+    display: block;
+    @include overlay(6.3rem, 0.5);
+  }
+}

@@ -1,18 +1,18 @@
-@use "../../../styles.scss" as *;
+@import "../../../styles.scss";
 
 .nav {
+  @include position(fixed);
+  @include flex(0, row, space-between);
   border-bottom: $border-width-sm solid $color-black;
   font-size: 1.8rem;
   padding-left: 3rem;
   z-index: 10;
   width: 100%;
   background-color: $color-white;
-  @include position(fixed);
-  @include flex(0, row, space-between);
 
   &__list {
-    list-style: none;
     @include flex(4rem);
+    list-style: none;
 
     @media (max-width: 47rem) {
       display: none;
@@ -20,16 +20,10 @@
   }
 
   &__list-item {
-    cursor: pointer;
+    @extend %link-default;
 
     &:hover {
       border-bottom: $border-width-sm solid $color-black;
-    }
-  }
-
-  .btn--signup {
-    @media (max-width: 25rem) {
-      display: none;
     }
   }
 
@@ -40,5 +34,15 @@
     @media (max-width: 47rem) {
       display: block;
     }
+  }
+
+  .btn--signup {
+    @media (max-width: 25rem) {
+      display: none;
+    }
+  }
+
+  .active {
+    border-bottom: $border-width-sm solid $color-black;
   }
 }

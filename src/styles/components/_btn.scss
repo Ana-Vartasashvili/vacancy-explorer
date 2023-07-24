@@ -1,0 +1,39 @@
+@import "../utils/variables";
+
+.btn {
+  background-color: $color-black;
+  outline: none;
+  border: none;
+  border-left: 0.2rem solid $color-black;
+  border-right: 0.2rem solid $color-black;
+  cursor: pointer;
+  color: $color-white;
+  padding: 2.1rem 2.5rem;
+  font-size: inherit;
+
+  &:hover {
+    background-color: $color-pink;
+    color: $color-black;
+  }
+}
+
+.btn--white {
+  background-color: $color-white;
+  color: $color-black;
+  border-right: none;
+}
+
+.btn--with-shadow {
+  border: none;
+  padding: 1.4rem 2.4rem;
+  border-radius: $border-radius-sm;
+  transition: all 0.2s ease-in-out;
+  color: $color-white;
+
+  &:hover {
+    transform: translate(-0.25rem, -0.25rem);
+    box-shadow: 0.5rem 0.5rem 0 $color-pink;
+    background-color: $color-black;
+    color: $color-white;
+  }
+}

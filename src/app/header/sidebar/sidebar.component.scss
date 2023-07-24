@@ -1,64 +1,67 @@
-@use "../../../styles.scss" as *;
+@import "../../../styles.scss";
 
 .overlay {
-  width: 100vw;
-  height: 100vh;
-  background-color: darken($color-dark-gray, 60%);
-  opacity: 0.6;
-  z-index: 10;
-  @include position(fixed);
-
-  @media (min-width: 47rem) {
-    display: none;
-  }
+  @include overlay;
 }
 
 .sidebar {
+  @include flex(0, column, space-between, flex-start);
+  @include position(fixed);
   z-index: 9999;
   background-color: $color-black;
   color: $color-white;
   font-size: 2rem;
-  height: 100vh;
+  overflow: hidden;
+  height: 100%;
   width: 28rem;
   padding: 8rem 0 3rem 0;
-  @include flex(0, column, space-between, start);
-  @include position(fixed);
+
+  @media (min-width: 47rem) {
+    display: none;
+  }
 
   &__list {
+    @include flex(0, column, center, flex-start);
     width: 100%;
     list-style: none;
-    @include flex(0, column, center, start);
   }
 
   &__list-item {
     width: 100%;
-    padding: 2rem 4rem;
-    @include flex(1.5rem, row, start);
-    transition: all 0.2s ease-in-out;
 
-    &:hover {
-      background-color: $color-pink;
-      color: $color-black;
+    &__link {
+      @extend %link-default;
+      @include flex(1.5rem, row, flex-start);
+      width: 100%;
+      display: block;
+      padding: 2rem 4rem;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-pink;
+        color: $color-black;
+      }
     }
   }
 
+  .active {
+    background-color: $color-pink;
+    color: $color-black;
+  }
+
   &__close-icon {
-    transform: scale(1.5);
     @include position(absolute, 2.8rem, 3rem);
+    transform: scale(1.5);
   }
 
   &__login {
+    @include flex(1rem, row, flex-start);
     padding: 1.5rem 3rem 0 3rem;
     width: 100%;
     border-top: 0.15rem solid $color-white;
-    @include flex(1rem, row, start);
 
     &:hover {
       color: $color-pink;
     }
-  }
-
-  @media (min-width: 47rem) {
-    display: none;
   }
 }

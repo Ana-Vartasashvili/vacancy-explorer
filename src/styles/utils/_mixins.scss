@@ -1,0 +1,39 @@
+@mixin flex(
+  $gap: 0,
+  $direction: row,
+  $justContent: center,
+  $alignItems: center
+) {
+  display: flex;
+  justify-content: $justContent;
+  align-items: $alignItems;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin grid($gap: 0, $columns: 1fr 1fr) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+}
+
+@mixin position($position: absolute, $top: 0, $left: 0) {
+  position: $position;
+  top: $top;
+  left: $left;
+}
+
+@mixin overlay($margin-top: 0, $opacity: 0.6) {
+  @include position(fixed);
+  width: 100vw;
+  height: 100vh;
+  background-color: darken($color-dark-gray, 60%);
+  opacity: $opacity;
+  z-index: 8;
+  overflow: hidden;
+  margin-top: $margin-top;
+
+  @media (min-width: 47rem) {
+    display: none;
+  }
+}
