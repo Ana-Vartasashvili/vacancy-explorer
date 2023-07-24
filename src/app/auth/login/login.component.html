@@ -1,1 +1,21 @@
-<p>login works!</p>
+<app-auth-form-container authHeading="Login">
+  <form class="form" [formGroup]="loginForm">
+    <input
+      type="text"
+      id="lastname"
+      placeholder="Email"
+      class="input"
+      formControlName="email"
+    />
+
+    <input
+      type="text"
+      id="lastname"
+      placeholder="Password"
+      class="input"
+      formControlName="password"
+    />
+
+    <button type="submit" class="btn btn--with-shadow btn--auth">Login</button>
+  </form>
+</app-auth-form-container>

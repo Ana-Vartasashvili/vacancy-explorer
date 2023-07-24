@@ -1,4 +1,5 @@
 @import "../utils/variables";
+@import "../utils/helpers";
 
 .btn {
   background-color: $color-black;
@@ -36,4 +37,9 @@
     background-color: $color-black;
     color: $color-white;
   }
+}
+
+.btn--auth {
+  margin-top: 1rem;
+  width: 100%;
 }

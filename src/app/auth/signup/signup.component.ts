@@ -14,8 +14,4 @@ export class SignupComponent {
     password: new FormControl(''),
     confirmPassword: new FormControl(''),
   });
-
-  onSubmit() {
-    console.log(this.signupForm);
-  }
 }

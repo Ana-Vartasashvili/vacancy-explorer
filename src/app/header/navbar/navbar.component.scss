@@ -36,6 +36,10 @@
     }
   }
 
+  &__auth-link {
+    @extend %link-default;
+  }
+
   .btn--signup {
     @media (max-width: 25rem) {
       display: none;
