@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 
 export class AuthValidators extends Validators {
   static override minLength(length: number): any {
@@ -22,7 +17,7 @@ export class AuthValidators extends Validators {
 
   static override required(control: AbstractControl): any {
     return super.required(control)
-      ? { required: 'Field is required' }
+      ? { required: 'Field is required.' }
       : undefined;
   }
 
@@ -40,27 +35,36 @@ export class AuthValidators extends Validators {
         !!control.parent.value &&
         control.value === control.parent.controls[matchTo].value
         ? undefined
-        : { isMatching: 'Passwords do not match' };
+        : { isMatching: 'Passwords do not match.' };
     };
   }
 
-  static passwordStrength = (): ((
-    AbstractControl
-  ) => ValidationErrors | null) => {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
+  static passwordStrength(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
 
-      const passwordIsStrong =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(
-          control.value
-        );
+    const regexLowerCase = /^(?=.*[a-z])/;
+    const regexUpperCase = /^(?=.*[A-Z])/;
+    const regexDigits = /^(?=.*[0-9])/;
+    const regexSpecialChars = /^(?=.*[!@#$%^&*])/;
 
-      return passwordIsStrong
-        ? null
-        : {
-            isStrong:
-              'Password must contain digits, special characters, lowercase and uppercase letters.',
-          };
-    };
-  };
+    if (!value) return null;
+
+    if (!regexLowerCase.test(value)) {
+      return { isStrong: 'Password must contain lowercase letters.' };
+    }
+
+    if (!regexUpperCase.test(value)) {
+      return { isStrong: 'Password must contain uppercase letters.' };
+    }
+
+    if (!regexDigits.test(value)) {
+      return { isStrong: 'Password must contain digits.' };
+    }
+
+    if (!regexSpecialChars.test(value)) {
+      return { isStrong: 'Password must contain special characters.' };
+    }
+
+    return null;
+  }
 }

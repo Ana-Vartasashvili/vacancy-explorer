@@ -43,3 +43,16 @@
   margin-top: 1rem;
   width: 100%;
 }
+
+.btn--disabled {
+  background-color: $color-gray;
+  color: $color-white;
+  cursor: not-allowed;
+
+  &:hover {
+    background-color: $color-gray;
+    color: $color-white;
+    transform: none;
+    box-shadow: none;
+  }
+}

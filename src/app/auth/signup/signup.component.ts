@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { AuthValidators } from '../auth-validators';
 
 @Component({
@@ -31,7 +26,10 @@ export class SignupComponent implements OnInit {
         AuthValidators.minLength(4),
         AuthValidators.maxLength(30),
       ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        AuthValidators.required,
+        AuthValidators.email,
+      ]),
       password: new FormControl('', [
         AuthValidators.required,
         AuthValidators.minLength(8),
@@ -39,7 +37,6 @@ export class SignupComponent implements OnInit {
       ]),
       confirmPassword: new FormControl(null, [
         AuthValidators.required,
-        AuthValidators.passwordStrength,
         AuthValidators.matchValues('password'),
       ]),
     });
@@ -64,7 +61,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.errorMessage('firstName'));
     console.log(this.signupForm);
   }
 }

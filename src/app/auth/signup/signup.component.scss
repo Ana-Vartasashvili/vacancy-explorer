@@ -1,28 +1,32 @@
 @import "../../../styles.scss";
 
-.input {
+.form-control {
   position: relative;
-  width: 100%;
-  margin-bottom: 1.8rem;
-  padding: 1.3rem 0.5rem;
-  border: 0.1rem solid $color-gray;
-  border-radius: $border-radius-sm;
+  &__input {
+    width: 100%;
+    margin-bottom: 2.5rem;
+    padding: 1.3rem 0.5rem;
+    border: 0.1rem solid $color-gray;
+    border-radius: $border-radius-sm;
 
-  &:focus {
-    outline: none;
+    &:focus {
+      outline: none;
+    }
+
+    &.ng-touched.ng-invalid {
+      border: 1px solid $color-red;
+
+      &::placeholder {
+        color: $color-red;
+      }
+    }
   }
 
   &__error {
     position: absolute;
-    top: 0;
+    bottom: 1rem;
     z-index: 999;
-    color: red;
+    color: $color-red;
     font-size: 1.3rem;
-  }
-}
-
-.ng-invalid {
-  .ng-touched {
-    border: 0.1rem solid red;
   }
 }
