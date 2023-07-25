@@ -1,4 +1,5 @@
 @import "../utils/variables";
+@import "../utils/helpers";
 
 .btn {
   background-color: $color-black;
@@ -35,5 +36,23 @@
     box-shadow: 0.5rem 0.5rem 0 $color-pink;
     background-color: $color-black;
     color: $color-white;
+  }
+}
+
+.btn--auth {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.btn--disabled {
+  background-color: $color-gray;
+  color: $color-white;
+  cursor: not-allowed;
+
+  &:hover {
+    background-color: $color-gray;
+    color: $color-white;
+    transform: none;
+    box-shadow: none;
   }
 }

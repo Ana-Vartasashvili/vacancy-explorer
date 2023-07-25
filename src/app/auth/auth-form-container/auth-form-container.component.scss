@@ -6,10 +6,6 @@
   &__container {
     @include flex(3rem, column);
     padding-top: 5rem;
-
-    @media (max-width: 35rem) {
-      padding-top: 3rem;
-    }
   }
 
   &__heading {

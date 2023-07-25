@@ -1,18 +1,1 @@
-@import "../../../styles.scss";
 
-.input {
-  width: 100%;
-  margin-bottom: 1.8rem;
-  padding: 1.3rem 0.5rem;
-  border: 0.1rem solid $color-gray;
-  border-radius: $border-radius-sm;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.btn--signup {
-  margin-top: 1rem;
-  width: 100%;
-}

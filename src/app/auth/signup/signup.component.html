@@ -1,50 +1,82 @@
 <app-auth-form-container authHeading="Sign Up">
   <form class="form" [formGroup]="signupForm" (submit)="onSubmit()">
-    <input
-      type="text"
-      id="firstname"
-      placeholder="First Name"
-      class="input"
-      formControlName="firstName"
-    />
-    <!-- <app-auth-input
-        inputIdentifier="firstName"
-        inputPlaceholder="First Name"
-        ></app-auth-input> -->
+    <div class="form-control">
+      <input
+        type="text"
+        id="firstName"
+        placeholder="First Name"
+        class="form-control__input"
+        formControlName="firstName"
+      />
+      <div *ngIf="isInvalidAndTouched('firstName')" class="form-control__error">
+        <p *ngIf="hasError('firstName')">{{ errorMessage("firstName") }}</p>
+      </div>
+    </div>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Last Name"
-      class="input"
-      formControlName="lastName"
-    />
+    <div class="form-control">
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Last Name"
+        class="form-control__input"
+        formControlName="lastName"
+      />
+      <div *ngIf="isInvalidAndTouched('lastName')" class="form-control__error">
+        <p *ngIf="hasError('lastName')">{{ errorMessage("lastName") }}</p>
+      </div>
+    </div>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Email"
-      class="input"
-      formControlName="email"
-    />
+    <div class="form-control">
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        class="form-control__input"
+        formControlName="email"
+      />
+      <div *ngIf="isInvalidAndTouched('email')" class="form-control__error">
+        <p *ngIf="hasError('email')">
+          {{ errorMessage("email") }}
+        </p>
+      </div>
+    </div>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Password"
-      class="input"
-      formControlName="password"
-    />
+    <div class="form-control">
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        class="form-control__input"
+        formControlName="password"
+      />
+      <div *ngIf="isInvalidAndTouched('password')" class="form-control__error">
+        <p *ngIf="hasError('password')">{{ errorMessage("password") }}</p>
+      </div>
+    </div>
 
-    <input
-      type="text"
-      id="lastname"
-      placeholder="Confirm Password"
-      class="input"
-      formControlName="confirmPassword"
-    />
+    <div class="form-control">
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        class="form-control__input"
+        formControlName="confirmPassword"
+      />
+      <div
+        *ngIf="isInvalidAndTouched('confirmPassword')"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('confirmPassword')">
+          {{ errorMessage("confirmPassword") }}
+        </p>
+      </div>
+    </div>
 
-    <button type="submit" class="btn btn--with-shadow btn--signup">
+    <button
+      type="submit"
+      class="btn btn--with-shadow btn--auth"
+      [ngClass]="{ 'btn--disabled': !signupForm.valid }"
+    >
       Sign Up
     </button>
   </form>
