@@ -1,0 +1,24 @@
+@import "../../../styles.scss";
+
+.flash-message {
+  @include position(fixed, 2rem, 50%);
+  @include flex(0.2rem);
+  border: 0.1rem solid $color-black;
+  transform: translateY(0) translateX(-50%);
+  background-color: $color-white;
+  z-index: 999;
+  padding: 1.5rem 3rem;
+  border-radius: $border-width-md;
+}
+
+.error-msg-icon {
+  .mat-icon {
+    color: $color-red;
+  }
+}
+
+.success-msg-icon {
+  .mat-icon {
+    color: $color-green;
+  }
+}

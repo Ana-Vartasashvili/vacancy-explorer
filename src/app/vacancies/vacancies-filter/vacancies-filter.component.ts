@@ -1,9 +1,9 @@
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import {
   ArrowRotateAnimation,
   FilterBlockAnimation,
-} from '../vacancies.animation';
-import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+} from '../../shared/animations/app-animations';
 import { VacanciesFilterService } from './vacancies-filter.service';
 import { Filter } from './vacancies-filter.types';
 

@@ -6,5 +6,5 @@ import { environment } from 'src/environments/environment.development';
 const firebaseConfig = environment.firebaseConfig;
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);

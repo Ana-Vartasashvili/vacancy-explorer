@@ -1,0 +1,21 @@
+import { createAction, props } from '@ngrx/store';
+
+export const signupStart = createAction(
+  '[Auth] Signup Start',
+  props<{ email: string; password: string }>()
+);
+
+export const authSuccess = createAction(
+  '[Auth] Auth Success',
+  props<{
+    email: string;
+    userId: string;
+    token: string;
+    expirationDate: Date;
+  }>()
+);
+
+export const authFail = createAction(
+  '[Auth] Auth Fail',
+  props<{ errorMessage: string }>()
+);

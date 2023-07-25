@@ -1,3 +1,9 @@
+<app-flash-message
+  [messageText]="authError"
+  messageType="error"
+  *ngIf="authError"
+></app-flash-message>
+
 <app-auth-form-container authHeading="Sign Up">
   <form class="form" [formGroup]="signupForm" (submit)="onSubmit()">
     <div class="form-control">
@@ -75,7 +81,7 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--auth"
-      [ngClass]="{ 'btn--disabled': !signupForm.valid }"
+      [ngClass]="{ 'btn--disabled': !signupForm.valid || isLoading }"
     >
       Sign Up
     </button>
