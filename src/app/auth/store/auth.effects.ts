@@ -24,7 +24,7 @@ const handleError = (errorResponse: any) => {
 
   switch (errorResponse) {
     case 'auth/email-already-in-use':
-      'This email already exists!';
+      errorMessage = 'This email already exists!';
   }
 
   return of(AuthActions.authFail({ errorMessage }));

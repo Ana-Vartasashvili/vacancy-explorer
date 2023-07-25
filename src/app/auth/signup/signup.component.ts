@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
 import { signupStart } from '../store/auth.actions';
-import { authLoading } from '../store/auth.selectors';
+import { auth } from '../store/auth.selectors';
 
 @Component({
   selector: 'app-signup',
@@ -16,14 +16,19 @@ export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   storeSub: Subscription;
   isLoading = false;
+  authError: string = null;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.signupForm = this.initForm();
-    this.storeSub = this.store
-      .select(authLoading)
-      .subscribe((loading) => (this.isLoading = loading));
+    this.storeSub = this.store.select(auth).subscribe((authState) => {
+      this.isLoading = authState.loading;
+      this.authError = authState.authError;
+      setTimeout(() => {
+        this.authError = null;
+      }, 3000);
+    });
   }
 
   initForm() {

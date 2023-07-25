@@ -1,0 +1,11 @@
+<div class="flash-message">
+  <div class="error-msg-icon">
+    <mat-icon *ngIf="messageType === 'error'">close</mat-icon>
+  </div>
+
+  <div class="success-msg-icon">
+    <mat-icon *ngIf="messageType === 'success'">check</mat-icon>
+  </div>
+
+  <p class="flash-message__text">{{ messageText }}</p>
+</div>

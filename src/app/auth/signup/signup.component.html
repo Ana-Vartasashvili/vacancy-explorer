@@ -1,3 +1,9 @@
+<app-flash-message
+  [messageText]="authError"
+  messageType="error"
+  *ngIf="authError"
+></app-flash-message>
+
 <app-auth-form-container authHeading="Sign Up">
   <form class="form" [formGroup]="signupForm" (submit)="onSubmit()">
     <div class="form-control">
@@ -80,8 +86,4 @@
       Sign Up
     </button>
   </form>
-
-  <div class="error-message">
-    <p class="error-message__text">Error occurred</p>
-  </div>
 </app-auth-form-container>
