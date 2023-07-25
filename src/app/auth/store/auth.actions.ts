@@ -5,6 +5,11 @@ export const signupStart = createAction(
   props<{ email: string; password: string }>()
 );
 
+export const loginStart = createAction(
+  '[Auth] Login Start',
+  props<{ email: string; password: string }>()
+);
+
 export const authSuccess = createAction(
   '[Auth] Auth Success',
   props<{

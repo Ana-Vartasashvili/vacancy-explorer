@@ -1,5 +1,11 @@
+<app-flash-message
+  [messageText]="authError"
+  messageType="error"
+  *ngIf="authError"
+></app-flash-message>
+
 <app-auth-form-container authHeading="Login">
-  <form class="form" [formGroup]="loginForm">
+  <form class="form" [formGroup]="loginForm" (submit)="onSubmit()">
     <div class="form-control">
       <input
         type="email"
@@ -35,7 +41,7 @@
       class="btn btn--with-shadow btn--auth"
       [ngClass]="{ 'btn--disabled': !loginForm.valid }"
     >
-      Sign Up
+      Login
     </button>
   </form>
 </app-auth-form-container>

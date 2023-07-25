@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       password: new FormControl('', [
         AuthValidators.required,
         AuthValidators.minLength(8),
-        // AuthValidators.passwordStrength,
+        AuthValidators.passwordStrength,
       ]),
       confirmPassword: new FormControl(null, [
         AuthValidators.required,

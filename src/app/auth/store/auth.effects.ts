@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  UserCredential,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { catchError, from, map, of, switchMap } from 'rxjs';
 import { auth } from 'src/app/firebase/firebase-config';
 import { User } from '../user.model';
@@ -25,6 +29,16 @@ const handleError = (errorResponse: any) => {
   switch (errorResponse) {
     case 'auth/email-already-in-use':
       errorMessage = 'This email already exists!';
+      break;
+    case 'auth/wrong-password':
+      errorMessage = 'Invalid email or password!';
+      break;
+    case 'auth/too-many-requests':
+      errorMessage = 'Too many failed login attempts, please try again later!';
+      break;
+    case 'auth/user-not-found':
+      errorMessage = 'User with this email can not be found!';
+      break;
   }
 
   return of(AuthActions.authFail({ errorMessage }));
@@ -61,6 +75,31 @@ export class AuthEffects {
             auth,
             signupStartAction.email,
             signupStartAction.password
+          )
+        ).pipe(
+          map((response: AuthResponseData) => {
+            const { expiresIn, email, idToken, localId } =
+              response._tokenResponse;
+
+            return handleAuthentication(+expiresIn, email, localId, idToken);
+          }),
+          catchError((error: any) => {
+            return handleError(error.code);
+          })
+        );
+      })
+    )
+  );
+
+  login = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginStart),
+      switchMap((loginStartAction: any) => {
+        return from(
+          signInWithEmailAndPassword(
+            auth,
+            loginStartAction.email,
+            loginStartAction.password
           )
         ).pipe(
           map((response: AuthResponseData) => {

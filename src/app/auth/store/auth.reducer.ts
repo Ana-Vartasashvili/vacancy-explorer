@@ -22,6 +22,12 @@ export const AuthReducer = createReducer(
     loading: true,
   })),
 
+  on(AuthActions.loginStart, (state) => ({
+    ...state,
+    authError: null,
+    loading: true,
+  })),
+
   on(AuthActions.authSuccess, (state, action) => {
     const { email, expirationDate, token, userId } = action;
     const user = new User(email, userId, token, expirationDate);
