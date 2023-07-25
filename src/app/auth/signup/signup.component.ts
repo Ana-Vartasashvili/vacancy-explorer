@@ -1,29 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
+import { signupStart } from '../store/auth.actions';
+import { authLoading } from '../store/auth.selectors';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
+  storeSub: Subscription;
+  isLoading = false;
+
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.signupForm = this.initForm();
+    this.storeSub = this.store
+      .select(authLoading)
+      .subscribe((loading) => (this.isLoading = loading));
   }
 
   initForm() {
     return new FormGroup({
       firstName: new FormControl('', [
         AuthValidators.required,
-        AuthValidators.minLength(4),
+        AuthValidators.minLength(2),
         AuthValidators.maxLength(15),
       ]),
       lastName: new FormControl('', [
         AuthValidators.required,
-        AuthValidators.minLength(4),
+        AuthValidators.minLength(2),
         AuthValidators.maxLength(30),
       ]),
       email: new FormControl('', [
@@ -33,13 +45,20 @@ export class SignupComponent implements OnInit {
       password: new FormControl('', [
         AuthValidators.required,
         AuthValidators.minLength(8),
-        AuthValidators.passwordStrength,
+        // AuthValidators.passwordStrength,
       ]),
       confirmPassword: new FormControl(null, [
         AuthValidators.required,
         AuthValidators.matchValues('password'),
       ]),
     });
+  }
+
+  onSubmit() {
+    if (!this.signupForm.valid) return;
+    const { email, password } = this.signupForm.value;
+
+    this.store.dispatch(signupStart({ email, password }));
   }
 
   get(formControlName: string): AbstractControl {
@@ -60,7 +79,7 @@ export class SignupComponent implements OnInit {
     return Object.values(this.signupForm.get(formControlName).errors)[0];
   }
 
-  onSubmit() {
-    console.log(this.signupForm);
+  ngOnDestroy(): void {
+    this.storeSub.unsubscribe();
   }
 }

@@ -75,9 +75,13 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--auth"
-      [ngClass]="{ 'btn--disabled': !signupForm.valid }"
+      [ngClass]="{ 'btn--disabled': !signupForm.valid || isLoading }"
     >
       Sign Up
     </button>
   </form>
+
+  <div class="error-message">
+    <p class="error-message__text">Error occurred</p>
+  </div>
 </app-auth-form-container>
