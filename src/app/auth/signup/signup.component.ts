@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.authError = authState.authError;
       setTimeout(() => {
         this.authError = null;
-      }, 3000);
+      }, 3500);
     });
   }
 
