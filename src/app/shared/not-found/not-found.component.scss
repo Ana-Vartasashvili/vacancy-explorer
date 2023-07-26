@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+
+.not-found {
+  @include flex(3rem, column);
+  width: 100%;
+  padding-top: 5rem;
+
+  &__heading {
+    @media (max-width: 30rem) {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__img {
+    width: 40rem;
+
+    @media (max-width: 30rem) {
+      width: 25rem;
+    }
+  }
+}
