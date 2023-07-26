@@ -13,6 +13,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 import { clearAuthError } from './auth.actions';
+import { AuthService } from '../auth.service';
 
 interface AuthResponseData extends UserCredential {
   _tokenResponse: TokenResponseData;
@@ -72,7 +73,8 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   signup = createEffect(() =>
@@ -86,6 +88,11 @@ export class AuthEffects {
             signupStartAction.password
           )
         ).pipe(
+          tap((resData: AuthResponseData) => {
+            this.authService.setLogoutTimer(
+              +resData._tokenResponse.expiresIn * 1000
+            );
+          }),
           map((response: AuthResponseData) => {
             const { expiresIn, email, idToken, localId } =
               response._tokenResponse;
@@ -114,6 +121,11 @@ export class AuthEffects {
             loginStartAction.password
           )
         ).pipe(
+          tap((resData: AuthResponseData) => {
+            this.authService.setLogoutTimer(
+              +resData._tokenResponse.expiresIn * 1000
+            );
+          }),
           map((response: AuthResponseData) => {
             const { expiresIn, email, idToken, localId } =
               response._tokenResponse;
@@ -154,6 +166,11 @@ export class AuthEffects {
         );
 
         if (loadedUser.token) {
+          const expirationDuration =
+            new Date(userData._tokenExpirationDate).getTime() -
+            new Date().getTime();
+          this.authService.setLogoutTimer(expirationDuration);
+
           return AuthActions.authSuccess({
             email: loadedUser.email,
             token: loadedUser.token,
@@ -187,6 +204,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
+          this.authService.clearLogoutTimer();
           localStorage.removeItem('userData');
           this.router.navigate(['/auth/login']);
         })
