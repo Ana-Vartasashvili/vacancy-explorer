@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
-import { clearAuthError, signupStart } from '../store/auth.actions';
+import { signupStart } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
 @Component({

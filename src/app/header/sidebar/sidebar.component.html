@@ -1,12 +1,12 @@
 <div class="overlay" (click)="setSidebarIsHidden()"></div>
 
-<div class="sidebar">
+<div class="sidebar" @slide>
   <div class="sidebar__close-icon" (click)="setSidebarIsHidden()">
     <mat-icon>close</mat-icon>
   </div>
 
   <ul class="sidebar__list">
-    <li class="sidebar__list-item">
+    <li class="sidebar__list-item" (click)="setSidebarIsHidden()">
       <a
         class="sidebar__list-item__link"
         routerLink="/"
@@ -16,7 +16,7 @@
       >
     </li>
 
-    <li class="sidebar__list-item">
+    <li class="sidebar__list-item" (click)="setSidebarIsHidden()">
       <a
         class="sidebar__list-item__link"
         routerLink="/vacancies"
@@ -26,8 +26,12 @@
     </li>
   </ul>
 
-  <div class="sidebar__login">
+  <a
+    class="sidebar__login"
+    routerLink="/auth/login"
+    (click)="setSidebarIsHidden()"
+  >
     <mat-icon>login</mat-icon>
     <span>Login</span>
-  </div>
+  </a>
 </div>
