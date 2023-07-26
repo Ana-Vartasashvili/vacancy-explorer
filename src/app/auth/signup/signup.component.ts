@@ -61,6 +61,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     const { email, password } = this.signupForm.value;
 
     this.store.dispatch(signupStart({ email, password }));
+    this.signupForm.reset();
   }
 
   get(formControlName: string): AbstractControl {

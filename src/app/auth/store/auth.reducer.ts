@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
-import { authError } from './auth.selectors';
 
 export interface AuthState {
   user: User | null;
@@ -32,15 +31,19 @@ export const AuthReducer = createReducer(
   on(AuthActions.authSuccess, (state, action) => {
     const { email, expirationDate, token, userId } = action;
     const user = new User(email, userId, token, expirationDate);
-    console.log(user);
 
     return {
       ...state,
       user,
       authError: null,
       loading: false,
+      redirect: action.redirect,
     };
   }),
+
+  on(AuthActions.logout, (state) => ({ ...state, user: null })),
+
+  on(AuthActions.autoLoginFail, (state) => ({ ...state, user: null })),
 
   on(AuthActions.authFail, (state, action) => ({
     ...state,
