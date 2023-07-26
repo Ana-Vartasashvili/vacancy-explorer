@@ -1,20 +1,7 @@
 @import "../../../styles.scss";
 
-.auth {
-  min-height: calc(100vh - 6.3rem);
-
-  &__container {
-    @include flex(3rem, column);
-    padding-top: 5rem;
-  }
-
-  &__heading {
-    font-size: 3rem;
-  }
-
-  &__text {
-    font-size: 1.5rem;
-    margin-top: -1.6rem;
-    color: $color-dark-gray;
-  }
+.auth-text {
+  font-size: 1.5rem;
+  margin-top: -1.6rem;
+  color: $color-dark-gray;
 }
