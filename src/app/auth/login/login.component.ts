@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
+import { AuthValidationMethods } from '../auth-validation-methods';
 import { AuthValidators } from '../auth-validators';
 import * as AuthActions from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
@@ -12,13 +13,18 @@ import { auth } from '../store/auth.selectors';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent
+  extends AuthValidationMethods
+  implements OnInit, OnDestroy
+{
   loginForm: FormGroup;
   storeSub: Subscription;
   isLoading = false;
   authError = null;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {
+    super();
+  }
 
   ngOnInit(): void {
     this.loginForm = this.initForm();
@@ -41,24 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.store.dispatch(AuthActions.loginStart(this.loginForm.value));
     this.loginForm.reset();
-  }
-
-  get(formControlName: string): AbstractControl {
-    return this.loginForm.get(formControlName);
-  }
-
-  isInvalidAndTouched(formControlName: string) {
-    return (
-      this.get(formControlName).invalid && this.get(formControlName).touched
-    );
-  }
-
-  hasError(formControlName: string) {
-    return !!this.loginForm.get(formControlName).errors;
-  }
-
-  errorMessage(formControlName: string) {
-    return Object.values(this.loginForm.get(formControlName).errors)[0];
   }
 
   ngOnDestroy(): void {
