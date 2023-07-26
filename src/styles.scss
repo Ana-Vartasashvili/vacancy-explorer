@@ -20,6 +20,7 @@ body {
   background-color: $color-white;
   font-size: 1.6rem;
   color: $color-black;
+  scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {

@@ -25,10 +25,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.storeSub = this.store.select(auth).subscribe((authState) => {
       this.isLoading = authState.loading;
       this.authError = authState.authError;
-      setTimeout(() => {
-        this.authError = null;
-        this.store.dispatch(clearAuthError());
-      }, 3500);
     });
   }
 
