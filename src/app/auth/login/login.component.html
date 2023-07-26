@@ -39,7 +39,7 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--auth"
-      [ngClass]="{ 'btn--disabled': !loginForm.valid }"
+      [ngClass]="{ 'btn--disabled': !loginForm.valid || isLoading }"
     >
       Login
     </button>

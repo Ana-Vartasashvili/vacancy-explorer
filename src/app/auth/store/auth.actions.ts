@@ -24,3 +24,5 @@ export const authFail = createAction(
   '[Auth] Auth Fail',
   props<{ errorMessage: string }>()
 );
+
+export const clearAuthError = createAction('[Auth] Auth Clear Error');

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
 import * as AuthActions from '../store/auth.actions';
+import { clearAuthError } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
 @Component({
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authError = authState.authError;
       setTimeout(() => {
         this.authError = null;
+        this.store.dispatch(clearAuthError());
       }, 3500);
     });
   }

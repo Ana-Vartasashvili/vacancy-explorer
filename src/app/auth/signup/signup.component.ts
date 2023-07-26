@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
-import { signupStart } from '../store/auth.actions';
+import { clearAuthError, signupStart } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
 @Component({
@@ -27,6 +27,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.authError = authState.authError;
       setTimeout(() => {
         this.authError = null;
+        this.store.dispatch(clearAuthError());
       }, 3500);
     });
   }
