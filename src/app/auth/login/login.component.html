@@ -14,9 +14,12 @@
         class="form-control__input"
         formControlName="email"
       />
-      <div *ngIf="isInvalidAndTouched('email')" class="form-control__error">
-        <p *ngIf="hasError('email')">
-          {{ errorMessage("email") }}
+      <div
+        *ngIf="isInvalidAndTouched('email', loginForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('email', loginForm)">
+          {{ errorMessage("email", loginForm) }}
         </p>
       </div>
     </div>
@@ -29,9 +32,12 @@
         class="form-control__input"
         formControlName="password"
       />
-      <div *ngIf="isInvalidAndTouched('password')" class="form-control__error">
-        <p *ngIf="hasError('password')">
-          {{ errorMessage("password") }}
+      <div
+        *ngIf="isInvalidAndTouched('password', loginForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('password', loginForm)">
+          {{ errorMessage("password", loginForm) }}
         </p>
       </div>
     </div>

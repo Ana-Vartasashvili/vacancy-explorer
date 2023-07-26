@@ -14,8 +14,13 @@
         class="form-control__input"
         formControlName="firstName"
       />
-      <div *ngIf="isInvalidAndTouched('firstName')" class="form-control__error">
-        <p *ngIf="hasError('firstName')">{{ errorMessage("firstName") }}</p>
+      <div
+        *ngIf="isInvalidAndTouched('firstName', signupForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('firstName', signupForm)">
+          {{ errorMessage("firstName", signupForm) }}
+        </p>
       </div>
     </div>
 
@@ -27,8 +32,13 @@
         class="form-control__input"
         formControlName="lastName"
       />
-      <div *ngIf="isInvalidAndTouched('lastName')" class="form-control__error">
-        <p *ngIf="hasError('lastName')">{{ errorMessage("lastName") }}</p>
+      <div
+        *ngIf="isInvalidAndTouched('lastName', signupForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('lastName', signupForm)">
+          {{ errorMessage("lastName", signupForm) }}
+        </p>
       </div>
     </div>
 
@@ -40,9 +50,12 @@
         class="form-control__input"
         formControlName="email"
       />
-      <div *ngIf="isInvalidAndTouched('email')" class="form-control__error">
-        <p *ngIf="hasError('email')">
-          {{ errorMessage("email") }}
+      <div
+        *ngIf="isInvalidAndTouched('email', signupForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('email', signupForm)">
+          {{ errorMessage("email", signupForm) }}
         </p>
       </div>
     </div>
@@ -55,8 +68,13 @@
         class="form-control__input"
         formControlName="password"
       />
-      <div *ngIf="isInvalidAndTouched('password')" class="form-control__error">
-        <p *ngIf="hasError('password')">{{ errorMessage("password") }}</p>
+      <div
+        *ngIf="isInvalidAndTouched('password', signupForm)"
+        class="form-control__error"
+      >
+        <p *ngIf="hasError('password', signupForm)">
+          {{ errorMessage("password", signupForm) }}
+        </p>
       </div>
     </div>
 
@@ -69,11 +87,11 @@
         formControlName="confirmPassword"
       />
       <div
-        *ngIf="isInvalidAndTouched('confirmPassword')"
+        *ngIf="isInvalidAndTouched('confirmPassword', signupForm)"
         class="form-control__error"
       >
-        <p *ngIf="hasError('confirmPassword')">
-          {{ errorMessage("confirmPassword") }}
+        <p *ngIf="hasError('confirmPassword', signupForm)">
+          {{ errorMessage("confirmPassword", signupForm) }}
         </p>
       </div>
     </div>

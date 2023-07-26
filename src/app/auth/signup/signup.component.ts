@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
+import { AuthValidationMethods } from '../auth-validation-methods';
 import { AuthValidators } from '../auth-validators';
 import { signupStart } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
@@ -12,13 +13,18 @@ import { auth } from '../store/auth.selectors';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent
+  extends AuthValidationMethods
+  implements OnInit, OnDestroy
+{
   signupForm: FormGroup;
   storeSub: Subscription;
   isLoading = false;
   authError: string = null;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {
+    super();
+  }
 
   ngOnInit(): void {
     this.signupForm = this.initForm();
@@ -62,24 +68,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(signupStart({ email, password }));
     this.signupForm.reset();
-  }
-
-  get(formControlName: string): AbstractControl {
-    return this.signupForm.get(formControlName);
-  }
-
-  isInvalidAndTouched(formControlName: string) {
-    return (
-      this.get(formControlName).invalid && this.get(formControlName).touched
-    );
-  }
-
-  hasError(formControlName: string) {
-    return !!this.signupForm.get(formControlName).errors;
-  }
-
-  errorMessage(formControlName: string) {
-    return Object.values(this.signupForm.get(formControlName).errors)[0];
   }
 
   ngOnDestroy(): void {
