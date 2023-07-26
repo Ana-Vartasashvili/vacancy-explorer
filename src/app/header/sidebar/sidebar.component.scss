@@ -1,7 +1,8 @@
 @import "../../../styles.scss";
 
 .overlay {
-  @include overlay;
+  @include overlay();
+  z-index: 20;
 }
 
 .sidebar {
@@ -56,6 +57,7 @@
 
   &__login {
     @include flex(1rem, row, flex-start);
+    @extend %link-default;
     padding: 1.5rem 3rem 0 3rem;
     width: 100%;
     border-top: 0.15rem solid $color-white;

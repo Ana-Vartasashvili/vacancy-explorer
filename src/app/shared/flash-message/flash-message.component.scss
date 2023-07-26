@@ -9,6 +9,11 @@
   z-index: 999;
   padding: 1.5rem 3rem;
   border-radius: $border-width-md;
+
+  @media (max-width: 40rem) {
+    padding: 1.5rem 1rem;
+    width: 70vw;
+  }
 }
 
 .error-msg-icon {

@@ -40,3 +40,13 @@ export const FlashMessageAnimation = trigger('flash', [
     ),
   ]),
 ]);
+
+export const SidebarAnimation = trigger('slide', [
+  transition(':enter', [
+    style({ transform: 'translateX(-100%)' }),
+    animate('300ms ease-in-out'),
+  ]),
+  transition(':leave', [
+    animate('300ms ease-in-out', style({ transform: 'translateX(100%)' })),
+  ]),
+]);

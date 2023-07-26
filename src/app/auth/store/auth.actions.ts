@@ -5,6 +5,11 @@ export const signupStart = createAction(
   props<{ email: string; password: string }>()
 );
 
+export const loginStart = createAction(
+  '[Auth] Login Start',
+  props<{ email: string; password: string }>()
+);
+
 export const authSuccess = createAction(
   '[Auth] Auth Success',
   props<{
@@ -19,3 +24,5 @@ export const authFail = createAction(
   '[Auth] Auth Fail',
   props<{ errorMessage: string }>()
 );
+
+export const clearAuthError = createAction('[Auth] Auth Clear Error');

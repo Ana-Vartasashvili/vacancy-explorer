@@ -25,9 +25,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.storeSub = this.store.select(auth).subscribe((authState) => {
       this.isLoading = authState.loading;
       this.authError = authState.authError;
-      setTimeout(() => {
-        this.authError = null;
-      }, 3500);
     });
   }
 
@@ -50,7 +47,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       password: new FormControl('', [
         AuthValidators.required,
         AuthValidators.minLength(8),
-        // AuthValidators.passwordStrength,
+        AuthValidators.passwordStrength,
       ]),
       confirmPassword: new FormControl(null, [
         AuthValidators.required,

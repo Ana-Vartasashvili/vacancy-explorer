@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
-import { catchError, from, map, of, switchMap } from 'rxjs';
+import {
+  UserCredential,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { catchError, delay, from, map, of, switchMap } from 'rxjs';
 import { auth } from 'src/app/firebase/firebase-config';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
+import { clearAuthError } from './auth.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
 
 export interface AuthResponseData extends UserCredential {
   _tokenResponse: TokenResponseData;
@@ -25,6 +32,16 @@ const handleError = (errorResponse: any) => {
   switch (errorResponse) {
     case 'auth/email-already-in-use':
       errorMessage = 'This email already exists!';
+      break;
+    case 'auth/wrong-password':
+      errorMessage = 'Invalid email or password!';
+      break;
+    case 'auth/too-many-requests':
+      errorMessage = 'Too many failed login attempts, please try again later!';
+      break;
+    case 'auth/user-not-found':
+      errorMessage = 'User with this email can not be found!';
+      break;
   }
 
   return of(AuthActions.authFail({ errorMessage }));
@@ -50,7 +67,7 @@ const handleAuthentication = (
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private store: Store<AppState>) {}
 
   signup = createEffect(() =>
     this.actions$.pipe(
@@ -70,6 +87,37 @@ export class AuthEffects {
             return handleAuthentication(+expiresIn, email, localId, idToken);
           }),
           catchError((error: any) => {
+            setTimeout(() => {
+              this.store.dispatch(clearAuthError());
+            }, 3500);
+            return handleError(error.code);
+          })
+        );
+      })
+    )
+  );
+
+  login = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginStart),
+      switchMap((loginStartAction: any) => {
+        return from(
+          signInWithEmailAndPassword(
+            auth,
+            loginStartAction.email,
+            loginStartAction.password
+          )
+        ).pipe(
+          map((response: AuthResponseData) => {
+            const { expiresIn, email, idToken, localId } =
+              response._tokenResponse;
+
+            return handleAuthentication(+expiresIn, email, localId, idToken);
+          }),
+          catchError((error: any) => {
+            setTimeout(() => {
+              this.store.dispatch(clearAuthError());
+            }, 3500);
             return handleError(error.code);
           })
         );
