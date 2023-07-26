@@ -17,8 +17,15 @@ export const authSuccess = createAction(
     userId: string;
     token: string;
     expirationDate: Date;
+    redirect: boolean;
   }>()
 );
+
+export const logout = createAction('[Auth] Logout');
+
+export const autoLogin = createAction('[Auth] Auto Login');
+
+export const autoLoginFail = createAction('[Auth] Auto Login Fail');
 
 export const authFail = createAction(
   '[Auth] Auth Fail',

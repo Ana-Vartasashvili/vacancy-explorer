@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import {
   UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { catchError, delay, from, map, of, switchMap } from 'rxjs';
+import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { auth } from 'src/app/firebase/firebase-config';
+import { AppState } from 'src/app/store/app.reducer';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 import { clearAuthError } from './auth.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.reducer';
 
-export interface AuthResponseData extends UserCredential {
+interface AuthResponseData extends UserCredential {
   _tokenResponse: TokenResponseData;
 }
 
-export interface TokenResponseData {
+interface TokenResponseData {
   email: string;
   expiresIn: string;
   idToken: string;
@@ -62,17 +63,22 @@ const handleAuthentication = (
     userId,
     expirationDate,
     token,
+    redirect: true,
   });
 };
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions, private store: Store<AppState>) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 
   signup = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signupStart),
-      switchMap((signupStartAction: any) => {
+      switchMap((signupStartAction) => {
         return from(
           createUserWithEmailAndPassword(
             auth,
@@ -100,7 +106,7 @@ export class AuthEffects {
   login = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginStart),
-      switchMap((loginStartAction: any) => {
+      switchMap((loginStartAction) => {
         return from(
           signInWithEmailAndPassword(
             auth,
@@ -123,5 +129,68 @@ export class AuthEffects {
         );
       })
     )
+  );
+
+  autoLogin = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      map(() => {
+        const userData: {
+          email: string;
+          id: string;
+          _token: string;
+          _tokenExpirationDate: string;
+        } = JSON.parse(localStorage.getItem('userData'));
+
+        if (!userData) {
+          return AuthActions.autoLoginFail();
+        }
+
+        const loadedUser = new User(
+          userData.email,
+          userData.id,
+          userData._token,
+          new Date(userData._tokenExpirationDate)
+        );
+
+        if (loadedUser.token) {
+          return AuthActions.authSuccess({
+            email: loadedUser.email,
+            token: loadedUser.token,
+            userId: loadedUser.userId,
+            expirationDate: new Date(userData._tokenExpirationDate),
+            redirect: true,
+          });
+        } else {
+          return AuthActions.autoLoginFail();
+        }
+      })
+    )
+  );
+
+  authRedirect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.authSuccess),
+        tap((authSuccessAction) => {
+          console.log(authSuccessAction);
+          if (authSuccessAction.redirect) {
+            this.router.navigate(['/']);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  autoLogout = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          localStorage.removeItem('userData');
+          this.router.navigate(['/auth/login']);
+        })
+      ),
+    { dispatch: false }
   );
 }

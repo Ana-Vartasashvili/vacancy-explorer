@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthValidators } from '../auth-validators';
 import * as AuthActions from '../store/auth.actions';
-import { clearAuthError } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
 @Component({
@@ -41,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.store.dispatch(AuthActions.loginStart(this.loginForm.value));
+    this.loginForm.reset();
   }
 
   get(formControlName: string): AbstractControl {

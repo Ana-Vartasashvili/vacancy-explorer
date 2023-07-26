@@ -25,12 +25,16 @@
   </ul>
 
   <div class="nav__auth">
-    <a routerLink="/auth/login" class="nav__auth-link">
+    <a routerLink="/auth/login" class="nav__auth-link" *ngIf="!currentUser">
       <button class="btn btn--white">Login</button>
     </a>
 
-    <a routerLink="/auth/signup" class="nav__auth-link">
+    <a routerLink="/auth/signup" class="nav__auth-link" *ngIf="!currentUser">
       <button class="btn btn--signup">Sign Up</button>
     </a>
+
+    <button class="btn btn--white" *ngIf="currentUser" (click)="logOut()">
+      Log Out
+    </button>
   </div>
 </nav>
