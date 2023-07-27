@@ -1,0 +1,16 @@
+<div class="form-control">
+  <input
+    [type]="inputType"
+    [id]="formControlName"
+    [placeholder]="placeholder"
+    [class]="isInvalidAndTouched() ? 'input input--invalid' : 'input'"
+    [value]="value"
+    (input)="onInputChange($event)"
+    (blur)="onInputTouch()"
+  />
+  <div *ngIf="isInvalidAndTouched()" class="form-control__error">
+    <p *ngIf="!!getFormControl().errors">
+      {{ errorMessage() }}
+    </p>
+  </div>
+</div>

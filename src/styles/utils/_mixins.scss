@@ -37,3 +37,47 @@
     display: none;
   }
 }
+
+@mixin form-control {
+  position: relative;
+
+  &__group {
+    @include flex(1.2rem);
+  }
+
+  &__input {
+    @include input;
+  }
+
+  &__error {
+    position: absolute;
+    bottom: 1rem;
+    z-index: 999;
+    color: $color-red;
+    font-size: 1.3rem;
+  }
+}
+
+@mixin input {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  padding: 1.3rem 1rem;
+  border: 0.1rem solid $color-gray;
+  border-radius: $border-radius-sm;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-touched.ng-invalid {
+    border: 1px solid $color-red;
+
+    &::placeholder {
+      color: $color-red;
+    }
+  }
+
+  &--textarea {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}

@@ -1,0 +1,14 @@
+@import "../utils/mixins";
+@import "../utils/variables";
+
+.input {
+  @include input;
+}
+
+.input--invalid {
+  border: 1px solid $color-red;
+
+  &::placeholder {
+    color: $color-red;
+  }
+}
