@@ -34,13 +34,13 @@
       <app-select
         class="form-control__selector"
         selectorName="Category"
-        [selectorOptions]="categories"
+        [selectorOptions]="options['Category']"
       ></app-select>
 
       <app-select
         class="form-control__selector"
         selectorName="Working type"
-        [selectorOptions]="categories"
+        [selectorOptions]="options['Working type']"
       ></app-select>
     </div>
 
@@ -48,17 +48,20 @@
       <app-select
         class="form-control__selector"
         selectorName="Employement type"
-        [selectorOptions]="categories"
+        [selectorOptions]="options['Employement type']"
       ></app-select>
 
       <app-select
         class="form-control__selector"
         selectorName="Experience"
-        [selectorOptions]="categories"
+        [selectorOptions]="options['Experience']"
       ></app-select>
     </div>
 
-    <app-select selectorName="City" [selectorOptions]="categories"></app-select>
+    <app-select
+      selectorName="City"
+      [selectorOptions]="options['City']"
+    ></app-select>
 
     <button class="btn btn--with-shadow btn--submit">Add</button>
   </form>

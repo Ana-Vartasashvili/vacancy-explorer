@@ -5,7 +5,7 @@ import {
   FilterBlockAnimation,
 } from '../../shared/animations/app-animations';
 import { VacanciesFilterService } from './vacancies-filter.service';
-import { Filter } from './vacancies-filter.types';
+import { Options } from './vacancies-filter.types';
 
 @Component({
   selector: 'app-vacancies-filter',
@@ -15,15 +15,15 @@ import { Filter } from './vacancies-filter.types';
 })
 export class VacanciesFilterComponent {
   filtersForm: FormGroup;
-  filters: Filter[];
+  filters: Options;
   openedFilterBlocks: string[] = [];
 
   constructor(private vacanciesFilterService: VacanciesFilterService) {
     this.filtersForm = this.vacanciesFilterService.filtersForm;
-    this.filters = this.vacanciesFilterService.filters;
-    this.openedFilterBlocks = this.filters.map((filter) =>
-      filter.filterName === 'Sphere' ? '' : filter.filterName
-    );
+    this.filters = this.vacanciesFilterService.options;
+    // this.openedFilterBlocks = this.filters.map((filter) =>
+    //   filter.filterName === 'Sphere' ? '' : filter.filterName
+    // );
   }
 
   setFilterBlockIsOpen(filterBlockName: string) {
