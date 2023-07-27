@@ -84,8 +84,8 @@ export class AuthEffects {
         return from(
           createUserWithEmailAndPassword(
             auth,
-            signupStartAction.email,
-            signupStartAction.password
+            signupStartAction.email.trim(),
+            signupStartAction.password.trim()
           )
         ).pipe(
           tap((resData: AuthResponseData) => {
@@ -117,8 +117,8 @@ export class AuthEffects {
         return from(
           signInWithEmailAndPassword(
             auth,
-            loginStartAction.email,
-            loginStartAction.password
+            loginStartAction.email.trim(),
+            loginStartAction.password.trim()
           )
         ).pipe(
           tap((resData: AuthResponseData) => {

@@ -1,4 +1,4 @@
-<app-form-container authHeading="Sign Up">
+<app-form-container [authHeading]="authHeading">
   <ng-content></ng-content>
 
   <p *ngIf="authHeading === 'Login'" class="auth-text">

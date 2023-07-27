@@ -3,15 +3,3 @@
 .form {
   @extend %form;
 }
-
-.dropdown__selector {
-  @include flex(0, row, space-between);
-  width: 100%;
-  margin-bottom: 2.5rem;
-  padding: 1rem;
-  border: 0.1rem solid $color-gray;
-  border-radius: $border-radius-sm;
-  cursor: pointer;
-  font-size: 1.4rem;
-  color: $color-dark-gray;
-}

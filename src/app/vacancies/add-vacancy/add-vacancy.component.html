@@ -23,11 +23,43 @@
       class="form-control__input form-control__input--textarea"
     ></textarea>
 
-    <div class="form-control__group">
-      <div class="dropdown__selector">
-        <span> Category</span>
-        <mat-icon>keyboard_arrow_down</mat-icon>
-      </div>
+    <input
+      type="number"
+      id="salary"
+      placeholder="Salary"
+      class="form-control__input"
+    />
+
+    <div class="form-control__selector-row">
+      <app-select
+        class="form-control__selector"
+        selectorName="Category"
+        [selectorOptions]="categories"
+      ></app-select>
+
+      <app-select
+        class="form-control__selector"
+        selectorName="Working type"
+        [selectorOptions]="categories"
+      ></app-select>
     </div>
+
+    <div class="form-control__selector-row">
+      <app-select
+        class="form-control__selector"
+        selectorName="Employement type"
+        [selectorOptions]="categories"
+      ></app-select>
+
+      <app-select
+        class="form-control__selector"
+        selectorName="Experience"
+        [selectorOptions]="categories"
+      ></app-select>
+    </div>
+
+    <app-select selectorName="City" [selectorOptions]="categories"></app-select>
+
+    <button class="btn btn--with-shadow btn--submit">Add</button>
   </form>
 </app-form-container>

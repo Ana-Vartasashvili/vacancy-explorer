@@ -33,5 +33,18 @@
 
   .form-control {
     @include form-control;
+
+    &__selector-row {
+      @include flex(0, row, space-between);
+      width: 100%;
+
+      @media (max-width: 35rem) {
+        @include flex(0, column);
+      }
+    }
+
+    &__selector {
+      width: 100%;
+    }
   }
 }

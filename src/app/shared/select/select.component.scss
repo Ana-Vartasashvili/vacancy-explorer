@@ -1,0 +1,20 @@
+.selector {
+  width: 20rem;
+
+  @media (max-width: 35rem) {
+    width: 100%;
+  }
+
+  &__label {
+    font-size: 1.5rem;
+  }
+
+  &__body {
+    font-size: 1.5rem;
+  }
+
+  &__option {
+    font-size: 1.4rem;
+    padding: 0 1.5rem;
+  }
+}
