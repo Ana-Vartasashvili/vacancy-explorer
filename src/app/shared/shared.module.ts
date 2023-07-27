@@ -14,6 +14,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
 import { SelectComponent } from './select/select.component';
 import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     MatIconModule,
     CommonModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
   ],

@@ -2,4 +2,8 @@
 
 .form {
   @extend %form;
+
+  &__input {
+    width: 100%;
+  }
 }
