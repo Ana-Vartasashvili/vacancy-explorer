@@ -54,6 +54,12 @@
     @include input;
   }
 
+  &__selector {
+    @media (max-width: 42rem) {
+      width: 100%;
+    }
+  }
+
   &__error {
     position: absolute;
     bottom: 0.6rem;

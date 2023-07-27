@@ -1,7 +1,11 @@
 .selector {
-  width: 20.5rem;
+  width: 28rem;
 
-  @media (max-width: 35rem) {
+  @media (max-width: 47rem) {
+    width: 23rem;
+  }
+
+  @media (max-width: 40rem) {
     width: 100%;
   }
 

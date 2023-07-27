@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { VacanciesFilterService } from '../vacancies-filter/vacancies-filter.service';
 import { Options } from '../vacancies-filter/vacancies-filter.types';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-vacancy',
@@ -21,16 +22,26 @@ export class AddVacancyComponent implements OnInit {
 
   initForm() {
     return new FormGroup({
-      jobTitle: new FormControl(''),
-      companyName: new FormControl(''),
-      jobDescription: new FormControl(''),
-      salary: new FormControl(null),
       category: new FormControl(''),
       workingType: new FormControl(''),
       employementType: new FormControl(''),
       experience: new FormControl(''),
+      jobTitle: new FormControl('', AppValidators.required),
+      companyName: new FormControl('', AppValidators.required),
+      jobDescription: new FormControl('', AppValidators.required),
       city: new FormControl(''),
+      salary: new FormControl('', [
+        AppValidators.required,
+        AppValidators.min(0),
+      ]),
     });
+  }
+
+  isInvalidAndTouched(formControlName: string) {
+    return (
+      this.addVacancyForm.get(formControlName).touched &&
+      this.addVacancyForm.get(formControlName).invalid
+    );
   }
 
   onSubmit() {

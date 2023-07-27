@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
-import { AuthValidators } from '../auth-validators';
 import * as AuthActions from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
@@ -30,11 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   initForm() {
     return new FormGroup({
-      email: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.email,
-      ]),
-      password: new FormControl('', [AuthValidators.required]),
+      email: new FormControl('', [AppValidators.required, AppValidators.email]),
+      password: new FormControl('', [AppValidators.required]),
     });
   }
 

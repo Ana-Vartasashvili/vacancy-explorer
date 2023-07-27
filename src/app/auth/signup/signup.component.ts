@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
-import { AuthValidators } from '../auth-validators';
 import { signupStart } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
@@ -31,27 +31,24 @@ export class SignupComponent implements OnInit, OnDestroy {
   initForm() {
     return new FormGroup({
       firstName: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(2),
-        AuthValidators.maxLength(15),
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(15),
       ]),
       lastName: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(2),
-        AuthValidators.maxLength(30),
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(30),
       ]),
-      email: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.email,
-      ]),
+      email: new FormControl('', [AppValidators.required, AppValidators.email]),
       password: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(8),
-        AuthValidators.passwordStrength,
+        AppValidators.required,
+        AppValidators.minLength(8),
+        AppValidators.passwordStrength,
       ]),
       confirmPassword: new FormControl(null, [
-        AuthValidators.required,
-        AuthValidators.matchValues('password'),
+        AppValidators.required,
+        AppValidators.matchValues('password'),
       ]),
     });
   }

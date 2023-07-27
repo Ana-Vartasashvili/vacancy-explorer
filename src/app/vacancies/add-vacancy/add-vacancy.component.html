@@ -16,19 +16,32 @@
       ></app-input>
     </div>
 
-    <textarea
-      type="text"
-      id="job-description"
-      placeholder="Job Description"
-      class="form-control__input form-control__input--textarea"
-    ></textarea>
+    <div class="form-control">
+      <textarea
+        formControlName="jobDescription"
+        type="text"
+        id="job-description"
+        placeholder="Job Description"
+        class="form-control__input form-control__input--textarea"
+        [class]="
+          isInvalidAndTouched('jobDescription') ? 'input input--invalid' : ''
+        "
+      ></textarea>
+      <div
+        *ngIf="isInvalidAndTouched('jobDescription')"
+        class="form-control__error"
+      >
+        <p>Field is required.</p>
+      </div>
+    </div>
 
-    <input
-      type="number"
-      id="salary"
+    <app-input
+      [form]="addVacancyForm"
+      formControlName="salary"
       placeholder="Salary"
-      class="form-control__input"
-    />
+      class="form__input"
+      inputType="number"
+    ></app-input>
 
     <div class="form-control__selector-row">
       <app-select
