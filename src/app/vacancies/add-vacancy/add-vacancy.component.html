@@ -1,0 +1,33 @@
+<app-form-container authHeading="Add vacancy">
+  <form class="form">
+    <div class="form-control__group">
+      <input
+        type="text"
+        id="job-title"
+        placeholder="Job Title"
+        class="form-control__input"
+      />
+
+      <input
+        type="text"
+        id="company-name"
+        placeholder="Company Name"
+        class="form-control__input"
+      />
+    </div>
+
+    <textarea
+      type="text"
+      id="job-description"
+      placeholder="Job Description"
+      class="form-control__input form-control__input--textarea"
+    ></textarea>
+
+    <div class="form-control__group">
+      <div class="dropdown__selector">
+        <span> Category</span>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+    </div>
+  </form>
+</app-form-container>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VacanciesAddComponent } from './vacancies-add/vacancies-add.component';
+import { AddVacancyComponent } from './add-vacancy/add-vacancy.component';
 import { VacanciesComponent } from './vacancies.component';
 
 const routes: Routes = [
   { path: '', component: VacanciesComponent },
-  { path: 'add', component: VacanciesAddComponent },
+  { path: 'add', component: AddVacancyComponent },
 ];
 
 @NgModule({
