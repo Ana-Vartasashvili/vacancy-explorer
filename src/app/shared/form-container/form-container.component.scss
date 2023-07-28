@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+
+.auth {
+  min-height: calc(100vh - 6.3rem);
+
+  &__container {
+    @include flex(3rem, column);
+    padding-top: 5rem;
+  }
+
+  &__heading {
+    font-size: 3rem;
+  }
+}

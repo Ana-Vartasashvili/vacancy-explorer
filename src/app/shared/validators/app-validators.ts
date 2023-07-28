@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 
-export class AuthValidators extends Validators {
+export class AppValidators extends Validators {
   static override minLength(length: number): any {
     return (control: AbstractControl) =>
       super.minLength(length)(control)
@@ -12,6 +12,13 @@ export class AuthValidators extends Validators {
     return (control: AbstractControl) =>
       super.maxLength(length)(control)
         ? { maxLength: `Field length can not be more than ${length}.` }
+        : undefined;
+  }
+
+  static override min(value: number): any {
+    return (control: AbstractControl) =>
+      super.min(value)(control)
+        ? { maxLength: `Value can not be less than ${length}.` }
         : undefined;
   }
 

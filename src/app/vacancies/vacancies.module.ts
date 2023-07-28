@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
+import { AddVacancyComponent } from './add-vacancy/add-vacancy.component';
 import { VacanciesFilterBarComponent } from './vacancies-filter/vacancies-filter-bar/vacancies-filter-bar.component';
 import { VacanciesFilterComponent } from './vacancies-filter/vacancies-filter.component';
 import { VacanciesListComponent } from './vacancies-list/vacancies-list.component';
@@ -15,6 +17,7 @@ import { VacanciesComponent } from './vacancies.component';
     VacanciesComponent,
     VacanciesFilterComponent,
     VacanciesFilterBarComponent,
+    AddVacancyComponent,
   ],
   imports: [
     VacanciesRoutingModule,
@@ -22,6 +25,7 @@ import { VacanciesComponent } from './vacancies.component';
     SharedModule,
     CommonModule,
     ReactiveFormsModule,
+    MatSelectModule,
     FormsModule,
   ],
 })

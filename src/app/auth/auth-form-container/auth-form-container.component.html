@@ -1,16 +1,13 @@
-<div class="auth">
-  <div class="auth__container">
-    <h2 class="auth__heading">{{ authHeading }}</h2>
-    <ng-content></ng-content>
+<app-form-container [authHeading]="authHeading">
+  <ng-content></ng-content>
 
-    <p *ngIf="authHeading === 'Login'" class="auth__text">
-      Don't have an account?
-      <a routerLink="/auth/signup">Sign Up</a>
-    </p>
+  <p *ngIf="authHeading === 'Login'" class="auth-text">
+    Don't have an account?
+    <a routerLink="/auth/signup">Sign Up</a>
+  </p>
 
-    <p *ngIf="authHeading === 'Sign Up'" class="auth__text">
-      Already have an account?
-      <a routerLink="/auth/login">Log In</a>
-    </p>
-  </div>
-</div>
+  <p *ngIf="authHeading === 'Sign Up'" class="auth-text">
+    Already have an account?
+    <a routerLink="/auth/login">Log In</a>
+  </p>
+</app-form-container>

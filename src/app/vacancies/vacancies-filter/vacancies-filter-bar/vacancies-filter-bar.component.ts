@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { VacanciesFilterService } from '../vacancies-filter.service';
-import { Filter } from '../vacancies-filter.types';
+import { Options } from '../vacancies-filter.types';
 
 @Component({
   selector: 'app-vacancies-filter-bar',
@@ -9,11 +9,11 @@ import { Filter } from '../vacancies-filter.types';
   styleUrls: ['./vacancies-filter-bar.component.scss'],
 })
 export class VacanciesFilterBarComponent {
-  filters: Filter[] = [];
+  filters: Options = {};
   filtersForm: FormGroup;
 
   constructor(private vacanciesFilterService: VacanciesFilterService) {
     this.filtersForm = this.vacanciesFilterService.filtersForm;
-    this.filters = this.vacanciesFilterService.filters;
+    this.filters = this.vacanciesFilterService.options;
   }
 }

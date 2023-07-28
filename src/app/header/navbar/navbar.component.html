@@ -18,8 +18,19 @@
       <a
         routerLink="/vacancies"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="nav__list-item"
         >Vacancies</a
+      >
+    </li>
+
+    <li>
+      <a
+        routerLink="/vacancies/add"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__list-item"
+        >Add vacancy</a
       >
     </li>
   </ul>

@@ -6,45 +6,23 @@
 
 <app-auth-form-container authHeading="Login">
   <form class="form" [formGroup]="loginForm" (submit)="onSubmit()">
-    <div class="form-control">
-      <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        class="form-control__input"
-        formControlName="email"
-      />
-      <div
-        *ngIf="isInvalidAndTouched('email', loginForm)"
-        class="form-control__error"
-      >
-        <p *ngIf="hasError('email', loginForm)">
-          {{ errorMessage("email", loginForm) }}
-        </p>
-      </div>
-    </div>
+    <app-input
+      [form]="loginForm"
+      formControlName="email"
+      placeholder="Email"
+      inputType="email"
+    ></app-input>
 
-    <div class="form-control">
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        class="form-control__input"
-        formControlName="password"
-      />
-      <div
-        *ngIf="isInvalidAndTouched('password', loginForm)"
-        class="form-control__error"
-      >
-        <p *ngIf="hasError('password', loginForm)">
-          {{ errorMessage("password", loginForm) }}
-        </p>
-      </div>
-    </div>
+    <app-input
+      [form]="loginForm"
+      formControlName="password"
+      placeholder="Password"
+      inputType="password"
+    ></app-input>
 
     <button
       type="submit"
-      class="btn btn--with-shadow btn--auth"
+      class="btn btn--with-shadow btn--submit"
       [ngClass]="{ 'btn--disabled': !loginForm.valid || isLoading }"
     >
       Login

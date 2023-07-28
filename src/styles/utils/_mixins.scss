@@ -37,3 +37,56 @@
     display: none;
   }
 }
+
+@mixin form-control {
+  position: relative;
+
+  &__group {
+    @include flex(1.2rem);
+    width: 100%;
+
+    @media (max-width: 25rem) {
+      @include flex(0, column);
+    }
+  }
+
+  &__input {
+    @include input;
+  }
+
+  &__selector {
+    @media (max-width: 42rem) {
+      width: 100%;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    bottom: 0.6rem;
+    z-index: 999;
+    color: $color-red;
+    font-size: 1.3rem;
+  }
+}
+
+@mixin input {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  padding: 1.3rem 1rem;
+  border-radius: $border-radius-sm;
+  border: none;
+  outline: 0.1rem solid $color-gray;
+  outline-offset: -0.1rem;
+
+  &:focus {
+    outline: 0.2rem solid $color-blue;
+    outline-offset: -0.2rem;
+  }
+
+  &--textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    height: 10rem;
+    outline: 0.1rem solid $color-gray;
+    outline-offset: -0.1rem;
+  }
+}

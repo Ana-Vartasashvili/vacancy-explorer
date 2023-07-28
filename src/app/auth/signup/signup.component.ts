@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
-import { AuthValidationMethods } from '../auth-validation-methods';
-import { AuthValidators } from '../auth-validators';
 import { signupStart } from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
@@ -13,18 +12,13 @@ import { auth } from '../store/auth.selectors';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent
-  extends AuthValidationMethods
-  implements OnInit, OnDestroy
-{
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   storeSub: Subscription;
   isLoading = false;
   authError: string = null;
 
-  constructor(private store: Store<AppState>) {
-    super();
-  }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.signupForm = this.initForm();
@@ -37,27 +31,24 @@ export class SignupComponent
   initForm() {
     return new FormGroup({
       firstName: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(2),
-        AuthValidators.maxLength(15),
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(15),
       ]),
       lastName: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(2),
-        AuthValidators.maxLength(30),
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(30),
       ]),
-      email: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.email,
-      ]),
+      email: new FormControl('', [AppValidators.required, AppValidators.email]),
       password: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.minLength(8),
-        AuthValidators.passwordStrength,
+        AppValidators.required,
+        AppValidators.minLength(8),
+        AppValidators.passwordStrength,
       ]),
       confirmPassword: new FormControl(null, [
-        AuthValidators.required,
-        AuthValidators.matchValues('password'),
+        AppValidators.required,
+        AppValidators.matchValues('password'),
       ]),
     });
   }

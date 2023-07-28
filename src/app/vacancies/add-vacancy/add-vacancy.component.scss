@@ -1,0 +1,18 @@
+@import "../../../styles.scss";
+
+.form {
+  @extend %form;
+  width: 65rem;
+
+  @media (max-width: 47rem) {
+    width: 55rem;
+  }
+
+  @media (max-width: 37rem) {
+    width: 90vw;
+  }
+
+  &__input {
+    width: 100%;
+  }
+}

@@ -10,10 +10,10 @@ import {
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { auth } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import { AuthService } from '../auth.service';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 import { clearAuthError } from './auth.actions';
-import { AuthService } from '../auth.service';
 
 interface AuthResponseData extends UserCredential {
   _tokenResponse: TokenResponseData;
@@ -84,8 +84,8 @@ export class AuthEffects {
         return from(
           createUserWithEmailAndPassword(
             auth,
-            signupStartAction.email,
-            signupStartAction.password
+            signupStartAction.email.trim(),
+            signupStartAction.password.trim()
           )
         ).pipe(
           tap((resData: AuthResponseData) => {
@@ -117,8 +117,8 @@ export class AuthEffects {
         return from(
           signInWithEmailAndPassword(
             auth,
-            loginStartAction.email,
-            loginStartAction.password
+            loginStartAction.email.trim(),
+            loginStartAction.password.trim()
           )
         ).pipe(
           tap((resData: AuthResponseData) => {
@@ -190,7 +190,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authSuccess),
         tap((authSuccessAction) => {
-          console.log(authSuccessAction);
           if (authSuccessAction.redirect) {
             this.router.navigate(['/']);
           }

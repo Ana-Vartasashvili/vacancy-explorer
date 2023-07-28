@@ -1,5 +1,5 @@
 @import "./styles/components/btn";
-@import "./styles/components/form";
+@import "./styles/components/input";
 
 @import "./styles/utils/mixins";
 @import "./styles/utils/variables";
@@ -45,7 +45,9 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 0.1rem solid $color-black;
+  border: none;
+  outline: 0.1rem solid $color-gray;
+  outline-offset: -0.1rem;
   -webkit-text-fill-color: $color-black;
   transition: background-color 5000s ease-in-out 0s;
 }

@@ -1,0 +1,17 @@
+<mat-form-field class="selector">
+  <mat-label class="selector__label">{{ selectorName }}</mat-label>
+
+  <mat-select required class="selector__body" [formControl]="control">
+    <mat-option>--</mat-option>
+    <mat-option
+      *ngFor="let option of selectorOptions"
+      [value]="option"
+      class="selector__option"
+    >
+      {{ option }}
+    </mat-option>
+  </mat-select>
+
+  <mat-error>Field is required.</mat-error>
+  <mat-hint></mat-hint>
+</mat-form-field>

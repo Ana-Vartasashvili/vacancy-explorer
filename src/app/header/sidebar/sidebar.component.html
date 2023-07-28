@@ -20,8 +20,18 @@
       <a
         class="sidebar__list-item__link"
         routerLink="/vacancies"
+        [routerLinkActiveOptions]="{ exact: true }"
         routerLinkActive="active"
         >Vacancies</a
+      >
+    </li>
+
+    <li class="sidebar__list-item" (click)="setSidebarIsHidden()">
+      <a
+        class="sidebar__list-item__link"
+        routerLink="/vacancies/add"
+        routerLinkActive="active"
+        >Add vacancy</a
       >
     </li>
   </ul>

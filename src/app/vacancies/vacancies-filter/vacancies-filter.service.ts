@@ -1,43 +1,73 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Filter, FormControls, FormGroups } from './vacancies-filter.types';
+import { FormControls, FormGroups, Options } from './vacancies-filter.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VacanciesFilterService {
   filtersForm: FormGroup;
-  filters: Filter[] = [
-    {
-      filterName: 'Sphere',
-      options: [
-        { optionName: 'Sales', optionIdentifier: 'sales' },
-        {
-          optionName: 'Customer relations',
-          optionIdentifier: 'customer-relations',
-        },
-        {
-          optionName: 'Horeca',
-          optionIdentifier: 'horeca',
-        },
-      ],
-    },
-    {
-      filterName: 'Working Type',
-      options: [
-        { optionName: 'Office', optionIdentifier: 'office' },
-        { optionName: 'Hybrid', optionIdentifier: 'hybrid' },
-        { optionName: 'Remote', optionIdentifier: 'remote' },
-      ],
-    },
-    {
-      filterName: 'Employement Type',
-      options: [
-        { optionName: 'Full time', optionIdentifier: 'full-time' },
-        { optionName: 'Part time', optionIdentifier: 'part-time' },
-      ],
-    },
-  ];
+  options: Options = {
+    Category: [
+      'Sales',
+      'Customer relations',
+      'Horeca',
+      'Banking and Finances',
+      'Cook',
+      'Distribution',
+      'Warehouse and packaging',
+      'Administration',
+      'Retail',
+      'Medical',
+      'Waiter',
+      'Logistics',
+      'Delivery',
+      'Gambling',
+      'Security',
+      'Information Technologies',
+      'Management',
+      'Marketing',
+      'Accounting',
+      'Auto industry',
+      'Finances',
+      'Pharmacy',
+      'Construction',
+      'Education',
+      'Tourism',
+      'Data analysis',
+      'Engineering',
+      'Human Resources',
+      'Insurance',
+      'Procurements',
+      'Architecture',
+      'Audit',
+      'Consultation',
+      'Digital marketing',
+      'Media',
+    ],
+
+    'Employement type': [
+      'Full time',
+      'Part time',
+      'Hourly',
+      'Freelance',
+      'Internship',
+      'Shifts',
+    ],
+
+    'Working type': ['Office', 'On-site', 'Remote ', 'Hybrid'],
+
+    Experience: [
+      'Not required',
+      'Less than a year',
+      '1-2 years',
+      '2-3 years',
+      '3-5 years',
+      '5+ years',
+    ],
+
+    City: ['Tbilisi', 'Batumi', 'Kutaisi', 'Rustavi'],
+  };
 
   constructor() {
     this.filtersForm = this.createFiltersForm();
@@ -46,15 +76,15 @@ export class VacanciesFilterService {
   private createFiltersForm() {
     let formGroups: FormGroups = {};
 
-    this.filters.forEach((filter: Filter) => {
+    for (const filterName in this.options) {
       let controls: FormControls = {};
 
-      filter.options.forEach((option) => {
-        controls[option.optionIdentifier] = new FormControl('');
+      this.options[filterName].forEach((option) => {
+        controls[option] = new FormControl('');
       });
 
-      formGroups[filter.filterName] = new FormGroup(controls);
-    });
+      formGroups[filterName] = new FormGroup(controls);
+    }
 
     return new FormGroup(formGroups);
   }

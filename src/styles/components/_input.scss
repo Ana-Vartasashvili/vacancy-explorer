@@ -1,0 +1,15 @@
+@import "../utils/mixins";
+@import "../utils/variables";
+
+.input {
+  @include input;
+}
+
+.input--invalid {
+  outline: 0.15rem solid $color-red !important;
+  outline-offset: -0.15rem !important;
+
+  &::placeholder {
+    color: $color-red;
+  }
+}

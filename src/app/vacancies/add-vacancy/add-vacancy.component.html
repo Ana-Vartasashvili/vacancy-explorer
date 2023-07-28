@@ -1,0 +1,108 @@
+<app-flash-message
+  [messageText]="errorMessage || successMessage"
+  [messageType]="errorMessage ? 'error' : 'success'"
+  *ngIf="errorMessage || successMessage"
+></app-flash-message>
+
+<app-form-container authHeading="Add vacancy">
+  <form
+    class="form"
+    [formGroup]="addVacancyForm"
+    (submit)="onSubmit()"
+    #f="ngForm"
+  >
+    <div class="form-control__group">
+      <app-input
+        [form]="addVacancyForm"
+        formControlName="jobTitle"
+        placeholder="Job title"
+        class="form__input"
+      ></app-input>
+
+      <app-input
+        [form]="addVacancyForm"
+        formControlName="companyName"
+        placeholder="Company name"
+        class="form__input"
+      ></app-input>
+    </div>
+
+    <div class="form-control">
+      <textarea
+        formControlName="jobDescription"
+        type="text"
+        id="job-description"
+        placeholder="Job Description"
+        class="form-control__input form-control__input--textarea"
+        [class]="
+          isInvalidAndTouched('jobDescription') ? 'input input--invalid' : ''
+        "
+      ></textarea>
+      <div
+        *ngIf="isInvalidAndTouched('jobDescription')"
+        class="form-control__error"
+      >
+        <p>Field is required.</p>
+      </div>
+    </div>
+
+    <app-input
+      [form]="addVacancyForm"
+      formControlName="salary"
+      placeholder="Salary"
+      class="form__input"
+      inputType="number"
+    ></app-input>
+
+    <div class="form-control__selector-row">
+      <app-select
+        class="form-control__selector"
+        selectorName="Category"
+        controlName="category"
+        [selectorOptions]="options['Category']"
+        [form]="addVacancyForm"
+      ></app-select>
+
+      <app-select
+        class="form-control__selector"
+        selectorName="Working type"
+        controlName="workingType"
+        [selectorOptions]="options['Working type']"
+        [form]="addVacancyForm"
+      ></app-select>
+    </div>
+
+    <div class="form-control__selector-row">
+      <app-select
+        class="form-control__selector"
+        controlName="employementType"
+        selectorName="Employement type"
+        [selectorOptions]="options['Employement type']"
+        [form]="addVacancyForm"
+      ></app-select>
+
+      <app-select
+        class="form-control__selector"
+        controlName="experience"
+        selectorName="Experience"
+        [selectorOptions]="options['Experience']"
+        [form]="addVacancyForm"
+      ></app-select>
+    </div>
+
+    <app-select
+      controlName="city"
+      selectorName="City"
+      [selectorOptions]="options['City']"
+      [form]="addVacancyForm"
+    ></app-select>
+
+    <button
+      type="submit"
+      class="btn btn--with-shadow btn--submit"
+      [ngClass]="{ 'btn--disabled': !addVacancyForm.valid || isLoading }"
+    >
+      Add
+    </button>
+  </form>
+</app-form-container>

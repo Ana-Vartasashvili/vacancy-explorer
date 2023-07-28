@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
-import { AuthValidationMethods } from '../auth-validation-methods';
-import { AuthValidators } from '../auth-validators';
 import * as AuthActions from '../store/auth.actions';
 import { auth } from '../store/auth.selectors';
 
@@ -13,18 +12,13 @@ import { auth } from '../store/auth.selectors';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent
-  extends AuthValidationMethods
-  implements OnInit, OnDestroy
-{
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   storeSub: Subscription;
   isLoading = false;
   authError = null;
 
-  constructor(private store: Store<AppState>) {
-    super();
-  }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.loginForm = this.initForm();
@@ -36,11 +30,8 @@ export class LoginComponent
 
   initForm() {
     return new FormGroup({
-      email: new FormControl('', [
-        AuthValidators.required,
-        AuthValidators.email,
-      ]),
-      password: new FormControl('', [AuthValidators.required]),
+      email: new FormControl('', [AppValidators.required, AppValidators.email]),
+      password: new FormControl('', [AppValidators.required]),
     });
   }
 

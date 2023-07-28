@@ -5,9 +5,8 @@ export interface FilterOption {
   optionIdentifier: string;
 }
 
-export interface Filter {
-  filterName: string;
-  options: FilterOption[];
+export interface Options {
+  [filterName: string]: string[];
 }
 
 export interface FormControls {
