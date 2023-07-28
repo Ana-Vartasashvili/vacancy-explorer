@@ -1,5 +1,16 @@
+<app-flash-message
+  [messageText]="errorMessage || successMessage"
+  [messageType]="errorMessage ? 'error' : 'success'"
+  *ngIf="errorMessage || successMessage"
+></app-flash-message>
+
 <app-form-container authHeading="Add vacancy">
-  <form class="form" [formGroup]="addVacancyForm" (submit)="onSubmit()">
+  <form
+    class="form"
+    [formGroup]="addVacancyForm"
+    (submit)="onSubmit()"
+    #f="ngForm"
+  >
     <div class="form-control__group">
       <app-input
         [form]="addVacancyForm"
@@ -89,7 +100,7 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--submit"
-      [ngClass]="{ 'btn--disabled': !addVacancyForm.valid }"
+      [ngClass]="{ 'btn--disabled': !addVacancyForm.valid || isLoading }"
     >
       Add
     </button>

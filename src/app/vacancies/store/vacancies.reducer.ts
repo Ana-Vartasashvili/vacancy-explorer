@@ -35,5 +35,12 @@ export const VacanciesReducer = createReducer(
     addVacancyloading: false,
     addVacancyError: null,
     addVacancySuccessMessage: 'Your vacancy has been sent successfully.',
+  })),
+
+  on(VacanciesActions.clearAddVacancyMessage, (state) => ({
+    ...state,
+    addVacancyError: null,
+    addVacancySuccessMessage: null,
+    addVacancyloading: false,
   }))
 );

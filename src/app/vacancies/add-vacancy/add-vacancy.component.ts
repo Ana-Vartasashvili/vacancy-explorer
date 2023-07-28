@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { AppValidators } from 'src/app/shared/validators/app-validators';
-import { VacanciesFilterService } from '../vacancies-filter/vacancies-filter.service';
-import { Options } from '../vacancies-filter/vacancies-filter.types';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
 import { startAddingVacancy } from '../store/vacancies.actions';
+import { vacancies } from '../store/vacancies.selectors';
+import { VacanciesFilterService } from '../vacancies-filter/vacancies-filter.service';
+import { Options } from '../vacancies-filter/vacancies-filter.types';
 
 @Component({
   selector: 'app-add-vacancy',
@@ -13,8 +14,12 @@ import { startAddingVacancy } from '../store/vacancies.actions';
   styleUrls: ['./add-vacancy.component.scss'],
 })
 export class AddVacancyComponent implements OnInit {
+  @ViewChild('f') form: FormGroupDirective;
   options: Options;
   addVacancyForm: FormGroup;
+  isLoading: boolean;
+  errorMessage: string;
+  successMessage: string;
 
   constructor(
     private vacanciesFiltersService: VacanciesFilterService,
@@ -24,6 +29,11 @@ export class AddVacancyComponent implements OnInit {
   ngOnInit(): void {
     this.options = this.vacanciesFiltersService.options;
     this.addVacancyForm = this.initForm();
+    this.store.select(vacancies).subscribe((vacanciesState) => {
+      this.isLoading = vacanciesState.addVacancyloading;
+      this.errorMessage = vacanciesState.addVacancyError;
+      this.successMessage = vacanciesState.addVacancySuccessMessage;
+    });
   }
 
   initForm() {
@@ -52,5 +62,6 @@ export class AddVacancyComponent implements OnInit {
 
   onSubmit() {
     this.store.dispatch(startAddingVacancy(this.addVacancyForm.value));
+    this.form.resetForm();
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class SelectComponent implements OnInit {
   @Input() form: FormGroup;
   control: FormControl;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor() {}
 
   get() {
     return this.form.get(this.controlName) as FormControl;
@@ -21,6 +21,5 @@ export class SelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.control = this.get();
-    this.cdRef.detectChanges();
   }
 }

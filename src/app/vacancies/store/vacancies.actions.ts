@@ -14,3 +14,7 @@ export const addVacancyFailed = createAction(
 export const addVacancySuccess = createAction(
   '[Vacancies] Add Vacancy Success'
 );
+
+export const clearAddVacancyMessage = createAction(
+  '[Vacancies] Clear Add Vacancy Message'
+);
