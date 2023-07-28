@@ -2,7 +2,12 @@ import { createAction, props } from '@ngrx/store';
 
 export const signupStart = createAction(
   '[Auth] Signup Start',
-  props<{ email: string; password: string }>()
+  props<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }>()
 );
 
 export const loginStart = createAction(

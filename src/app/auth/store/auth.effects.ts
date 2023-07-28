@@ -7,8 +7,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
-import { auth } from 'src/app/firebase/firebase-config';
+import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthService } from '../auth.service';
 import { User } from '../user.model';
@@ -26,6 +27,13 @@ interface TokenResponseData {
   kind: string;
   localId: string;
   refreshToken: string;
+}
+
+interface UserData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  userId: string;
 }
 
 const handleError = (errorResponse: any) => {
@@ -77,10 +85,21 @@ export class AuthEffects {
     private authService: AuthService
   ) {}
 
+  userData: UserData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    userId: '',
+  };
+
   signup = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signupStart),
       switchMap((signupStartAction) => {
+        (this.userData.firstName = signupStartAction.firstName),
+          (this.userData.lastName = signupStartAction.lastName),
+          (this.userData.email = signupStartAction.email);
+
         return from(
           createUserWithEmailAndPassword(
             auth,
@@ -93,9 +112,20 @@ export class AuthEffects {
               +resData._tokenResponse.expiresIn * 1000
             );
           }),
-          map((response: AuthResponseData) => {
+          map((resData: AuthResponseData) => {
             const { expiresIn, email, idToken, localId } =
-              response._tokenResponse;
+              resData._tokenResponse;
+
+            this.userData.userId = localId;
+            setDoc(doc(db, 'users', localId), {
+              firstName: this.userData.firstName,
+              lastName: this.userData.lastName,
+              email: this.userData.email,
+              role: 'user',
+              userId: this.userData.userId,
+              myVacancies: [],
+              savedVacancies: [],
+            });
 
             return handleAuthentication(+expiresIn, email, localId, idToken);
           }),

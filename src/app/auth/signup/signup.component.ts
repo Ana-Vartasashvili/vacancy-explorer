@@ -55,9 +55,9 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.signupForm.valid) return;
-    const { email, password } = this.signupForm.value;
+    const { email, password, firstName, lastName } = this.signupForm.value;
 
-    this.store.dispatch(signupStart({ email, password }));
+    this.store.dispatch(signupStart({ email, password, firstName, lastName }));
     this.signupForm.reset();
   }
 
