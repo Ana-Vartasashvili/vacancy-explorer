@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './header/navbar/navbar.component';
 import { SidebarComponent } from './header/sidebar/sidebar.component';
 import { appReducer } from './store/app.reducer';
+import { VacanciesEffects } from './vacancies/store/vacancies.effects';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { appReducer } from './store/app.reducer';
     AppRoutingModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, VacanciesEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

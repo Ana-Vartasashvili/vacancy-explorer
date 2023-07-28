@@ -3,6 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { VacanciesFilterService } from '../vacancies-filter/vacancies-filter.service';
 import { Options } from '../vacancies-filter/vacancies-filter.types';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
+import { startAddingVacancy } from '../store/vacancies.actions';
 
 @Component({
   selector: 'app-add-vacancy',
@@ -13,7 +16,10 @@ export class AddVacancyComponent implements OnInit {
   options: Options;
   addVacancyForm: FormGroup;
 
-  constructor(private vacanciesFiltersService: VacanciesFilterService) {}
+  constructor(
+    private vacanciesFiltersService: VacanciesFilterService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     this.options = this.vacanciesFiltersService.options;
@@ -45,6 +51,6 @@ export class AddVacancyComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.addVacancyForm);
+    this.store.dispatch(startAddingVacancy(this.addVacancyForm.value));
   }
 }

@@ -45,16 +45,9 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 0.1rem solid $color-black;
+  border: none;
+  outline: 0.1rem solid $color-gray;
+  outline-offset: -0.1rem;
   -webkit-text-fill-color: $color-black;
   transition: background-color 5000s ease-in-out 0s;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
