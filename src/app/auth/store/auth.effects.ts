@@ -3,78 +3,19 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
-  UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { catchError, from, map, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, switchMap, tap } from 'rxjs';
 import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import { handleAuthentication, handleError } from '../auth-helpers';
 import { AuthService } from '../auth.service';
+import { AuthResponseData, UserData } from '../auth.types';
 import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 import { clearAuthError } from './auth.actions';
-
-interface AuthResponseData extends UserCredential {
-  _tokenResponse: TokenResponseData;
-}
-
-interface TokenResponseData {
-  email: string;
-  expiresIn: string;
-  idToken: string;
-  kind: string;
-  localId: string;
-  refreshToken: string;
-}
-
-interface UserData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  userId: string;
-}
-
-const handleError = (errorResponse: any) => {
-  let errorMessage = 'An unknown error occurred!';
-
-  switch (errorResponse) {
-    case 'auth/email-already-in-use':
-      errorMessage = 'This email already exists!';
-      break;
-    case 'auth/wrong-password':
-      errorMessage = 'Invalid email or password!';
-      break;
-    case 'auth/too-many-requests':
-      errorMessage = 'Too many failed login attempts, please try again later!';
-      break;
-    case 'auth/user-not-found':
-      errorMessage = 'User with this email can not be found!';
-      break;
-  }
-
-  return of(AuthActions.authFail({ errorMessage }));
-};
-
-const handleAuthentication = (
-  expiresIn: number,
-  email: string,
-  userId: string,
-  token: string
-) => {
-  const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-  const user = new User(email, userId, token, expirationDate);
-  localStorage.setItem('userData', JSON.stringify(user));
-
-  return AuthActions.authSuccess({
-    email,
-    userId,
-    expirationDate,
-    token,
-    redirect: true,
-  });
-};
 
 @Injectable()
 export class AuthEffects {
