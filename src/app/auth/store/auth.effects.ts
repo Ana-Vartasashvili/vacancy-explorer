@@ -190,7 +190,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authSuccess),
         tap((authSuccessAction) => {
-          console.log(authSuccessAction);
           if (authSuccessAction.redirect) {
             this.router.navigate(['/']);
           }
