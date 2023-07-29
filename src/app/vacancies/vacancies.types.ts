@@ -10,4 +10,5 @@ export interface Vacancy {
   salary: number;
   id: string;
   status: string;
+  createdAt: string;
 }

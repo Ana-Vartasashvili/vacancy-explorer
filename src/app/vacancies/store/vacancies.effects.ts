@@ -6,19 +6,21 @@ import {
   collection,
   doc,
   getDocs,
+  limit,
   query,
+  serverTimestamp,
   setDoc,
   where,
 } from 'firebase/firestore';
-import { catchError, from, map, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, of, switchMap } from 'rxjs';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import {
   clearAddVacancyMessage,
   clearVacanciesError,
 } from './vacancies.actions';
-import { Vacancy } from '../vacancies.types';
 
 @Injectable()
 export class VacanciesEffects {
@@ -81,6 +83,7 @@ export class VacanciesEffects {
       workingType: action.workingType.trim(),
       salary: action.salary,
       status: 'pending',
+      createdAt: serverTimestamp(),
       id,
     };
   }
@@ -91,7 +94,8 @@ export class VacanciesEffects {
       switchMap((startFetchingAction) => {
         const q = query(
           collection(db, 'vacancies'),
-          where('status', '==', 'pending')
+          where('status', '==', 'active'),
+          limit(10)
         );
 
         return from(getDocs(q)).pipe(

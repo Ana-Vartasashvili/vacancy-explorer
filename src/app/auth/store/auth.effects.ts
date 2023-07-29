@@ -188,7 +188,7 @@ export class AuthEffects {
                       ...loadedUser,
                       token: loadedUser.token,
                       expirationDate: loadedUser.tokenExpirationDate,
-                      redirect: true,
+                      redirect: false,
                     });
                   }
 
