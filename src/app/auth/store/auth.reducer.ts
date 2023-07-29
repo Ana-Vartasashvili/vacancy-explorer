@@ -29,8 +29,17 @@ export const AuthReducer = createReducer(
   })),
 
   on(AuthActions.authSuccess, (state, action) => {
-    const { email, expirationDate, token, userId } = action;
-    const user = new User(email, userId, token, expirationDate);
+    const user = new User(
+      action.firstName,
+      action.lastName,
+      action.role,
+      action.email,
+      action.userId,
+      action.myVacancies,
+      action.savedVacancies,
+      action.token,
+      action.expirationDate
+    );
 
     return {
       ...state,

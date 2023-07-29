@@ -18,4 +18,15 @@ export interface UserData {
   lastName: string;
   email: string;
   userId: string;
+  role: string;
+  expiresIn: number;
+  token: string;
+  myVacancies: [];
+  savedVacancies: [];
+}
+
+export interface TokenData {
+  userId: string;
+  token: string;
+  expirationDate: string;
 }

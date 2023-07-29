@@ -16,8 +16,8 @@ export class VacanciesEffects {
     this.actions$.pipe(
       ofType(VacanciesActions.startAddingVacancy),
       switchMap((startAddingVacancyAction) => {
-        const user = localStorage.getItem('userData');
-        if (!user) {
+        const tokenData = localStorage.getItem('tokenData');
+        if (!tokenData) {
           return of(
             VacanciesActions.addVacancyFailed({
               errorMessage: 'User is not authenticated!',

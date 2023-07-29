@@ -18,6 +18,11 @@ export const loginStart = createAction(
 export const authSuccess = createAction(
   '[Auth] Auth Success',
   props<{
+    firstName: string;
+    lastName: string;
+    role: string;
+    myVacancies: [];
+    savedVacancies: [];
     email: string;
     userId: string;
     token: string;

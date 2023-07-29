@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
+import { UserData } from './auth.types';
 import * as AuthActions from './store/auth.actions';
-import { User } from './user.model';
 
 export const handleError = (errorResponse: any) => {
   let errorMessage = 'An unknown error occurred!';
@@ -23,17 +23,30 @@ export const handleError = (errorResponse: any) => {
   return of(AuthActions.authFail({ errorMessage }));
 };
 
-export const handleAuthentication = (
-  expiresIn: number,
-  email: string,
-  userId: string,
-  token: string
-) => {
+export const handleAuthentication = ({
+  expiresIn,
+  email,
+  userId,
+  token,
+  firstName,
+  lastName,
+  role,
+  myVacancies,
+  savedVacancies,
+}: UserData) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-  const user = new User(email, userId, token, expirationDate);
-  localStorage.setItem('userData', JSON.stringify(user));
+
+  localStorage.setItem(
+    'tokenData',
+    JSON.stringify({ token, expirationDate, userId })
+  );
 
   return AuthActions.authSuccess({
+    firstName,
+    lastName,
+    myVacancies,
+    savedVacancies,
+    role,
     email,
     userId,
     expirationDate,
