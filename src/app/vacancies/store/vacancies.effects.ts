@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { catchError, from, map, of, switchMap } from 'rxjs';
+import {
+  QuerySnapshot,
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import * as VacanciesActions from './vacancies.actions';
-import { clearAddVacancyMessage } from './vacancies.actions';
+import {
+  clearAddVacancyMessage,
+  clearVacanciesError,
+} from './vacancies.actions';
+import { Vacancy } from '../vacancies.types';
 
 @Injectable()
 export class VacanciesEffects {
@@ -72,4 +84,39 @@ export class VacanciesEffects {
       id,
     };
   }
+
+  fetchVacancies = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.startFetchingVacancies),
+      switchMap((startFetchingAction) => {
+        const q = query(
+          collection(db, 'vacancies'),
+          where('status', '==', 'pending')
+        );
+
+        return from(getDocs(q)).pipe(
+          map((resData: QuerySnapshot<Vacancy>) => {
+            let vacancies: Vacancy[] = [];
+
+            resData.forEach((doc) => {
+              vacancies.push(doc.data());
+            });
+
+            return VacanciesActions.getVacancies({ vacancies });
+          }),
+          catchError(() => {
+            setTimeout(() => {
+              this.store.dispatch(clearVacanciesError());
+            }, 3500);
+
+            return of(
+              VacanciesActions.getVacanciesFailed({
+                errorMessage: 'Could not fetch vacancies.',
+              })
+            );
+          })
+        );
+      })
+    )
+  );
 }

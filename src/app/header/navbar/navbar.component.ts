@@ -30,7 +30,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.storeSub = this.store.select(authState).subscribe((auth) => {
       this.currentUser = auth.user;
       this.isLoading = auth.loading;
-      console.log(auth.loading);
     });
   }
 

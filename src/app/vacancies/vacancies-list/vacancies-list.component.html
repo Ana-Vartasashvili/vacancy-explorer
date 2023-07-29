@@ -1,9 +1,8 @@
 <div class="vacancies-list">
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
+  <app-vacancy-card
+    *ngFor="let vacancy of vacancies"
+    [cityName]="vacancy.city"
+    [companyName]="vacancy.companyName"
+    [vacancyTitle]="vacancy.jobTitle"
+  ></app-vacancy-card>
 </div>

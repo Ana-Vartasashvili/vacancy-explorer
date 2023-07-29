@@ -18,3 +18,21 @@ export const addVacancySuccess = createAction(
 export const clearAddVacancyMessage = createAction(
   '[Vacancies] Clear Add Vacancy Message'
 );
+
+export const startFetchingVacancies = createAction(
+  '[Vacancies] Start Fetching Vacancies'
+);
+
+export const getVacancies = createAction(
+  '[Vacancies] Get Vacancies',
+  props<{ vacancies: Vacancy[] }>()
+);
+
+export const getVacanciesFailed = createAction(
+  '[Vacancies] Get Vacancies Failed',
+  props<{ errorMessage: string }>()
+);
+
+export const clearVacanciesError = createAction(
+  '[Vacancies] Clear Vacancies Error'
+);

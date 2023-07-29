@@ -8,4 +8,6 @@ export interface Vacancy {
   jobDescription: string;
   city: string;
   salary: number;
+  id: string;
+  status: string;
 }
