@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { addDoc, collection } from 'firebase/firestore';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap } from 'rxjs';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
@@ -25,10 +25,13 @@ export class VacanciesEffects {
           );
         }
 
+        const newVacancyRef = doc(collection(db, 'vacancies'));
+        const docId = newVacancyRef.id;
+
         return from(
-          addDoc(
-            collection(db, 'vacancies'),
-            this.getVacancyData(startAddingVacancyAction)
+          setDoc(
+            doc(db, 'vacancies', docId),
+            this.getVacancyDataFromAction(startAddingVacancyAction, docId)
           )
         ).pipe(
           map(() => {
@@ -54,7 +57,7 @@ export class VacanciesEffects {
     )
   );
 
-  private getVacancyData(action) {
+  private getVacancyDataFromAction(action, id: string) {
     return {
       jobTitle: action.jobTitle.trim(),
       companyName: action.companyName.trim(),
@@ -66,6 +69,7 @@ export class VacanciesEffects {
       workingType: action.workingType.trim(),
       salary: action.salary,
       status: 'pending',
+      id,
     };
   }
 }
