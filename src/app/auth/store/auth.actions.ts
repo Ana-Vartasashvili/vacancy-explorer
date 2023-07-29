@@ -33,7 +33,7 @@ export const authSuccess = createAction(
 
 export const logout = createAction('[Auth] Logout');
 
-export const autoLogin = createAction('[Auth] Auto Login');
+export const autoLoginStart = createAction('[Auth] Auto Login');
 
 export const autoLoginFail = createAction('[Auth] Auto Login Fail');
 

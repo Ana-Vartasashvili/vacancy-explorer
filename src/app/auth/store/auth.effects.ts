@@ -152,7 +152,7 @@ export class AuthEffects {
 
   autoLogin = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.autoLogin),
+      ofType(AuthActions.autoLoginStart),
       switchMap(() => {
         const tokenData: TokenData = JSON.parse(
           localStorage.getItem('tokenData')

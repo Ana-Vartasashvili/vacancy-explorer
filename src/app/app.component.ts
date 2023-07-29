@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { autoLogin } from './auth/store/auth.actions';
+import { autoLoginStart } from './auth/store/auth.actions';
 import { AppState } from './store/app.reducer';
 
 @Component({
@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(autoLogin());
+    this.store.dispatch(autoLoginStart());
   }
 }

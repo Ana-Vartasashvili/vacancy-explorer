@@ -52,7 +52,19 @@ export const AuthReducer = createReducer(
 
   on(AuthActions.logout, (state) => ({ ...state, user: null })),
 
-  on(AuthActions.autoLoginFail, (state) => ({ ...state, user: null })),
+  on(AuthActions.autoLoginStart, (state) => ({
+    ...state,
+    loading: true,
+    authError: null,
+    user: null,
+  })),
+
+  on(AuthActions.autoLoginFail, (state) => ({
+    ...state,
+    user: null,
+    loading: false,
+    authError: null,
+  })),
 
   on(AuthActions.authFail, (state, action) => ({
     ...state,
@@ -64,5 +76,6 @@ export const AuthReducer = createReducer(
   on(AuthActions.clearAuthError, (state) => ({
     ...state,
     authError: null,
+    loading: false,
   }))
 );

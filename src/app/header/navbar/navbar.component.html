@@ -35,7 +35,7 @@
     </li>
   </ul>
 
-  <div class="nav__auth">
+  <div class="nav__auth" *ngIf="!isLoading">
     <a routerLink="/auth/login" class="nav__auth-link" *ngIf="!currentUser">
       <button class="btn btn--white">Login</button>
     </a>
