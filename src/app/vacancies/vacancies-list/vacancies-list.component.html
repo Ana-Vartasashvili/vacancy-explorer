@@ -1,8 +1,15 @@
+<app-flash-message
+  [messageText]="vacanciesError"
+  messageType="error"
+  *ngIf="vacanciesError"
+></app-flash-message>
+
 <div class="vacancies-list">
   <app-vacancy-card
     *ngFor="let vacancy of vacancies"
     [cityName]="vacancy.city"
     [companyName]="vacancy.companyName"
     [vacancyTitle]="vacancy.jobTitle"
+    [createdAt]="vacancy.createdAt"
   ></app-vacancy-card>
 </div>
