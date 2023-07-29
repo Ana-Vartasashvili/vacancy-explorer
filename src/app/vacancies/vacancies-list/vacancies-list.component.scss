@@ -6,4 +6,8 @@
   @media (max-width: 65rem) {
     grid-template-columns: 1fr;
   }
+
+  &__loading-spinner {
+    @include flex;
+  }
 }

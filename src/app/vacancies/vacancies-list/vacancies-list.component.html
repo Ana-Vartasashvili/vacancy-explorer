@@ -4,6 +4,11 @@
   *ngIf="vacanciesError"
 ></app-flash-message>
 
+<app-loading-spinner
+  *ngIf="isLoading"
+  class="vacancies-list__loading-spinner"
+></app-loading-spinner>
+
 <div class="vacancies-list">
   <app-vacancy-card
     *ngFor="let vacancy of vacancies"

@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FlashMessageComponent } from './flash-message/flash-message.component';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { InputComponent } from './input/input.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { DatePipe } from './pipes/date.pipe';
 import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
@@ -27,6 +28,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     SelectComponent,
     SelectMultipleComponent,
     DatePipe,
+    LoadingSpinnerComponent,
   ],
   providers: [
     {
@@ -50,6 +52,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     InputComponent,
     SelectComponent,
     SelectMultipleComponent,
+    LoadingSpinnerComponent,
   ],
 })
 export class SharedModule {}
