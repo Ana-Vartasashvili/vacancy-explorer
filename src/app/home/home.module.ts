@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -8,6 +9,12 @@ import { HomeComponent } from './home.component';
 
 @NgModule({
   declarations: [HomeComponent, HeroComponent],
-  imports: [RouterModule, HomeRoutingModule, MatIconModule, SharedModule],
+  imports: [
+    RouterModule,
+    HomeRoutingModule,
+    MatIconModule,
+    SharedModule,
+    CommonModule,
+  ],
 })
 export class HomeModule {}
