@@ -23,6 +23,7 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--submit"
+      [disabled]="!loginForm.valid || isLoading"
       [ngClass]="{ 'btn--disabled': !loginForm.valid || isLoading }"
     >
       Login

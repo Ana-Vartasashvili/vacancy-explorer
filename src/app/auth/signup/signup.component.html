@@ -42,6 +42,7 @@
     <button
       type="submit"
       class="btn btn--with-shadow btn--submit"
+      [disabled]="!signupForm.valid || isLoading"
       [ngClass]="{ 'btn--disabled': !signupForm.valid || isLoading }"
     >
       Sign Up

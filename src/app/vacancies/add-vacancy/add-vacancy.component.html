@@ -99,6 +99,7 @@
 
     <button
       type="submit"
+      [disabled]="!addVacancyForm.valid || isLoading"
       class="btn btn--with-shadow btn--submit"
       [ngClass]="{ 'btn--disabled': !addVacancyForm.valid || isLoading }"
     >

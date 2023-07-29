@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.store.dispatch(AuthActions.loginStart(this.loginForm.value));
-    this.loginForm.reset();
   }
 
   ngOnDestroy(): void {
