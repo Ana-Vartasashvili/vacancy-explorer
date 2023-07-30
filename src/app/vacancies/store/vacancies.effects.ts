@@ -97,13 +97,12 @@ export class VacanciesEffects {
           return where(query.queryFieldPath, query.operator, query.value);
         });
 
-        const q = query(
+        const baseQuery = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active'),
           limit(10)
         );
-
-        const combinedQuery = query(q, ...queries);
+        const combinedQuery = query(baseQuery, ...queries);
 
         return from(getDocs(combinedQuery)).pipe(
           map((resData: QuerySnapshot<Vacancy>) => {

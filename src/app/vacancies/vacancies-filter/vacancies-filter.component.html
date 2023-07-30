@@ -1,31 +1,31 @@
 <form class="filters" [formGroup]="filtersForm">
   <div
     class="filter-block"
-    *ngFor="let filterOption of filterOptionNames"
-    [formGroupName]="filterOption"
+    *ngFor="let formGroup of formGroupNames"
+    [formGroupName]="formGroup"
   >
     <div
       class="filter-block__trigger"
-      (click)="setFilterBlockIsOpen(filterOption)"
+      (click)="setFilterBlockIsOpen(formGroup)"
     >
-      <p>{{ filterOption }}</p>
-      <mat-icon
-        [@openClose]="filterBlockIsOpen(filterOption) ? 'open' : 'close'"
+      <p>{{ formGroup }}</p>
+      <mat-icon [@openClose]="filterBlockIsOpen(formGroup) ? 'open' : 'close'"
         >keyboard_arrow_down</mat-icon
       >
     </div>
 
-    <div class="filter-options" *ngIf="filterBlockIsOpen(filterOption)" @fade>
-      <div class="filter-option" *ngFor="let option of filters[filterOption]">
+    <div class="filter-options" *ngIf="filterBlockIsOpen(formGroup)" @fade>
+      <div class="filter-option" *ngFor="let formControl of filters[formGroup]">
         <input
+          (change)="onClick(formGroup, formControl)"
           type="checkbox"
           class="filter-option__input"
-          id="{{ option }}"
-          name="{{ option }}"
-          [formControlName]="option"
+          id="{{ formControl }}"
+          name="{{ formControl }}"
+          [formControlName]="formControl"
         />
-        <label class="filter-option__label" for="{{ option }}">{{
-          option
+        <label class="filter-option__label" for="{{ formControl }}">{{
+          formControl
         }}</label>
       </div>
     </div>

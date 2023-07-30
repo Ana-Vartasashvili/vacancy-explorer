@@ -8,7 +8,7 @@ import { FormControls, FormGroups, Options } from './vacancies-filter.types';
 export class VacanciesFilterService {
   filtersForm: FormGroup;
   options: Options = {
-    Category: [
+    category: [
       'Sales',
       'Customer relations',
       'Horeca',
@@ -46,7 +46,7 @@ export class VacanciesFilterService {
       'Media',
     ],
 
-    'Employement type': [
+    employementType: [
       'Full time',
       'Part time',
       'Hourly',
@@ -55,9 +55,9 @@ export class VacanciesFilterService {
       'Shifts',
     ],
 
-    'Working type': ['Office', 'On-site', 'Remote ', 'Hybrid'],
+    workingType: ['Office', 'On-site', 'Remote ', 'Hybrid'],
 
-    Experience: [
+    experience: [
       'Not required',
       'Less than a year',
       '1-2 years',
@@ -66,7 +66,7 @@ export class VacanciesFilterService {
       '5+ years',
     ],
 
-    City: ['Tbilisi', 'Batumi', 'Kutaisi', 'Rustavi'],
+    city: ['Tbilisi', 'Batumi', 'Kutaisi', 'Rustavi'],
   };
 
   constructor() {
