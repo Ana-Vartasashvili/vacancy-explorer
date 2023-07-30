@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   ArrowRotateAnimation,
@@ -13,17 +13,21 @@ import { Options } from './vacancies-filter.types';
   styleUrls: ['./vacancies-filter.component.scss'],
   animations: [ArrowRotateAnimation, FilterBlockAnimation],
 })
-export class VacanciesFilterComponent {
+export class VacanciesFilterComponent implements OnInit {
   filtersForm: FormGroup;
   filters: Options;
   openedFilterBlocks: string[] = [];
+  filterOptionNames: string[];
 
-  constructor(private vacanciesFilterService: VacanciesFilterService) {
+  constructor(private vacanciesFilterService: VacanciesFilterService) {}
+
+  ngOnInit(): void {
     this.filtersForm = this.vacanciesFilterService.filtersForm;
     this.filters = this.vacanciesFilterService.options;
-    // this.openedFilterBlocks = this.filters.map((filter) =>
-    //   filter.filterName === 'Sphere' ? '' : filter.filterName
-    // );
+    this.filterOptionNames = Object.keys(this.filters);
+    this.openedFilterBlocks = this.filterOptionNames.map((optionName) =>
+      optionName === 'Category' ? '' : optionName
+    );
   }
 
   setFilterBlockIsOpen(filterBlockName: string) {
