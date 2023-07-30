@@ -13,11 +13,19 @@
       </div>
     </div>
 
+    <app-loading-spinner
+      *ngIf="isLoading"
+      class="vacancies__loading-spinner"
+    ></app-loading-spinner>
+
     <div class="vacancies__list">
-      <app-vacancy-card></app-vacancy-card>
-      <app-vacancy-card></app-vacancy-card>
-      <app-vacancy-card></app-vacancy-card>
-      <app-vacancy-card></app-vacancy-card>
+      <app-vacancy-card
+        *ngFor="let vacancy of vacancies"
+        [cityName]="vacancy.city"
+        [companyName]="vacancy.companyName"
+        [createdAt]="vacancy.createdAt"
+        [vacancyTitle]="vacancy.jobTitle"
+      ></app-vacancy-card>
     </div>
   </section>
 </main>

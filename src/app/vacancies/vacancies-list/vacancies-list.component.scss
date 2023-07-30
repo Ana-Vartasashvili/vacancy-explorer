@@ -6,4 +6,14 @@
   @media (max-width: 65rem) {
     grid-template-columns: 1fr;
   }
+
+  &__loading-spinner {
+    @include flex;
+  }
+
+  &__no-vacancies-text {
+    margin-top: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+  }
 }

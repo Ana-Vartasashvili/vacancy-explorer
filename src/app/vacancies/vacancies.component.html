@@ -19,13 +19,22 @@
           >filter_list</mat-icon
         >
 
-        <div class="vacancies__search">
+        <form
+          class="vacancies__search"
+          [formGroup]="searchForm"
+          (submit)="onSubmit()"
+        >
           <mat-icon>search</mat-icon>
           <input
             type="text"
             class="vacancies__search__input"
             placeholder="Search"
+            formControlName="jobTitle"
           />
+        </form>
+
+        <div class="vacancies__fetch-all" (click)="fetchAllVacancies()">
+          All vacancies
         </div>
       </div>
 

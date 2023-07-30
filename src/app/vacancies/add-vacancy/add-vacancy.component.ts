@@ -44,9 +44,18 @@ export class AddVacancyComponent implements OnInit, OnDestroy {
       workingType: new FormControl(''),
       employementType: new FormControl(''),
       experience: new FormControl(''),
-      jobTitle: new FormControl('', AppValidators.required),
-      companyName: new FormControl('', AppValidators.required),
-      jobDescription: new FormControl('', AppValidators.required),
+      jobTitle: new FormControl('', [
+        AppValidators.required,
+        AppValidators.noWhiteSpaces,
+      ]),
+      companyName: new FormControl('', [
+        AppValidators.required,
+        AppValidators.noWhiteSpaces,
+      ]),
+      jobDescription: new FormControl('', [
+        AppValidators.required,
+        AppValidators.noWhiteSpaces,
+      ]),
       city: new FormControl(''),
       salary: new FormControl('', [
         AppValidators.required,
@@ -60,6 +69,10 @@ export class AddVacancyComponent implements OnInit, OnDestroy {
       this.addVacancyForm.get(formControlName).touched &&
       this.addVacancyForm.get(formControlName).invalid
     );
+  }
+
+  getErrorMessage(formControlName: string): { [error: string]: string } {
+    return Object.values(this.addVacancyForm.get(formControlName).errors)[0];
   }
 
   onSubmit() {

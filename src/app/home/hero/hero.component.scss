@@ -19,12 +19,8 @@
   }
 
   &__heading {
-    font-size: 8.5rem;
+    font-size: 7.2rem;
     margin-bottom: 3rem;
-
-    @media (max-width: 71rem) {
-      font-size: 7rem;
-    }
 
     @media (max-width: 65rem) {
       font-size: 5rem;

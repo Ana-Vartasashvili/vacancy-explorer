@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldModule,
@@ -10,11 +11,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { FlashMessageComponent } from './flash-message/flash-message.component';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { InputComponent } from './input/input.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { DatePipe } from './pipes/date.pipe';
 import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
 import { SelectComponent } from './select/select.component';
 import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InputComponent,
     SelectComponent,
     SelectMultipleComponent,
+    DatePipe,
+    LoadingSpinnerComponent,
   ],
   providers: [
     {
@@ -48,6 +52,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InputComponent,
     SelectComponent,
     SelectMultipleComponent,
+    LoadingSpinnerComponent,
   ],
 })
 export class SharedModule {}

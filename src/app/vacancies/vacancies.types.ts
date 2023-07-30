@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Vacancy {
   category: string;
   workingType: string;
@@ -8,4 +10,7 @@ export interface Vacancy {
   jobDescription: string;
   city: string;
   salary: number;
+  id: string;
+  status: string;
+  createdAt: Timestamp;
 }

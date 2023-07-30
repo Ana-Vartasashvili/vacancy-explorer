@@ -88,5 +88,13 @@
     height: 10rem;
     outline: 0.1rem solid $color-gray;
     outline-offset: -0.1rem;
+    resize: vertical;
   }
+}
+
+@mixin truncateText($width) {
+  width: $width;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

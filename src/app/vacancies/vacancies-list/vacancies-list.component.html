@@ -1,9 +1,27 @@
-<div class="vacancies-list">
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
-  <app-vacancy-card></app-vacancy-card>
+<app-flash-message
+  [messageText]="vacanciesError"
+  messageType="error"
+  *ngIf="vacanciesError"
+></app-flash-message>
+
+<app-loading-spinner
+  *ngIf="isLoading"
+  class="vacancies-list__loading-spinner"
+></app-loading-spinner>
+
+<div
+  class="vacancies-list__no-vacancies-text"
+  *ngIf="!isLoading && vacancies.length === 0"
+>
+  No vacancies found.
+</div>
+
+<div class="vacancies-list" *ngIf="!isLoading && vacancies">
+  <app-vacancy-card
+    *ngFor="let vacancy of vacancies"
+    [cityName]="vacancy.city"
+    [companyName]="vacancy.companyName"
+    [vacancyTitle]="vacancy.jobTitle"
+    [createdAt]="vacancy.createdAt"
+  ></app-vacancy-card>
 </div>

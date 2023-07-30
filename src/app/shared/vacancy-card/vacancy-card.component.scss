@@ -15,14 +15,27 @@
   }
 
   &__title {
+    @include truncateText(30rem);
     font-size: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: $border-width-sm solid lighten($color-blue, 30%);
+
+    @media (max-width: 81rem) {
+      @include truncateText(24rem);
+    }
+
+    @media (max-width: 69rem) {
+      @include truncateText(20rem);
+    }
+
+    @media (max-width: 44rem) {
+      @include truncateText(60vw);
+    }
   }
 
   &__info {
     @include flex(0, row, space-between, flex-start);
+    border-top: $border-width-sm solid lighten($color-blue, 30%);
     margin-top: 2rem;
+    padding-top: 2rem;
   }
 
   &__location-company {
@@ -33,6 +46,23 @@
     @include flex;
     transform: translateX(-0.6rem);
     color: lighten($color-dark-gray, 30%);
+  }
+
+  &__company-name {
+    @include truncateText(23rem);
+    word-break: break-all;
+
+    @media (max-width: 81rem) {
+      @include truncateText(18rem);
+    }
+
+    @media (max-width: 69rem) {
+      @include truncateText(14rem);
+    }
+
+    @media (max-width: 44rem) {
+      @include truncateText(40vw);
+    }
   }
 
   &__publish-date {

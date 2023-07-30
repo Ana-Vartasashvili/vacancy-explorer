@@ -13,7 +13,7 @@
 }
 
 .vacancies {
-  width: 75vw;
+  width: 65vw;
   max-width: 180rem;
   margin: 0 auto;
   margin-top: 7rem;
@@ -51,14 +51,14 @@
   }
 
   &__list {
-    @include grid(4rem, 1fr 1fr 1fr);
-
-    @media (max-width: 73rem) {
-      grid-template-columns: 1fr 1fr;
-    }
+    @include grid(4rem, 1fr 1fr);
 
     @media (max-width: 46rem) {
       grid-template-columns: 1fr;
     }
+  }
+
+  &__loading-spinner {
+    @include flex;
   }
 }

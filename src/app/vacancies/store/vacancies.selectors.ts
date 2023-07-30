@@ -18,3 +18,33 @@ export const addVacancyLoading = createSelector(
   vacancies,
   (state: VacanciesState) => state.addVacancyloading
 );
+
+export const vacanciesList = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.vacancies
+);
+
+export const vacanciesError = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.vacanciesError
+);
+
+export const vacanciesLoading = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.vacanciesLoading
+);
+
+export const latestVacanciesList = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.latestVacancies
+);
+
+export const latestVacanciesError = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.latestVacanciesError
+);
+
+export const latestVacanciesLoading = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.latestVacanciesLoading
+);
