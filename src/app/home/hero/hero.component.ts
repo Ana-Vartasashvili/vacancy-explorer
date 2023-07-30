@@ -36,7 +36,7 @@ export class HeroComponent implements OnInit {
         queries: [
           {
             queryFieldPath: 'jobTitle',
-            operator: 'array-contains',
+            operator: '==',
             value: jobTitle,
           },
         ],
