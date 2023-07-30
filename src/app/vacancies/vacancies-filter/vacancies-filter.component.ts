@@ -51,7 +51,7 @@ export class VacanciesFilterComponent implements OnInit {
     return this.openedFilterBlocks.includes(filterBlockName);
   }
 
-  onClick(formGroup: string, formControl: string) {
+  onChange(formGroup: string, formControl: string) {
     const formControlValue = this.filtersForm
       .get(formGroup)
       .get(formControl).value;

@@ -8,7 +8,7 @@
       class="filter-block__trigger"
       (click)="setFilterBlockIsOpen(formGroup)"
     >
-      <p>{{ formGroup }}</p>
+      <p>{{ formGroup | camelCaseToTitleCase }}</p>
       <mat-icon [@openClose]="filterBlockIsOpen(formGroup) ? 'open' : 'close'"
         >keyboard_arrow_down</mat-icon
       >
@@ -17,7 +17,7 @@
     <div class="filter-options" *ngIf="filterBlockIsOpen(formGroup)" @fade>
       <div class="filter-option" *ngFor="let formControl of filters[formGroup]">
         <input
-          (change)="onClick(formGroup, formControl)"
+          (change)="onChange(formGroup, formControl)"
           type="checkbox"
           class="filter-option__input"
           id="{{ formControl }}"

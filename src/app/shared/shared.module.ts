@@ -13,6 +13,7 @@ import { FormContainerComponent } from './form-container/form-container.componen
 import { InputComponent } from './input/input.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CamelCaseToTitleCasePipe } from './pipes/camel-case-to-title-case.pipe';
 import { DatePipe } from './pipes/date.pipe';
 import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
 import { SelectComponent } from './select/select.component';
@@ -29,6 +30,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     SelectMultipleComponent,
     DatePipe,
     LoadingSpinnerComponent,
+    CamelCaseToTitleCasePipe,
   ],
   providers: [
     {
@@ -53,6 +55,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     SelectComponent,
     SelectMultipleComponent,
     LoadingSpinnerComponent,
+    CamelCaseToTitleCasePipe,
   ],
 })
 export class SharedModule {}
