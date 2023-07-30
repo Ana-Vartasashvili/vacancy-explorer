@@ -1,9 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { Vacancy } from '../vacancies.types';
+import { WhereFilterOp } from 'firebase/firestore';
 
 export interface Query {
   queryFieldPath: string;
   value: string;
+  operator: WhereFilterOp;
 }
 
 export const startAddingVacancy = createAction(
@@ -41,4 +43,22 @@ export const getVacanciesFailed = createAction(
 
 export const clearVacanciesError = createAction(
   '[Vacancies] Clear Vacancies Error'
+);
+
+export const startFetchingLatestVacancies = createAction(
+  '[Vacancies] Start Fetching Latest Vacancies'
+);
+
+export const setLatestVacancies = createAction(
+  '[Vacancies] Set Latest Vacancies',
+  props<{ latestVacancies: Vacancy[] }>()
+);
+
+export const fetchLatestVacanciesFailed = createAction(
+  '[Vacancies] Fetch Latest Vacancies Failed',
+  props<{ errorMessage: string }>()
+);
+
+export const clearLatestVacanciesError = createAction(
+  '[Vacancies] Clear Latest Vacancies Error'
 );

@@ -70,13 +70,11 @@
       }
 
       @media (max-width: 46rem) {
+        width: 100%;
+
         &:focus {
           width: 100%;
         }
-      }
-
-      @media (max-width: 23rem) {
-        width: 100%;
       }
     }
   }

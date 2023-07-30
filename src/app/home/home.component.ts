@@ -20,9 +20,9 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
-      this.vacancies = vacanciesState.vacancies.slice(0, 6);
-      this.isLoading = vacanciesState.vacanciesLoading;
-      this.vacanciesError = vacanciesState.vacanciesError;
+      this.vacancies = vacanciesState.latestVacancies.slice(0, 6);
+      this.isLoading = vacanciesState.latestVacanciesLoading;
+      this.vacanciesError = vacanciesState.latestVacanciesError;
     });
   }
 

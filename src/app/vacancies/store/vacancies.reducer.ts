@@ -9,6 +9,9 @@ export interface VacanciesState {
   vacancies: Vacancy[];
   vacanciesError: string;
   vacanciesLoading: boolean;
+  latestVacancies: Vacancy[];
+  latestVacanciesError: string;
+  latestVacanciesLoading: boolean;
 }
 
 const initialState: VacanciesState = {
@@ -18,6 +21,9 @@ const initialState: VacanciesState = {
   vacancies: [],
   vacanciesError: null,
   vacanciesLoading: false,
+  latestVacancies: [],
+  latestVacanciesError: null,
+  latestVacanciesLoading: false,
 };
 
 export const VacanciesReducer = createReducer(
@@ -75,5 +81,32 @@ export const VacanciesReducer = createReducer(
     ...state,
     vacanciesError: null,
     vacanciesLoading: false,
+  })),
+
+  on(VacanciesActions.startFetchingLatestVacancies, (state) => ({
+    ...state,
+    latestVacancies: [],
+    latestVacanciesLoading: true,
+    latestVacanciesError: null,
+  })),
+
+  on(VacanciesActions.setLatestVacancies, (state, action) => ({
+    ...state,
+    latestVacancies: action.latestVacancies,
+    latestVacanciesLoading: false,
+    latestVacanciesError: null,
+  })),
+
+  on(VacanciesActions.fetchLatestVacanciesFailed, (state, action) => ({
+    ...state,
+    latestVacancies: [],
+    latestVacanciesLoading: false,
+    latestVacanciesError: action.errorMessage,
+  })),
+
+  on(VacanciesActions.clearLatestVacanciesError, (state) => ({
+    ...state,
+    latestVacanciesLoading: false,
+    latestVacanciesError: null,
   }))
 );

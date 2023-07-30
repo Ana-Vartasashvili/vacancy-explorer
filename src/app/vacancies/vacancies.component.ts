@@ -41,7 +41,13 @@ export class VacanciesComponent implements OnInit {
     if (jobTitle) {
       this.store.dispatch(
         startFetchingVacancies({
-          queries: [{ queryFieldPath: 'jobTitle', value: jobTitle }],
+          queries: [
+            {
+              queryFieldPath: 'jobTitle',
+              operator: '==',
+              value: jobTitle,
+            },
+          ],
         })
       );
     }

@@ -33,7 +33,13 @@ export class HeroComponent implements OnInit {
     const jobTitle = this.searchForm.value.jobTitle.trim();
     this.store.dispatch(
       startFetchingVacancies({
-        queries: [{ queryFieldPath: 'jobTitle', value: jobTitle }],
+        queries: [
+          {
+            queryFieldPath: 'jobTitle',
+            operator: 'array-contains',
+            value: jobTitle,
+          },
+        ],
       })
     );
     this.router.navigate(['/vacancies'], { relativeTo: this.route });

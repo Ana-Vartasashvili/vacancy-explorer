@@ -19,6 +19,7 @@ import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import {
   clearAddVacancyMessage,
+  clearLatestVacanciesError,
   clearVacanciesError,
 } from './vacancies.actions';
 
@@ -93,7 +94,7 @@ export class VacanciesEffects {
       ofType(VacanciesActions.startFetchingVacancies),
       switchMap((startFetchingAction) => {
         const queries = startFetchingAction.queries.map((query) => {
-          return where(query.queryFieldPath, '==', query.value);
+          return where(query.queryFieldPath, query.operator, query.value);
         });
 
         const q = query(
@@ -122,6 +123,42 @@ export class VacanciesEffects {
             return of(
               VacanciesActions.getVacanciesFailed({
                 errorMessage: 'Could not fetch vacancies.',
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  fetchLatestVacancies = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.startFetchingLatestVacancies),
+      switchMap((startFetchingAction) => {
+        const q = query(
+          collection(db, 'vacancies'),
+          where('status', '==', 'active'),
+          limit(6)
+        );
+
+        return from(getDocs(q)).pipe(
+          map((resData: QuerySnapshot<Vacancy>) => {
+            let latestVacancies: Vacancy[] = [];
+
+            resData.forEach((doc) => {
+              latestVacancies.push(doc.data());
+            });
+
+            return VacanciesActions.setLatestVacancies({ latestVacancies });
+          }),
+          catchError(() => {
+            setTimeout(() => {
+              this.store.dispatch(clearLatestVacanciesError());
+            }, 3500);
+
+            return of(
+              VacanciesActions.fetchLatestVacanciesFailed({
+                errorMessage: 'Could not fetch latest vacancies.',
               })
             );
           })

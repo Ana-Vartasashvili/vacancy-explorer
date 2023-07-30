@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { autoLoginStart } from './auth/store/auth.actions';
 import { AppState } from './store/app.reducer';
-import { startFetchingVacancies } from './vacancies/store/vacancies.actions';
+import {
+  startFetchingLatestVacancies,
+  startFetchingVacancies,
+} from './vacancies/store/vacancies.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(autoLoginStart());
+    this.store.dispatch(startFetchingLatestVacancies());
     this.store.dispatch(
       startFetchingVacancies({
         queries: [],
