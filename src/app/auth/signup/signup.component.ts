@@ -32,11 +32,13 @@ export class SignupComponent implements OnInit, OnDestroy {
     return new FormGroup({
       firstName: new FormControl('', [
         AppValidators.required,
+        AppValidators.noWhiteSpaces,
         AppValidators.minLength(2),
         AppValidators.maxLength(15),
       ]),
       lastName: new FormControl('', [
         AppValidators.required,
+        AppValidators.noWhiteSpaces,
         AppValidators.minLength(2),
         AppValidators.maxLength(30),
       ]),

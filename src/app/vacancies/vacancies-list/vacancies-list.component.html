@@ -9,7 +9,14 @@
   class="vacancies-list__loading-spinner"
 ></app-loading-spinner>
 
-<div class="vacancies-list">
+<div
+  class="vacancies-list__no-vacancies-text"
+  *ngIf="!isLoading && vacancies.length === 0"
+>
+  No vacancies found.
+</div>
+
+<div class="vacancies-list" *ngIf="!isLoading && vacancies">
   <app-vacancy-card
     *ngFor="let vacancy of vacancies"
     [cityName]="vacancy.city"

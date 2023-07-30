@@ -92,13 +92,19 @@ export class VacanciesEffects {
     this.actions$.pipe(
       ofType(VacanciesActions.startFetchingVacancies),
       switchMap((startFetchingAction) => {
+        const queries = startFetchingAction.queries.map((query) => {
+          return where(query.queryFieldPath, '==', query.value);
+        });
+
         const q = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active'),
           limit(10)
         );
 
-        return from(getDocs(q)).pipe(
+        const combinedQuery = query(q, ...queries);
+
+        return from(getDocs(combinedQuery)).pipe(
           map((resData: QuerySnapshot<Vacancy>) => {
             let vacancies: Vacancy[] = [];
 
@@ -106,7 +112,7 @@ export class VacanciesEffects {
               vacancies.push(doc.data());
             });
 
-            return VacanciesActions.getVacancies({ vacancies });
+            return VacanciesActions.setVacancies({ vacancies });
           }),
           catchError(() => {
             setTimeout(() => {

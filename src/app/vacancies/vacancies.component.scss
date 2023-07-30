@@ -80,6 +80,12 @@
       }
     }
   }
+
+  &__fetch-all {
+    color: $color-blue;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
 }
 
 .overlay {

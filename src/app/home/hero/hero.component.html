@@ -5,9 +5,20 @@
     <div class="hero__search">
       <mat-icon class="hero__search-icon">search</mat-icon>
 
-      <form class="hero__search-form">
-        <input type="text" class="hero__search-input" placeholder="Job title" />
-        <button class="btn btn--with-shadow">Search</button>
+      <form
+        [formGroup]="searchForm"
+        class="hero__search-form"
+        (submit)="onSubmit()"
+      >
+        <input
+          type="text"
+          class="hero__search-input"
+          placeholder="Job title"
+          formControlName="jobTitle"
+        />
+        <button class="btn btn--with-shadow" [disabled]="!searchForm.valid">
+          Search
+        </button>
       </form>
     </div>
   </div>

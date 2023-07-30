@@ -57,7 +57,7 @@ export const VacanciesReducer = createReducer(
     vacanciesLoading: true,
   })),
 
-  on(VacanciesActions.getVacancies, (state, action) => ({
+  on(VacanciesActions.setVacancies, (state, action) => ({
     ...state,
     vacancies: action.vacancies,
     vacanciesError: null,

@@ -34,6 +34,12 @@ export class AppValidators extends Validators {
       : undefined;
   }
 
+  static noWhiteSpaces(control: AbstractControl) {
+    return control.value.trim().length
+      ? null
+      : { whiteSpace: 'Field can not contain only white spaces.' };
+  }
+
   static matchValues(
     matchTo: string
   ): (AbstractControl) => ValidationErrors | null {

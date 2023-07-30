@@ -1,6 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { Vacancy } from '../vacancies.types';
 
+export interface Query {
+  queryFieldPath: string;
+  value: string;
+}
+
 export const startAddingVacancy = createAction(
   '[Vacancies] Start Adding Vacancy',
   props<Vacancy>()
@@ -20,11 +25,12 @@ export const clearAddVacancyMessage = createAction(
 );
 
 export const startFetchingVacancies = createAction(
-  '[Vacancies] Start Fetching Vacancies'
+  '[Vacancies] Start Fetching Vacancies',
+  props<{ queries: Query[] }>()
 );
 
-export const getVacancies = createAction(
-  '[Vacancies] Get Vacancies',
+export const setVacancies = createAction(
+  '[Vacancies] Set Vacancies',
   props<{ vacancies: Vacancy[] }>()
 );
 
