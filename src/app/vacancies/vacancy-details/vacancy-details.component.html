@@ -1,79 +1,98 @@
 <section class="details">
-  <div class="details__heading">
-    <h2 class="details__job-title">{{ vacancy.jobTitle }}</h2>
-    <span class="details__location">
-      <mat-icon class="details__location-icon">location_on</mat-icon>
-      <span class="details__location-text">{{ vacancy.city }}</span>
-    </span>
+  <app-loading-spinner
+    *ngIf="!vacancy"
+    class="loading-spinner"
+  ></app-loading-spinner>
 
-    <div class="details__badges">
-      <div class="details__badges__badge">{{ vacancy.employementType }}</div>
-      <div class="details__badges__badge">{{ vacancy.experience }}</div>
-      <div class="details__badges__badge">{{ vacancy.workingType }}</div>
+  <div class="details-container" *ngIf="vacancy">
+    <div class="details__heading-container">
+      <div class="details__heading">
+        <h2 class="details__job-title">{{ vacancy.jobTitle }}</h2>
+        <span class="details__location">
+          <mat-icon class="details__location-icon">location_on</mat-icon>
+          <span class="details__location-text">{{ vacancy.city }}</span>
+        </span>
+
+        <div class="details__badges">
+          <div class="details__badges__badge">
+            {{ vacancy.employementType }}
+          </div>
+          <div class="details__badges__badge">{{ vacancy.experience }}</div>
+          <div class="details__badges__badge">{{ vacancy.workingType }}</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="details__content">
-    <div class="details__description">
-      <h4 class="details__description__title">Vacancy Description</h4>
-      <p class="details__description__text">
-        {{ vacancy.jobDescription }}
-      </p>
-    </div>
-
-    <div class="details__more-info">
-      <h4 class="details__more-info__title">Details</h4>
-
-      <div class="details__more-info__block">
-        <mat-icon class="details__more-info__block-icon">attach_money</mat-icon>
-
-        <div class="details__more-info__block-content">
-          <span class="details__more-info__block-title">Salary</span>
-          <span class="details__more-info__block-text">{{
-            vacancy.salary
-          }}</span>
-        </div>
+    <div class="details__content">
+      <div class="details__description">
+        <h4 class="details__description__title">Vacancy Description</h4>
+        <p class="details__description__text">
+          {{ vacancy.jobDescription }}
+        </p>
       </div>
 
-      <div class="details__more-info__block">
-        <mat-icon class="details__more-info__block-icon">access_time</mat-icon>
+      <div class="details__more-info">
+        <h4 class="details__more-info__title">Details</h4>
 
-        <div class="details__more-info__block-content">
-          <span class="details__more-info__block-title">Employement type</span>
-          <span class="details__more-info__block-text">Full time</span>
+        <div class="details__more-info__block">
+          <mat-icon class="details__more-info__block-icon"
+            >attach_money</mat-icon
+          >
+
+          <div class="details__more-info__block-content">
+            <span class="details__more-info__block-title">Salary</span>
+            <span class="details__more-info__block-text">{{
+              vacancy.salary
+            }}</span>
+          </div>
         </div>
-      </div>
 
-      <div class="details__more-info__block">
-        <mat-icon class="details__more-info__block-icon">person</mat-icon>
+        <div class="details__more-info__block">
+          <mat-icon class="details__more-info__block-icon"
+            >access_time</mat-icon
+          >
 
-        <div class="details__more-info__block-content">
-          <span class="details__more-info__block-title">Experience</span>
-          <span class="details__more-info__block-text">{{
-            vacancy.experience
-          }}</span>
+          <div class="details__more-info__block-content">
+            <span class="details__more-info__block-title"
+              >Employement type</span
+            >
+            <span class="details__more-info__block-text">Full time</span>
+          </div>
         </div>
-      </div>
 
-      <div class="details__more-info__block">
-        <mat-icon class="details__more-info__block-icon">work_outline</mat-icon>
+        <div class="details__more-info__block">
+          <mat-icon class="details__more-info__block-icon">person</mat-icon>
 
-        <div class="details__more-info__block-content">
-          <span class="details__more-info__block-title">Working type</span>
-          <span class="details__more-info__block-text">{{
-            vacancy.workingType
-          }}</span>
+          <div class="details__more-info__block-content">
+            <span class="details__more-info__block-title">Experience</span>
+            <span class="details__more-info__block-text">{{
+              vacancy.experience
+            }}</span>
+          </div>
         </div>
-      </div>
 
-      <div class="details__more-info__block">
-        <mat-icon class="details__more-info__block-icon">business</mat-icon>
+        <div class="details__more-info__block">
+          <mat-icon class="details__more-info__block-icon"
+            >work_outline</mat-icon
+          >
 
-        <div class="details__more-info__block-content">
-          <span class="details__more-info__block-title">Company</span>
-          <span class="details__more-info__block-text">{{
-            vacancy.companyName
-          }}</span>
+          <div class="details__more-info__block-content">
+            <span class="details__more-info__block-title">Working type</span>
+            <span class="details__more-info__block-text">{{
+              vacancy.workingType
+            }}</span>
+          </div>
+        </div>
+
+        <div class="details__more-info__block">
+          <mat-icon class="details__more-info__block-icon">business</mat-icon>
+
+          <div class="details__more-info__block-content">
+            <span class="details__more-info__block-title">Company</span>
+            <span class="details__more-info__block-text">{{
+              vacancy.companyName
+            }}</span>
+          </div>
         </div>
       </div>
     </div>

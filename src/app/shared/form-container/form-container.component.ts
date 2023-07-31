@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./form-container.component.scss'],
 })
 export class FormContainerComponent {
-  @Input() authHeading: string;
+  @Input() formHeading: string;
 }

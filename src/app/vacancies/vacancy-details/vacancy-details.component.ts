@@ -20,7 +20,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.vacancyId = this.route.snapshot.params['vacancyId'];
-    this.store.select(vacanciesList).subscribe((vacancies) => {
+    this.storeSub = this.store.select(vacanciesList).subscribe((vacancies) => {
       this.vacancy = vacancies.find((vacancy) => {
         return vacancy.id === this.vacancyId;
       });

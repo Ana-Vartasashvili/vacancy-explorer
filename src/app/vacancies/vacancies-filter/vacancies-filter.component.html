@@ -1,3 +1,9 @@
+<div
+  class="overlay"
+  *ngIf="filterbarIsShown"
+  (click)="setSidebarVisibility()"
+></div>
+
 <form
   class="filters"
   [ngClass]="{
