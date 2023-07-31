@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
@@ -17,12 +17,13 @@ import { Options } from './vacancies-filter.types';
   animations: [ArrowRotateAnimation, FilterBlockAnimation],
 })
 export class VacanciesFilterComponent implements OnInit {
+  @Input() filterbarIsShown: boolean;
+  @Output() sidebarClosed = new EventEmitter();
   filtersForm: FormGroup;
   filters: Options;
   openedFilterBlocks: string[] = [];
   formGroupNames: string[];
   queries: Query[] = [];
-  @Input() filterbarIsShown: boolean;
 
   constructor(
     private vacanciesFilterService: VacanciesFilterService,
@@ -50,6 +51,10 @@ export class VacanciesFilterComponent implements OnInit {
 
   filterBlockIsOpen(filterBlockName: string) {
     return this.openedFilterBlocks.includes(filterBlockName);
+  }
+
+  setSidebarVisibility() {
+    this.sidebarClosed.emit();
   }
 
   onChange(formGroup: string, formControl: string) {

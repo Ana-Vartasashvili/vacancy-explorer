@@ -8,6 +8,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
 import { FlashMessageComponent } from './flash-message/flash-message.component';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { InputComponent } from './input/input.component';
@@ -46,6 +47,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    RouterModule,
   ],
   exports: [
     VacancyCardComponent,

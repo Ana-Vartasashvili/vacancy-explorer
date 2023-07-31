@@ -2,6 +2,7 @@
   <div class="vacancies__container">
     <app-vacancies-filter
       [filterbarIsShown]="filterbarIsShown"
+      (sidebarClosed)="setFilterbarIsShown(false)"
     ></app-vacancies-filter>
 
     <div class="vacancies__main-content">

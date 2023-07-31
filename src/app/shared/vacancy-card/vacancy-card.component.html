@@ -1,15 +1,17 @@
-<div class="vacancy">
-  <h3 class="vacancy__title">{{ vacancyTitle }}</h3>
+<a [routerLink]="['/vacancies', vacancyId]" class="vacancy__link">
+  <div class="vacancy">
+    <h3 class="vacancy__title">{{ vacancyTitle }}</h3>
 
-  <div class="vacancy__info">
-    <div class="vacancy__location-company">
-      <p class="vacancy__company-name">{{ companyName }}</p>
-      <p class="vacancy__location">
-        <mat-icon>location_on</mat-icon>
-        <span>{{ cityName }}</span>
-      </p>
+    <div class="vacancy__info">
+      <div class="vacancy__location-company">
+        <p class="vacancy__company-name">{{ companyName }}</p>
+        <p class="vacancy__location">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ cityName }}</span>
+        </p>
+      </div>
+
+      <span class="vacancy__publish-date">{{ createdAt | date }}</span>
     </div>
-
-    <span class="vacancy__publish-date">{{ createdAt | date }}</span>
   </div>
-</div>
+</a>

@@ -11,4 +11,5 @@ export class VacancyCardComponent {
   @Input() companyName: string;
   @Input() cityName: string;
   @Input() createdAt: Timestamp;
+  @Input() vacancyId: string;
 }

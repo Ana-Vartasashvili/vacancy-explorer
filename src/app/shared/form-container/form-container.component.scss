@@ -1,11 +1,12 @@
 @import "../../../styles.scss";
 
-.auth {
+.form {
   min-height: calc(100vh - 6.3rem);
 
   &__container {
     @include flex(3rem, column);
     padding-top: 5rem;
+    padding: 5rem 2rem 0 2rem;
   }
 
   &__heading {

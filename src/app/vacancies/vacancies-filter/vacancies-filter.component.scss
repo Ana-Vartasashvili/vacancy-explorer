@@ -80,12 +80,16 @@
 
 @media (max-width: 46rem) {
   .filters-visible {
-    @include position(fixed, 6.3rem);
+    @include position(fixed, 6.3rem, 0);
     display: block;
     padding-left: 1.2rem;
   }
 
   .filters-hidden {
     display: none;
+  }
+
+  .overlay {
+    @include overlay;
   }
 }
