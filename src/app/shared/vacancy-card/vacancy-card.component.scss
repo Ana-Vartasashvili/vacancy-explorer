@@ -14,6 +14,10 @@
     border: $border-width-sm solid $color-black;
   }
 
+  &__link {
+    @extend %link-default;
+  }
+
   &__title {
     @include truncateText(30rem);
     font-size: 2rem;
