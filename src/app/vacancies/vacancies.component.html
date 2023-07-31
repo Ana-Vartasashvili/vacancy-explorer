@@ -1,15 +1,8 @@
 <section class="vacancies">
   <div class="vacancies__container">
-    <app-vacancies-filter></app-vacancies-filter>
-
-    <div
-      *ngIf="filterbarIsShown"
-      class="overlay"
-      (click)="setFilterbarIsShown(false)"
-    ></div>
-    <app-vacancies-filter-bar
-      *ngIf="filterbarIsShown"
-    ></app-vacancies-filter-bar>
+    <app-vacancies-filter
+      [filterbarIsShown]="filterbarIsShown"
+    ></app-vacancies-filter>
 
     <div class="vacancies__main-content">
       <div class="vacancies__header">

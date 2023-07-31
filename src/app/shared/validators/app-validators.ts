@@ -35,6 +35,7 @@ export class AppValidators extends Validators {
   }
 
   static noWhiteSpaces(control: AbstractControl) {
+    if (control.value == null) return null;
     return control.value.trim().length
       ? null
       : { whiteSpace: 'Field can not contain only white spaces.' };
