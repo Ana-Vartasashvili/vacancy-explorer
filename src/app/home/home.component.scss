@@ -15,8 +15,10 @@
 .vacancies {
   width: 65vw;
   max-width: 180rem;
+  min-height: 25rem;
   margin: 0 auto;
   margin-top: 7rem;
+  position: relative;
 
   @media (max-width: 65rem) {
     width: 100%;

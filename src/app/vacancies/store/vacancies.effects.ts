@@ -7,6 +7,7 @@ import {
   doc,
   getDocs,
   limit,
+  or,
   query,
   serverTimestamp,
   setDoc,
@@ -102,7 +103,7 @@ export class VacanciesEffects {
           where('status', '==', 'active'),
           limit(10)
         );
-        const combinedQuery = query(baseQuery, ...queries);
+        const combinedQuery = query(baseQuery, or(...queries));
 
         return from(getDocs(combinedQuery)).pipe(
           map((resData: QuerySnapshot<Vacancy>) => {
