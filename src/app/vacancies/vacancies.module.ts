@@ -10,6 +10,7 @@ import { VacanciesListComponent } from './vacancies-list/vacancies-list.componen
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
 import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.component';
+import { MyVacanciesComponent } from './my-vacancies/my-vacancies.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.compo
     VacanciesFilterComponent,
     AddVacancyComponent,
     VacancyDetailsComponent,
+    MyVacanciesComponent,
   ],
   imports: [
     VacanciesRoutingModule,

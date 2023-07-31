@@ -33,6 +33,16 @@
         >Add vacancy</a
       >
     </li>
+
+    <li *ngIf="currentUser">
+      <a
+        routerLink="/vacancies/my-vacancies"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__list-item"
+        >My vacancies</a
+      >
+    </li>
   </ul>
 
   <div class="nav__auth" *ngIf="!isLoading">

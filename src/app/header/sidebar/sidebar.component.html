@@ -34,6 +34,19 @@
         >Add vacancy</a
       >
     </li>
+
+    <li
+      class="sidebar__list-item"
+      (click)="setSidebarIsHidden()"
+      *ngIf="currentUser"
+    >
+      <a
+        class="sidebar__list-item__link"
+        routerLink="/vacancies/my-vacancies"
+        routerLinkActive="active"
+        >My vacancies</a
+      >
+    </li>
   </ul>
 
   <a

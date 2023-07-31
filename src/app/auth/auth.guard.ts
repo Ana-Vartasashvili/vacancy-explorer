@@ -6,11 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from '../store/app.reducer';
-import { user } from './store/auth.selectors';
-import { User } from './user.model';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -20,13 +16,9 @@ export const authGuard: CanActivateFn = (
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree => {
-  let currentUser: User;
+  const token = localStorage.getItem('tokenData');
 
-  inject(Store<AppState>)
-    .select(user)
-    .subscribe((user) => (currentUser = user));
-
-  if (currentUser) {
+  if (token) {
     return true;
   } else {
     return inject(Router).createUrlTree(['/auth', 'login']);
