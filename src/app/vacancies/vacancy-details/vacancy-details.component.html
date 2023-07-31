@@ -1,15 +1,15 @@
 <section class="details">
   <div class="details__heading">
-    <h2 class="details__job-title">Web Developer</h2>
+    <h2 class="details__job-title">{{ vacancy.jobTitle }}</h2>
     <span class="details__location">
       <mat-icon class="details__location-icon">location_on</mat-icon>
-      <span class="details__location-text">Tbilisi</span>
+      <span class="details__location-text">{{ vacancy.city }}</span>
     </span>
 
     <div class="details__badges">
-      <div class="details__badges__badge">Full time</div>
-      <div class="details__badges__badge">1-2 years</div>
-      <div class="details__badges__badge">Hybrid</div>
+      <div class="details__badges__badge">{{ vacancy.employementType }}</div>
+      <div class="details__badges__badge">{{ vacancy.experience }}</div>
+      <div class="details__badges__badge">{{ vacancy.workingType }}</div>
     </div>
   </div>
 
@@ -17,26 +17,7 @@
     <div class="details__description">
       <h4 class="details__description__title">Vacancy Description</h4>
       <p class="details__description__text">
-        Vacancy description Dream House - დრიმ ჰაუსი აცხადებს ვაკანსიას უძრავი
-        ქონების გაყიდვების მენეჯერის (ბროკერის) პოზიციაზე. სამუშაო დრო: სრული
-        განაკვეთი (11:00-დან 19:00-მდე, შაბათი 11:00-დან 16:00-მდე) ანაზღაურება:
-        1200-4000+ ძირითადი მოვალეობები: პოტენციურ კლიენტებთან დაკავშირება
-        მომხმარებელთათვის კონსულტაციის გაწევა და მოლაპარაკების წარმოება
-        მონაცემთა ბაზების წარმოება, რეპორტინგი უშუალო ხელმძღვანელთან ძირითადი
-        მოვალეობები: პოტენციურ კლიენტებთან დაკავშირება მომხმარებელთათვის
-        კონსულტაციის გაწევა და მოლაპარაკების წარმოება მონაცემთა ბაზების
-        წარმოება, რეპორტინგი უშუალო ხელმძღვანელთან საკვალიფიკაციო მოთხოვნები:
-        აუცილებელია გამართული კომუნიკაციის უნარი აუცილებელია გამოცდილება
-        გაყიდვების ან მომსახურების სფეროში; MS Office-ის სამომხმარებლო დონეზე
-        ცოდნა. პოზიტიური განწყობა ცხოვრებისა და სამსახურის მიმართ აუცილებელია
-        აკადემიური ჩაცულობა (დრეს კოდი) ასაკი: 20 წლიდან პიროვნული
-        თვისებები/უნარები: ეფექტური კომუნიკაციისა და ინფორმაციის ანალიზის უნარი;
-        პასუხისმგებლობის მაღალი გრძნობა მიზანდასახულობა წარმატებისკენ სწრაფვა
-        სამუშაო გარემო: ჩვენთან დაგხვდებათ პროფესიონალებისგან დაკომპლექტებული
-        გუნდი, დიდი გამოცდილებით, რომლებიც შეგასწავლიან საქმეს უმაღლეს დონეზე,
-        ძალიან მეგობრულ და სასიამოვნო გარემოში. დაინტერესებულ კანდიდატებს
-        გთხოვთ, გადმოგვიგზავნოთ რეზიუმე ან დაგვიკავშირდით ნომერზე 568 58 08 08 .
-        მისამართი: თბილისი, საბურთალო, ჟ. შარტავას 3
+        {{ vacancy.jobDescription }}
       </p>
     </div>
 
@@ -48,7 +29,9 @@
 
         <div class="details__more-info__block-content">
           <span class="details__more-info__block-title">Salary</span>
-          <span class="details__more-info__block-text">2000 $</span>
+          <span class="details__more-info__block-text">{{
+            vacancy.salary
+          }}</span>
         </div>
       </div>
 
@@ -66,7 +49,9 @@
 
         <div class="details__more-info__block-content">
           <span class="details__more-info__block-title">Experience</span>
-          <span class="details__more-info__block-text">1-2 years</span>
+          <span class="details__more-info__block-text">{{
+            vacancy.experience
+          }}</span>
         </div>
       </div>
 
@@ -75,7 +60,9 @@
 
         <div class="details__more-info__block-content">
           <span class="details__more-info__block-title">Working type</span>
-          <span class="details__more-info__block-text">Hybrid</span>
+          <span class="details__more-info__block-text">{{
+            vacancy.workingType
+          }}</span>
         </div>
       </div>
 
@@ -84,7 +71,9 @@
 
         <div class="details__more-info__block-content">
           <span class="details__more-info__block-title">Company</span>
-          <span class="details__more-info__block-text">Europebet</span>
+          <span class="details__more-info__block-text">{{
+            vacancy.companyName
+          }}</span>
         </div>
       </div>
     </div>
