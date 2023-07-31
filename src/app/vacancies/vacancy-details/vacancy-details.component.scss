@@ -1,0 +1,93 @@
+@import "../../../styles.scss";
+
+.details {
+  &__heading {
+    border-bottom: $border-width-sm solid $color-black;
+    padding: 4.5rem 14rem;
+    background-color: lighten($color-blue, 43%);
+  }
+
+  &__badges {
+    @include flex(0.8rem, row, flex-start);
+    font-size: 1.2rem;
+    color: $color-dark-gray;
+    margin-top: 1rem;
+
+    &__badge {
+      background-color: $color-white;
+      border: 0.1rem solid lighten($color-gray, 20%);
+      padding: 0.6rem 1.5rem;
+      border-radius: 3rem;
+    }
+  }
+
+  &__job-title {
+    margin-bottom: 0.2rem;
+    font-size: 3rem;
+  }
+
+  &__location {
+    @include flex(0, row, flex-start);
+  }
+
+  &__location-text {
+    transform: translateX(-0.65rem);
+  }
+
+  &__location-icon {
+    @include flex;
+    font-size: 1.9rem;
+    transform: translateX(-0.5rem);
+  }
+
+  &__content {
+    @include flex(0, row, space-between, flex-start);
+    width: 70vw;
+    margin: 0 auto;
+    padding: 3rem 0;
+  }
+
+  &__description {
+    width: 55%;
+
+    &__title {
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__more-info {
+    @include flex(1.5rem, column, flex-start, flex-start);
+    width: 40%;
+    text-align: start;
+    background-color: lighten($color-blue, 50%);
+    border: 0.1rem solid lighten($color-blue, 44%);
+    padding: 2rem 2.5rem 2rem 2.5rem;
+    border-radius: 0.6rem;
+
+    &__title {
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 1.5rem;
+    }
+
+    &__block {
+      @include flex(1rem, row, flex-start);
+    }
+
+    &__block-content {
+      @include flex(0.5rem, column, flex-start, flex-start);
+      color: lighten($color-dark-gray, 20%);
+    }
+
+    &__block-icon {
+      color: lighten($color-dark-gray, 30%);
+    }
+
+    &__block-text {
+      color: $color-blue;
+      font-weight: bold;
+    }
+  }
+}
