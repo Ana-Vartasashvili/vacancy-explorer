@@ -1,4 +1,11 @@
-<form class="filters" [formGroup]="filtersForm">
+<form
+  class="filters"
+  [ngClass]="{
+    'filters-visible': filterbarIsShown,
+    'filters-hidden': !filterbarIsShown
+  }"
+  [formGroup]="filtersForm"
+>
   <div
     class="filter-block"
     *ngFor="let formGroup of formGroupNames"

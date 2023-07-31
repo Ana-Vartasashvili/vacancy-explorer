@@ -9,7 +9,7 @@
     class="form"
     [formGroup]="addVacancyForm"
     (submit)="onSubmit()"
-    #f="ngForm"
+    #formDirective="ngForm"
   >
     <div class="form-control__group">
       <app-input
@@ -59,7 +59,7 @@
         class="form-control__selector"
         selectorName="Category"
         controlName="category"
-        [selectorOptions]="options['Category']"
+        [selectorOptions]="options['category']"
         [form]="addVacancyForm"
       ></app-select>
 
@@ -67,7 +67,7 @@
         class="form-control__selector"
         selectorName="Working type"
         controlName="workingType"
-        [selectorOptions]="options['Working type']"
+        [selectorOptions]="options['workingType']"
         [form]="addVacancyForm"
       ></app-select>
     </div>
@@ -77,7 +77,7 @@
         class="form-control__selector"
         controlName="employementType"
         selectorName="Employement type"
-        [selectorOptions]="options['Employement type']"
+        [selectorOptions]="options['employementType']"
         [form]="addVacancyForm"
       ></app-select>
 
@@ -85,7 +85,7 @@
         class="form-control__selector"
         controlName="experience"
         selectorName="Experience"
-        [selectorOptions]="options['Experience']"
+        [selectorOptions]="options['experience']"
         [form]="addVacancyForm"
       ></app-select>
     </div>
@@ -93,7 +93,7 @@
     <app-select
       controlName="city"
       selectorName="City"
-      [selectorOptions]="options['City']"
+      [selectorOptions]="options['city']"
       [form]="addVacancyForm"
     ></app-select>
 

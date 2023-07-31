@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
@@ -22,6 +22,7 @@ export class VacanciesFilterComponent implements OnInit {
   openedFilterBlocks: string[] = [];
   formGroupNames: string[];
   queries: Query[] = [];
+  @Input() filterbarIsShown: boolean;
 
   constructor(
     private vacanciesFilterService: VacanciesFilterService,
