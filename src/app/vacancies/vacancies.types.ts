@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { FieldValue, Timestamp } from 'firebase/firestore';
 
 export interface Vacancy {
   category: string;
@@ -12,5 +12,6 @@ export interface Vacancy {
   salary: number;
   id: string;
   status: string;
-  createdAt: Timestamp;
+  createdAt: FieldValue;
+  userId: string;
 }

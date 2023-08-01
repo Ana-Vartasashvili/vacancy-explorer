@@ -31,7 +31,6 @@ export const handleAuthentication = ({
   firstName,
   lastName,
   role,
-  myVacancies,
   savedVacancies,
 }: UserData) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
@@ -44,7 +43,6 @@ export const handleAuthentication = ({
   return AuthActions.authSuccess({
     firstName,
     lastName,
-    myVacancies,
     savedVacancies,
     role,
     email,

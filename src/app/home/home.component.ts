@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from '../store/app.reducer';
 import { vacancies } from '../vacancies/store/vacancies.selectors';
 import { Vacancy } from '../vacancies/vacancies.types';
+import { startFetchingLatestVacancies } from '../vacancies/store/vacancies.actions';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(startFetchingLatestVacancies());
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
       this.vacancies = vacanciesState.latestVacancies.slice(0, 6);
       this.isLoading = vacanciesState.latestVacanciesLoading;

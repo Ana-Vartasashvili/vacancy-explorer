@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as VacanciesActions from './vacancies.actions';
 import { Vacancy } from '../vacancies.types';
+import * as VacanciesActions from './vacancies.actions';
 
 export interface VacanciesState {
   addVacancyloading: boolean;
@@ -12,6 +12,9 @@ export interface VacanciesState {
   latestVacancies: Vacancy[];
   latestVacanciesError: string;
   latestVacanciesLoading: boolean;
+  myVacancies: Vacancy[];
+  myVacanciesError: string;
+  myVacanciesLoading: boolean;
 }
 
 const initialState: VacanciesState = {
@@ -24,6 +27,9 @@ const initialState: VacanciesState = {
   latestVacancies: [],
   latestVacanciesError: null,
   latestVacanciesLoading: false,
+  myVacancies: [],
+  myVacanciesError: null,
+  myVacanciesLoading: false,
 };
 
 export const VacanciesReducer = createReducer(
@@ -108,5 +114,30 @@ export const VacanciesReducer = createReducer(
     ...state,
     latestVacanciesLoading: false,
     latestVacanciesError: null,
+  })),
+
+  on(VacanciesActions.startFetchingMyVacancies, (state) => ({
+    ...state,
+    myVacanciesLoading: true,
+  })),
+
+  on(VacanciesActions.fetchMyVacanciesSuccess, (state, action) => ({
+    ...state,
+    myVacanciesLoading: false,
+    myVacancies: action.myVacancies,
+    myVacanciesError: null,
+  })),
+
+  on(VacanciesActions.fetchMyVacanciesFailed, (state, action) => ({
+    ...state,
+    myVacancies: [],
+    myVacanciesError: action.errorMessage,
+    myVacanciesLoading: false,
+  })),
+
+  on(VacanciesActions.clearMyVacanciesError, (state, action) => ({
+    ...state,
+    myVacanciesError: null,
+    myVacanciesLoading: false,
   }))
 );

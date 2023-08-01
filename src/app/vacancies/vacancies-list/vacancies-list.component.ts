@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { vacancies } from '../store/vacancies.selectors';
 import { Vacancy } from '../vacancies.types';
+import { startFetchingVacancies } from '../store/vacancies.actions';
 
 @Component({
   selector: 'app-vacancies-list',
@@ -19,6 +20,11 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(
+      startFetchingVacancies({
+        queries: [],
+      })
+    );
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
       this.vacancies = vacanciesState.vacancies;
       this.isLoading = vacanciesState.vacanciesLoading;

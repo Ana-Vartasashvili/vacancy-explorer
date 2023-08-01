@@ -62,3 +62,21 @@ export const fetchLatestVacanciesFailed = createAction(
 export const clearLatestVacanciesError = createAction(
   '[Vacancies] Clear Latest Vacancies Error'
 );
+
+export const startFetchingMyVacancies = createAction(
+  '[Vacancies] Start Fetching My Vacancies'
+);
+
+export const fetchMyVacanciesSuccess = createAction(
+  '[Vacancies] Fetch My Vacancies Success',
+  props<{ myVacancies: Vacancy[] }>()
+);
+
+export const fetchMyVacanciesFailed = createAction(
+  '[Vacancies] Fetch My Vacancies Failed',
+  props<{ errorMessage: string }>()
+);
+
+export const clearMyVacanciesError = createAction(
+  '[Vacancies] Clear My Vacancies Error'
+);

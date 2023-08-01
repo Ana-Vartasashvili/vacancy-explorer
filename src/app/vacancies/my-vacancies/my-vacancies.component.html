@@ -1,0 +1,34 @@
+<section class="my-vacancies">
+  <div class="my-vacancies__container">
+    <h1 class="my-vacancies__heading">My Vacancies</h1>
+
+    <div
+      *ngIf="myVacancies.length == 0 && !isLoading"
+      class="my-vacancies__no-vacancies"
+    >
+      <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
+      <a
+        routerLink="/vacancies/add"
+        routerLinkActive="router-link-active"
+        class="my-vacancies__no-vacancies-link"
+        >Add</a
+      >
+    </div>
+
+    <app-loading-spinner
+      *ngIf="isLoading"
+      class="my-vacancies__loading-spinner"
+    ></app-loading-spinner>
+
+    <div class="my-vacancies__list" *ngIf="myVacancies && !isLoading">
+      <app-vacancy-card
+        *ngFor="let vacancy of myVacancies"
+        [cityName]="vacancy.city"
+        [companyName]="vacancy.companyName"
+        [vacancyTitle]="vacancy.jobTitle"
+        [createdAt]="vacancy.createdAt"
+        [vacancyId]="vacancy.id"
+      ></app-vacancy-card>
+    </div>
+  </div>
+</section>

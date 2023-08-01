@@ -21,7 +21,6 @@ export const authSuccess = createAction(
     firstName: string;
     lastName: string;
     role: string;
-    myVacancies: [];
     savedVacancies: [];
     email: string;
     userId: string;

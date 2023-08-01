@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AddVacancyComponent } from './add-vacancy/add-vacancy.component';
+import { MyVacanciesComponent } from './my-vacancies/my-vacancies.component';
 import { VacanciesFilterComponent } from './vacancies-filter/vacancies-filter.component';
 import { VacanciesListComponent } from './vacancies-list/vacancies-list.component';
 import { VacanciesRoutingModule } from './vacancies-routing.module';
@@ -18,6 +20,7 @@ import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.compo
     VacanciesFilterComponent,
     AddVacancyComponent,
     VacancyDetailsComponent,
+    MyVacanciesComponent,
   ],
   imports: [
     VacanciesRoutingModule,
@@ -27,6 +30,7 @@ import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.compo
     ReactiveFormsModule,
     MatSelectModule,
     FormsModule,
+    RouterModule,
   ],
 })
 export class VacanciesModule {}

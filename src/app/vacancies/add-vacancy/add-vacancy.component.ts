@@ -66,8 +66,8 @@ export class AddVacancyComponent implements OnInit, OnDestroy {
       ]),
       city: new FormControl(''),
       salary: new FormControl('', [
+        AppValidators.onlyNumbers,
         AppValidators.required,
-        AppValidators.min(0),
       ]),
     });
   }

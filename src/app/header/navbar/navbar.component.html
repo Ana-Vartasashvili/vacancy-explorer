@@ -1,6 +1,6 @@
 <nav class="nav">
   <div class="nav__menu-icon" (click)="setSidebarIsShown()">
-    <mat-icon onclick="()=>console.log('hi')">menu</mat-icon>
+    <mat-icon>menu</mat-icon>
   </div>
 
   <ul class="nav__list">
@@ -31,6 +31,16 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="nav__list-item"
         >Add vacancy</a
+      >
+    </li>
+
+    <li *ngIf="currentUser">
+      <a
+        routerLink="/vacancies/my-vacancies"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__list-item"
+        >My vacancies</a
       >
     </li>
   </ul>

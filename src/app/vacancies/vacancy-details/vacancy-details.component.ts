@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AppState } from 'src/app/store/app.reducer';
-import { vacanciesList } from '../store/vacancies.selectors';
+import { VacanciesService } from '../vacancies.service';
 import { Vacancy } from '../vacancies.types';
 
 @Component({
@@ -15,19 +13,33 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
   vacancyId: string;
   storeSub: Subscription;
   vacancy: Vacancy;
+  isLoading = false;
+  errorMessage: string;
+  serviceSub: Subscription;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
+  constructor(
+    private route: ActivatedRoute,
+    private vacanciesService: VacanciesService
+  ) {}
 
   ngOnInit(): void {
     this.vacancyId = this.route.snapshot.params['vacancyId'];
-    this.storeSub = this.store.select(vacanciesList).subscribe((vacancies) => {
-      this.vacancy = vacancies.find((vacancy) => {
-        return vacancy.id === this.vacancyId;
+    this.isLoading = true;
+    this.serviceSub = this.vacanciesService
+      .fetchVacancy(this.vacancyId)
+      .subscribe({
+        next: (vacancy) => {
+          this.vacancy = vacancy;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+          this.isLoading = false;
+        },
       });
-    });
   }
 
   ngOnDestroy(): void {
-    this.storeSub.unsubscribe();
+    this.serviceSub.unsubscribe();
   }
 }
