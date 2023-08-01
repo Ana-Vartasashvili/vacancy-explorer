@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { ActionCreator, Store } from '@ngrx/store';
+import { TypedAction } from '@ngrx/store/src/models';
 import {
   Query,
   QuerySnapshot,
@@ -20,6 +21,15 @@ import { AppState } from 'src/app/store/app.reducer';
 import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
+
+type ActionFail = ActionCreator<
+  string,
+  (props: { errorMessage: string }) => {
+    errorMessage: string;
+  } & TypedAction<string>
+>;
+
+type clearErrorAction = ActionCreator<string, () => TypedAction<string>>;
 
 @Injectable()
 export class VacanciesEffects {
@@ -92,8 +102,8 @@ export class VacanciesEffects {
     query: Query,
     actionObjectKey: string,
     actionForSuccess,
-    actionForFail,
-    clearErrorAction,
+    actionForFail: ActionFail,
+    clearErrorAction: clearErrorAction,
     errorMessage?: string
   ) {
     return from(getDocs(query)).pipe(
@@ -112,8 +122,8 @@ export class VacanciesEffects {
   }
 
   private handleError(
-    actionForFail,
-    clearErrorAction,
+    actionForFail: ActionFail,
+    clearErrorAction: clearErrorAction,
     errorMessage = 'Could not fetch vacancies.'
   ) {
     setTimeout(() => {

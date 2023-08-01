@@ -2,7 +2,10 @@
   <div class="my-vacancies__container">
     <h1 class="my-vacancies__heading">My Vacancies</h1>
 
-    <div *ngIf="!myVacancies && !isLoading" class="my-vacancies__no-vacancies">
+    <div
+      *ngIf="myVacancies.length == 0 && !isLoading"
+      class="my-vacancies__no-vacancies"
+    >
       <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
       <a
         routerLink="/vacancies/add"
