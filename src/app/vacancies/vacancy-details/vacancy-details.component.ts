@@ -29,7 +29,6 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
       .fetchVacancy(this.vacancyId)
       .subscribe({
         next: (vacancy) => {
-          console.log(vacancy);
           this.vacancy = vacancy;
           this.isLoading = false;
         },

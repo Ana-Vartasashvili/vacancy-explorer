@@ -15,13 +15,6 @@ export class AppValidators extends Validators {
         : undefined;
   }
 
-  static override min(value: number): any {
-    return (control: AbstractControl) =>
-      super.min(value)(control)
-        ? { maxLength: `Value can not be less than ${length}.` }
-        : undefined;
-  }
-
   static override required(control: AbstractControl): any {
     return super.required(control)
       ? { required: 'Field is required.' }
@@ -32,6 +25,14 @@ export class AppValidators extends Validators {
     return super.email(control)
       ? { required: 'Please enter a valid email.' }
       : undefined;
+  }
+
+  static onlyNumbers(control: AbstractControl) {
+    if (control.value == null) return null;
+    const regexNumbersOnly = /^[0-9]+$/;
+    return regexNumbersOnly.test(control.value)
+      ? null
+      : { onlyNumbers: 'Field can contain only numbers.' };
   }
 
   static noWhiteSpaces(control: AbstractControl) {
