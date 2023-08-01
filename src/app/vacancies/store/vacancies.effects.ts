@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   QuerySnapshot,
+  Timestamp,
   collection,
   doc,
   getDocs,
   limit,
   or,
   query,
-  serverTimestamp,
   setDoc,
   where,
 } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap } from 'rxjs';
+import { user } from 'src/app/auth/store/auth.selectors';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { Vacancy } from '../vacancies.types';
@@ -21,6 +22,7 @@ import * as VacanciesActions from './vacancies.actions';
 import {
   clearAddVacancyMessage,
   clearLatestVacanciesError,
+  clearMyVacanciesError,
   clearVacanciesError,
 } from './vacancies.actions';
 
@@ -31,9 +33,10 @@ export class VacanciesEffects {
   addVacancy = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startAddingVacancy),
+
       switchMap((startAddingVacancyAction) => {
-        const tokenData = localStorage.getItem('tokenData');
-        if (!tokenData) {
+        const user = JSON.parse(localStorage.getItem('tokenData'));
+        if (!user) {
           return of(
             VacanciesActions.addVacancyFailed({
               errorMessage: 'User is not authenticated!',
@@ -43,13 +46,13 @@ export class VacanciesEffects {
 
         const newVacancyRef = doc(collection(db, 'vacancies'));
         const docId = newVacancyRef.id;
+        const newVacancy = this.getVacancyDataFromAction(
+          startAddingVacancyAction,
+          docId,
+          user.userId
+        );
 
-        return from(
-          setDoc(
-            doc(db, 'vacancies', docId),
-            this.getVacancyDataFromAction(startAddingVacancyAction, docId)
-          )
-        ).pipe(
+        return from(setDoc(doc(db, 'vacancies', docId), newVacancy)).pipe(
           map(() => {
             setTimeout(() => {
               this.store.dispatch(clearAddVacancyMessage());
@@ -73,7 +76,11 @@ export class VacanciesEffects {
     )
   );
 
-  private getVacancyDataFromAction(action, id: string) {
+  private getVacancyDataFromAction(
+    action,
+    vacancyId: string,
+    userId: string
+  ): Vacancy {
     return {
       jobTitle: action.jobTitle.trim(),
       companyName: action.companyName.trim(),
@@ -85,8 +92,9 @@ export class VacanciesEffects {
       workingType: action.workingType,
       salary: action.salary,
       status: 'pending',
-      createdAt: serverTimestamp(),
-      id,
+      createdAt: Timestamp.now(),
+      id: vacancyId,
+      userId,
     };
   }
 
@@ -159,6 +167,43 @@ export class VacanciesEffects {
             return of(
               VacanciesActions.fetchLatestVacanciesFailed({
                 errorMessage: 'Could not fetch latest vacancies.',
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  fetchMyVacancies = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.startFetchingMyVacancies),
+      switchMap((startFetchingAction) => {
+        const userId = JSON.parse(localStorage.getItem('tokenData')).userId;
+
+        const q = query(
+          collection(db, 'vacancies'),
+          where('userId', '==', userId)
+        );
+
+        return from(getDocs(q)).pipe(
+          map((resData: QuerySnapshot<Vacancy>) => {
+            let myVacancies: Vacancy[] = [];
+
+            resData.forEach((doc) => {
+              myVacancies.push(doc.data());
+            });
+
+            return VacanciesActions.fetchMyVacanciesSuccess({ myVacancies });
+          }),
+          catchError(() => {
+            setTimeout(() => {
+              this.store.dispatch(clearMyVacanciesError());
+            }, 3500);
+
+            return of(
+              VacanciesActions.fetchMyVacanciesFailed({
+                errorMessage: 'Could not fetch vacancies.',
               })
             );
           })

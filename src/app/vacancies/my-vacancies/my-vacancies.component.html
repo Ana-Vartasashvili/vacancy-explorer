@@ -1,3 +1,26 @@
 <section class="my-vacancies">
-  <h1 class="my-vacancies__heading">My Vacancies</h1>
+  <div class="my-vacancies__container">
+    <h1 class="my-vacancies__heading">My Vacancies</h1>
+
+    <div *ngIf="myVacancies?.length === 0" class="my-vacancies__no-vacancies">
+      <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
+      <a
+        routerLink="/vacancies/add"
+        routerLinkActive="router-link-active"
+        class="my-vacancies__no-vacancies-link"
+        >Add</a
+      >
+    </div>
+
+    <div class="my-vacancies__list" *ngIf="myVacancies">
+      <app-vacancy-card
+        *ngFor="let vacancy of myVacancies"
+        [cityName]="vacancy.city"
+        [companyName]="vacancy.companyName"
+        [vacancyTitle]="vacancy.jobTitle"
+        [createdAt]="vacancy.createdAt"
+        [vacancyId]="vacancy.id"
+      ></app-vacancy-card>
+    </div>
+  </div>
 </section>

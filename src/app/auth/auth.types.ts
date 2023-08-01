@@ -1,4 +1,5 @@
 import { UserCredential } from 'firebase/auth';
+import { Vacancy } from '../vacancies/vacancies.types';
 
 export interface AuthResponseData extends UserCredential {
   _tokenResponse: TokenResponseData;
@@ -21,8 +22,16 @@ export interface UserData {
   role: string;
   expiresIn: number;
   token: string;
-  myVacancies: [];
   savedVacancies: [];
+}
+
+export interface UserResponseData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  savedVacancies: Vacancy[];
+  userId: string;
 }
 
 export interface TokenData {

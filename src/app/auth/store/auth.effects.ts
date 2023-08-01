@@ -35,7 +35,6 @@ export class AuthEffects {
           firstName: signupStartAction.firstName.trim(),
           lastName: signupStartAction.lastName.trim(),
           savedVacancies: [],
-          myVacancies: [],
           expiresIn: null,
           role: 'user',
           userId: '',
@@ -64,7 +63,6 @@ export class AuthEffects {
               email: userData.email,
               role: userData.role,
               userId: userData.userId,
-              myVacancies: userData.myVacancies,
               savedVacancies: userData.savedVacancies,
             });
           }),
@@ -108,7 +106,6 @@ export class AuthEffects {
               userId: localId,
               firstName: '',
               lastName: '',
-              myVacancies: [],
               savedVacancies: [],
               role: '',
             };
@@ -121,7 +118,6 @@ export class AuthEffects {
                     map((userDataResponse: UserData) => {
                       userData.firstName = userDataResponse.firstName;
                       userData.lastName = userDataResponse.lastName;
-                      userData.myVacancies = userDataResponse.myVacancies;
                       userData.role = userDataResponse.role;
                       userData.savedVacancies = userDataResponse.savedVacancies;
 
@@ -172,7 +168,6 @@ export class AuthEffects {
                     userData.role,
                     userData.email,
                     userData.userId,
-                    userData.myVacancies,
                     userData.savedVacancies,
                     tokenData.token,
                     new Date(tokenData.expirationDate)

@@ -5,7 +5,6 @@ export class User {
     public role: string,
     public email: string,
     public userId: string,
-    public myVacancies: [],
     public savedVacancies: [],
     private _token: string,
     public tokenExpirationDate: Date

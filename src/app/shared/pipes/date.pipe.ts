@@ -1,11 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Timestamp } from 'firebase/firestore';
 
 @Pipe({
   name: 'date',
 })
 export class DatePipe implements PipeTransform {
-  transform(value: Timestamp): string {
+  transform(value: any): string {
     const dateObject = value.toDate();
     const day = dateObject.getDate();
     const month = dateObject.toLocaleString('default', {

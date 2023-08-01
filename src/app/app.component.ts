@@ -17,11 +17,5 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(autoLoginStart());
-    this.store.dispatch(startFetchingLatestVacancies());
-    this.store.dispatch(
-      startFetchingVacancies({
-        queries: [],
-      })
-    );
   }
 }
