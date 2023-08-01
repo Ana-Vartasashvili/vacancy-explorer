@@ -22,7 +22,7 @@ export class MyVacanciesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(startFetchingMyVacancies());
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
-      this.isLoading = vacanciesState.vacanciesLoading;
+      this.isLoading = vacanciesState.myVacanciesLoading;
       this.myVacancies = vacanciesState.myVacancies;
       this.error = vacanciesState.myVacanciesError;
     });

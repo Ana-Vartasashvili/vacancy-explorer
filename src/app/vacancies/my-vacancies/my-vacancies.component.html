@@ -2,7 +2,7 @@
   <div class="my-vacancies__container">
     <h1 class="my-vacancies__heading">My Vacancies</h1>
 
-    <div *ngIf="myVacancies?.length === 0" class="my-vacancies__no-vacancies">
+    <div *ngIf="!myVacancies && !isLoading" class="my-vacancies__no-vacancies">
       <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
       <a
         routerLink="/vacancies/add"
@@ -12,7 +12,12 @@
       >
     </div>
 
-    <div class="my-vacancies__list" *ngIf="myVacancies">
+    <app-loading-spinner
+      *ngIf="isLoading"
+      class="my-vacancies__loading-spinner"
+    ></app-loading-spinner>
+
+    <div class="my-vacancies__list" *ngIf="myVacancies && !isLoading">
       <app-vacancy-card
         *ngFor="let vacancy of myVacancies"
         [cityName]="vacancy.city"
