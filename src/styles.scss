@@ -51,3 +51,11 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: $color-black;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+.tox-tinymce {
+  resize: vertical;
+  min-height: 20rem;
+  max-height: 42rem;
+  border: none;
+  outline: none;
+}

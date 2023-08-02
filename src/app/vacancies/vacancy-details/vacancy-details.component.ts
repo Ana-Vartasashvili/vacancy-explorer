@@ -16,6 +16,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage: string;
   serviceSub: Subscription;
+  plainTextContent: string;
 
   constructor(
     private route: ActivatedRoute,

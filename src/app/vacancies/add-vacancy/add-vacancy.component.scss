@@ -15,4 +15,25 @@
   &__input {
     width: 100%;
   }
+
+  &__textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 0.1rem solid $color-gray;
+    border-radius: 1rem;
+    resize: vertical !important;
+    margin-bottom: 2.5rem;
+    z-index: 5 !important;
+
+    &:focus {
+      border: 0.1rem solid $color-blue;
+    }
+
+    &__error {
+      position: absolute;
+      bottom: -1.6rem;
+      z-index: 999;
+      color: $color-red;
+      font-size: 1.3rem;
+    }
+  }
 }
