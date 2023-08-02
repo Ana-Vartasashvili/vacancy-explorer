@@ -11,6 +11,7 @@ import {
   getDocs,
   limit,
   or,
+  orderBy,
   query,
   setDoc,
   where,
@@ -115,9 +116,10 @@ export class VacanciesEffects {
 
         return actionForSuccess({ [actionObjectKey]: vacancies });
       }),
-      catchError(() =>
-        this.handleError(actionForFail, clearErrorAction, errorMessage)
-      )
+      catchError((error) => {
+        console.log(error);
+        return this.handleError(actionForFail, clearErrorAction, errorMessage);
+      })
     );
   }
 
@@ -147,6 +149,7 @@ export class VacanciesEffects {
         const baseQuery = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active'),
+          orderBy('createdAt', 'desc'),
           limit(10)
         );
         const combinedQuery = query(baseQuery, or(...queries));
@@ -169,6 +172,7 @@ export class VacanciesEffects {
         const q = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active'),
+          orderBy('createdAt', 'desc'),
           limit(6)
         );
 
@@ -190,7 +194,8 @@ export class VacanciesEffects {
         const userId = JSON.parse(localStorage.getItem('tokenData')).userId;
         const q = query(
           collection(db, 'vacancies'),
-          where('userId', '==', userId)
+          where('userId', '==', userId),
+          orderBy('createdAt', 'desc')
         );
 
         return this.handleFetchVacancies(
