@@ -28,19 +28,26 @@
     </div>
 
     <div class="form-control">
-      <textarea
+      <editor
+        class="form__textarea"
+        apiKey="ui3ksr8nmq7rkzgbwjv47j6e0ehpj1c384y3m9k3lc9qezsr"
         formControlName="jobDescription"
-        type="text"
-        id="job-description"
-        placeholder="Job Description"
-        class="form-control__input form-control__input--textarea"
-        [class]="
-          isInvalidAndTouched('jobDescription') ? 'input input--invalid' : ''
-        "
-      ></textarea>
+        [init]="{
+          base_url: '/tinymce',
+          suffix: '.min',
+          plugins: 'lists link image table code help',
+          height: 200,
+          menubar: false,
+          branding: false,
+          elementpath: false,
+          statusbar: false,
+          toolbar: ['undo redo | styles | bold italic | bullist numlist  '],
+          content_style: 'body { line-height: 1.2; }'
+        }"
+      ></editor>
       <div
         *ngIf="isInvalidAndTouched('jobDescription')"
-        class="form-control__error"
+        class="form__textarea__error"
       >
         <p>{{ getErrorMessage("jobDescription") }}</p>
       </div>

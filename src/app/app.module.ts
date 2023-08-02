@@ -14,6 +14,7 @@ import { NavbarComponent } from './header/navbar/navbar.component';
 import { SidebarComponent } from './header/sidebar/sidebar.component';
 import { appReducer } from './store/app.reducer';
 import { VacanciesEffects } from './vacancies/store/vacancies.effects';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { VacanciesEffects } from './vacancies/store/vacancies.effects';
     MatIconModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    EditorModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([AuthEffects, VacanciesEffects]),
   ],
