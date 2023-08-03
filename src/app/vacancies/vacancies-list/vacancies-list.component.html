@@ -19,10 +19,6 @@
 <div class="vacancies-list" *ngIf="!isLoading && vacancies">
   <app-vacancy-card
     *ngFor="let vacancy of vacancies"
-    [cityName]="vacancy.city"
-    [companyName]="vacancy.companyName"
-    [vacancyTitle]="vacancy.jobTitle"
-    [createdAt]="vacancy.createdAt"
-    [vacancyId]="vacancy.id"
+    [vacancy]="vacancy"
   ></app-vacancy-card>
 </div>

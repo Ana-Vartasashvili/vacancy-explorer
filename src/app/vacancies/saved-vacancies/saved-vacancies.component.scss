@@ -1,0 +1,43 @@
+@import "../../../styles.scss";
+
+.saved-vacancies {
+  &__container {
+    width: 70vw;
+    margin: 0 auto;
+    padding: 3rem 0;
+    max-width: 160rem;
+
+    @media (max-width: 46rem) {
+      width: 100%;
+      padding: 3rem 2rem;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 2rem;
+  }
+
+  &__list {
+    @include grid(2rem);
+    position: relative;
+
+    @media (max-width: 50rem) {
+      @include grid(2rem, 1fr);
+    }
+  }
+
+  &__no-vacancies {
+    @include flex(1rem);
+    text-align: center;
+  }
+
+  &__no-vacancies-link {
+    cursor: pointer;
+    color: $color-blue;
+    text-decoration: underline;
+  }
+
+  &__loading-spinner {
+    @include flex;
+  }
+}

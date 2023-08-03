@@ -15,6 +15,9 @@ export interface VacanciesState {
   myVacancies: Vacancy[];
   myVacanciesError: string;
   myVacanciesLoading: boolean;
+  savedVacancies: Vacancy[];
+  savedVacanciesError: string;
+  savedVacanciesLoading: boolean;
 }
 
 const initialState: VacanciesState = {
@@ -30,6 +33,9 @@ const initialState: VacanciesState = {
   myVacancies: [],
   myVacanciesError: null,
   myVacanciesLoading: false,
+  savedVacancies: [],
+  savedVacanciesError: null,
+  savedVacanciesLoading: false,
 };
 
 export const VacanciesReducer = createReducer(
@@ -139,5 +145,29 @@ export const VacanciesReducer = createReducer(
     ...state,
     myVacanciesError: null,
     myVacanciesLoading: false,
+  })),
+
+  on(VacanciesActions.startAddingToSavedVacancies, (state) => ({
+    ...state,
+    savedVacanciesLoading: true,
+  })),
+
+  on(VacanciesActions.addToSavedVacanciesSuccess, (state, action) => ({
+    ...state,
+    savedVacanciesLoading: false,
+    savedVacanciesError: null,
+    savedVacancies: action.savedVacancies,
+  })),
+
+  on(VacanciesActions.addToSavedVacanciesFailed, (state, action) => ({
+    ...state,
+    savedVacanciesLoading: false,
+    savedVacanciesError: action.errorMessage,
+    savedVacancies: [],
+  })),
+
+  on(VacanciesActions.clearSavedVacanciesError, (state, action) => ({
+    ...state,
+    savedVacanciesError: null,
   }))
 );

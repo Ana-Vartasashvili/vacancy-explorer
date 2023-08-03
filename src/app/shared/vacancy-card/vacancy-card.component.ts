@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { FieldValue, Timestamp } from 'firebase/firestore';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
+import { startAddingToSavedVacancies } from 'src/app/vacancies/store/vacancies.actions';
+import { Vacancy } from 'src/app/vacancies/vacancies.types';
 
 @Component({
   selector: 'app-vacancy-card',
@@ -7,9 +10,13 @@ import { FieldValue, Timestamp } from 'firebase/firestore';
   styleUrls: ['./vacancy-card.component.scss'],
 })
 export class VacancyCardComponent {
-  @Input() vacancyTitle: string;
-  @Input() companyName: string;
-  @Input() cityName: string;
-  @Input() createdAt: FieldValue;
-  @Input() vacancyId: string;
+  @Input() vacancy: Vacancy;
+
+  constructor(private store: Store<AppState>) {}
+
+  addToSavedVacancies(event: Event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    this.store.dispatch(startAddingToSavedVacancies({ vacancy: this.vacancy }));
+  }
 }

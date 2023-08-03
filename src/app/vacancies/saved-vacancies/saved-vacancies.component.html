@@ -1,14 +1,14 @@
-<section class="my-vacancies">
-  <div class="my-vacancies__container">
-    <h1 class="my-vacancies__heading">My Vacancies</h1>
+<section class="saved-vacancies">
+  <div class="saved-vacancies__container">
+    <h1 class="saved-vacancies__heading">Saved Vacancies</h1>
 
     <div
-      *ngIf="myVacancies.length == 0 && !isLoading"
-      class="my-vacancies__no-vacancies"
+      *ngIf="savedVacancies.length == 0 && !isLoading"
+      class="saved-vacancies__no-vacancies"
     >
       <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
       <a
-        routerLink="/vacancies/add"
+        routerLink="/vacancies"
         routerLinkActive="router-link-active"
         class="my-vacancies__no-vacancies-link"
         >Add</a
@@ -20,9 +20,9 @@
       class="my-vacancies__loading-spinner"
     ></app-loading-spinner>
 
-    <div class="my-vacancies__list" *ngIf="myVacancies && !isLoading">
+    <div class="saved-vacancies__list" *ngIf="savedVacancies && !isLoading">
       <app-vacancy-card
-        *ngFor="let vacancy of myVacancies"
+        *ngFor="let vacancy of savedVacancies"
         [vacancy]="vacancy"
       ></app-vacancy-card>
     </div>

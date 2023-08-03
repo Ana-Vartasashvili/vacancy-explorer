@@ -10,6 +10,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import { addToSavedVacanciesSuccess } from 'src/app/vacancies/store/vacancies.actions';
 import { handleAuthentication, handleError } from '../auth-helpers';
 import { AuthService } from '../auth.service';
 import { AuthResponseData, TokenData, UserData } from '../auth.types';
@@ -67,6 +68,11 @@ export class AuthEffects {
             });
           }),
           map(() => {
+            this.store.dispatch(
+              addToSavedVacanciesSuccess({
+                savedVacancies: userData.savedVacancies,
+              })
+            );
             return handleAuthentication(userData);
           }),
           catchError((error: any) => {
@@ -121,6 +127,11 @@ export class AuthEffects {
                       userData.role = userDataResponse.role;
                       userData.savedVacancies = userDataResponse.savedVacancies;
 
+                      this.store.dispatch(
+                        addToSavedVacanciesSuccess({
+                          savedVacancies: userData.savedVacancies,
+                        })
+                      );
                       return handleAuthentication(userData);
                     })
                   );
@@ -178,6 +189,12 @@ export class AuthEffects {
                       loadedUser.tokenExpirationDate.getTime() -
                       new Date().getTime();
                     this.authService.setLogoutTimer(expirationDuration);
+
+                    this.store.dispatch(
+                      addToSavedVacanciesSuccess({
+                        savedVacancies: userData.savedVacancies,
+                      })
+                    );
 
                     return AuthActions.authSuccess({
                       ...loadedUser,
