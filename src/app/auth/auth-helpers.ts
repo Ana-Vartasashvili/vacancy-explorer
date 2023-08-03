@@ -34,7 +34,6 @@ export const handleAuthentication = ({
   savedVacancies,
 }: UserData) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-
   localStorage.setItem(
     'tokenData',
     JSON.stringify({ token, expirationDate, userId })
