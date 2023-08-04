@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { logout } from 'src/app/auth/store/auth.actions';
 import { user } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/auth/user.model';
 import { SidebarAnimation } from 'src/app/shared/animations/app-animations';
@@ -33,6 +34,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   setSidebarIsHidden() {
     this.hideSidebar.emit();
+  }
+
+  onLogout() {
+    this.store.dispatch(logout());
+    this.setSidebarIsHidden();
   }
 
   ngOnDestroy(): void {
