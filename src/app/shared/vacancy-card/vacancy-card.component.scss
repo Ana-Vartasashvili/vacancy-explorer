@@ -1,6 +1,7 @@
 @use "../../../styles.scss" as *;
 
 .vacancy {
+  position: relative;
   width: 100%;
   padding: 3rem;
   border-radius: $border-radius-sm;
@@ -12,6 +13,16 @@
     transform: translate(-0.25rem, -0.25rem);
     box-shadow: 0.5rem 0.5rem 0 $color-black;
     border: $border-width-sm solid $color-black;
+
+    .bookmark-icon {
+      display: block;
+    }
+  }
+
+  .bookmark-icon {
+    @include position(absolute, 10%, 90%);
+    display: none;
+    transition: all 0.2s ease-in-out;
   }
 
   &__link {

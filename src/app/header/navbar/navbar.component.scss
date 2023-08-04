@@ -15,7 +15,7 @@
     @include flex(4rem);
     list-style: none;
 
-    @media (max-width: 47rem) {
+    @media (max-width: 55rem) {
       display: none;
     }
   }
@@ -31,8 +31,9 @@
   &__menu-icon {
     display: none;
     transform: scale(1.5);
+    cursor: pointer;
 
-    @media (max-width: 47rem) {
+    @media (max-width: 55rem) {
       display: block;
     }
   }

@@ -1,17 +1,29 @@
-<a [routerLink]="['/vacancies', vacancyId]" class="vacancy__link">
+<a [routerLink]="['/vacancies', vacancy.id]" class="vacancy__link">
   <div class="vacancy">
-    <h3 class="vacancy__title">{{ vacancyTitle }}</h3>
+    <h3 class="vacancy__title">{{ vacancy.jobTitle }}</h3>
+    <mat-icon
+      class="bookmark-icon"
+      *ngIf="!savedVacancyWithSameId"
+      (click)="addOrRemoveFromSavedVacancies($event)"
+      >bookmark_border</mat-icon
+    >
+    <mat-icon
+      class="bookmark-icon"
+      *ngIf="savedVacancyWithSameId"
+      (click)="addOrRemoveFromSavedVacancies($event)"
+      >bookmark</mat-icon
+    >
 
     <div class="vacancy__info">
       <div class="vacancy__location-company">
-        <p class="vacancy__company-name">{{ companyName }}</p>
+        <p class="vacancy__company-name">{{ vacancy.companyName }}</p>
         <p class="vacancy__location">
           <mat-icon>location_on</mat-icon>
-          <span>{{ cityName }}</span>
+          <span>{{ vacancy.city }}</span>
         </p>
       </div>
 
-      <span class="vacancy__publish-date">{{ createdAt | date }}</span>
+      <span class="vacancy__publish-date">{{ vacancy.createdAt | date }}</span>
     </div>
   </div>
 </a>

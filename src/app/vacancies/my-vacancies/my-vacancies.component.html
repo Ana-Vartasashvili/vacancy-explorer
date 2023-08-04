@@ -1,3 +1,9 @@
+<app-flash-message
+  [messageText]="error"
+  messageType="error"
+  *ngIf="error"
+></app-flash-message>
+
 <section class="my-vacancies">
   <div class="my-vacancies__container">
     <h1 class="my-vacancies__heading">My Vacancies</h1>
@@ -23,11 +29,7 @@
     <div class="my-vacancies__list" *ngIf="myVacancies && !isLoading">
       <app-vacancy-card
         *ngFor="let vacancy of myVacancies"
-        [cityName]="vacancy.city"
-        [companyName]="vacancy.companyName"
-        [vacancyTitle]="vacancy.jobTitle"
-        [createdAt]="vacancy.createdAt"
-        [vacancyId]="vacancy.id"
+        [vacancy]="vacancy"
       ></app-vacancy-card>
     </div>
   </div>

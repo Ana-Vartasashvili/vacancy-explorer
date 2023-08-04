@@ -43,6 +43,16 @@
         >My vacancies</a
       >
     </li>
+
+    <li *ngIf="currentUser">
+      <a
+        routerLink="/vacancies/saved-vacancies"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__list-item"
+        >Saved vacancies</a
+      >
+    </li>
   </ul>
 
   <div class="nav__auth" *ngIf="!isLoading">

@@ -14,6 +14,7 @@ import { VacanciesListComponent } from './vacancies-list/vacancies-list.componen
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
 import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.component';
+import { SavedVacanciesComponent } from './saved-vacancies/saved-vacancies.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { VacancyDetailsComponent } from './vacancy-details/vacancy-details.compo
     AddVacancyComponent,
     VacancyDetailsComponent,
     MyVacanciesComponent,
+    SavedVacanciesComponent,
   ],
   imports: [
     VacanciesRoutingModule,

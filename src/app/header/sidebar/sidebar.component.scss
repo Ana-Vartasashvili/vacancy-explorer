@@ -17,7 +17,7 @@
   width: 28rem;
   padding: 8rem 0 3rem 0;
 
-  @media (min-width: 47rem) {
+  @media (min-width: 55rem) {
     display: none;
   }
 
@@ -53,6 +53,7 @@
   &__close-icon {
     @include position(absolute, 2.8rem, 3rem);
     transform: scale(1.5);
+    cursor: pointer;
   }
 
   &__login {

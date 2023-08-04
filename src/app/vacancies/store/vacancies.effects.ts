@@ -14,6 +14,7 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap } from 'rxjs';
@@ -204,6 +205,35 @@ export class VacanciesEffects {
           VacanciesActions.fetchMyVacanciesSuccess,
           VacanciesActions.fetchMyVacanciesFailed,
           VacanciesActions.clearMyVacanciesError
+        );
+      })
+    )
+  );
+
+  addToSavedVacancies = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.startAddingToSavedVacancies),
+      switchMap((startAddingAction) => {
+        const userId = JSON.parse(localStorage.getItem('tokenData')).userId;
+        const userRef = doc(db, 'users', userId);
+
+        return from(
+          updateDoc(userRef, {
+            savedVacancies: startAddingAction.savedVacancies,
+          })
+        ).pipe(
+          map(() => {
+            return VacanciesActions.addToSavedVacanciesSuccess({
+              savedVacancies: startAddingAction.savedVacancies,
+            });
+          }),
+          catchError((error) => {
+            return this.handleError(
+              VacanciesActions.addToSavedVacanciesFailed,
+              VacanciesActions.clearSavedVacanciesError,
+              error.message
+            );
+          })
         );
       })
     )
