@@ -15,7 +15,7 @@
   overflow: hidden;
   height: 100%;
   width: 28rem;
-  padding: 8rem 0 3rem 0;
+  padding: 8rem 0 0rem 0;
 
   @media (min-width: 55rem) {
     display: none;
@@ -56,15 +56,26 @@
     cursor: pointer;
   }
 
-  &__login {
+  &__auth {
     @include flex(1rem, row, flex-start);
-    @extend %link-default;
-    padding: 1.5rem 3rem 0 3rem;
+    padding: 1.5rem 3rem;
     width: 100%;
+    border: none;
+    outline: none;
     border-top: 0.15rem solid $color-white;
 
     &:hover {
       color: $color-pink;
+    }
+
+    &--login {
+      @extend %link-default;
+    }
+
+    &--logout {
+      background-color: $color-black;
+      color: $color-white;
+      font-size: inherit;
     }
   }
 }

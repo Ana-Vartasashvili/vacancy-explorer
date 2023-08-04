@@ -63,11 +63,21 @@
   </ul>
 
   <a
-    class="sidebar__login"
+    class="sidebar__auth sidebar__auth--login"
     routerLink="/auth/login"
+    *ngIf="!currentUser"
     (click)="setSidebarIsHidden()"
   >
     <mat-icon>login</mat-icon>
     <span>Login</span>
   </a>
+
+  <button
+    class="sidebar__auth sidebar__auth--logout"
+    (click)="onLogout()"
+    *ngIf="currentUser"
+  >
+    <mat-icon>login</mat-icon>
+    <span>Log Out</span>
+  </button>
 </div>

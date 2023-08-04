@@ -26,7 +26,10 @@
     <div class="details__content">
       <div class="details__description">
         <h4 class="details__description__title">Vacancy Description</h4>
-        <div [innerHTML]="vacancy.jobDescription"></div>
+        <div
+          [innerHTML]="vacancy.jobDescription"
+          class="details__description__text"
+        ></div>
       </div>
 
       <div class="details__more-info">
