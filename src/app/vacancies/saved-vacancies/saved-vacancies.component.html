@@ -1,9 +1,15 @@
 <section class="saved-vacancies">
+  <app-flash-message
+    [messageText]="error"
+    messageType="error"
+    *ngIf="error"
+  ></app-flash-message>
+
   <div class="saved-vacancies__container">
     <h1 class="saved-vacancies__heading">Saved Vacancies</h1>
 
     <div
-      *ngIf="savedVacancies.length == 0 && !isLoading"
+      *ngIf="savedVacancies.length === 0"
       class="saved-vacancies__no-vacancies"
     >
       <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
@@ -17,7 +23,7 @@
 
     <app-loading-spinner
       *ngIf="isLoading"
-      class="my-vacancies__loading-spinner"
+      class="saved-vacancies__loading-spinner"
     ></app-loading-spinner>
 
     <div class="saved-vacancies__list" *ngIf="savedVacancies && !isLoading">

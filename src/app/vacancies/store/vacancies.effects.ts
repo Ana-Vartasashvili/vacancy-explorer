@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ActionCreator, Store } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import {
@@ -18,7 +18,6 @@ import {
   where,
 } from 'firebase/firestore';
 import { catchError, from, map, of, switchMap } from 'rxjs';
-import { user } from 'src/app/auth/store/auth.selectors';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { Vacancy } from '../vacancies.types';
@@ -214,27 +213,27 @@ export class VacanciesEffects {
   addToSavedVacancies = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startAddingToSavedVacancies),
-      concatLatestFrom(() => this.store.select(user)),
-      switchMap(([action, user]) => {
+      switchMap((startAddingAction) => {
         const userId = JSON.parse(localStorage.getItem('tokenData')).userId;
         const userRef = doc(db, 'users', userId);
-        const updatedSavedVacancies = [...user.savedVacancies, action.vacancy];
 
         return from(
-          updateDoc(userRef, { savedVacancies: updatedSavedVacancies })
+          updateDoc(userRef, {
+            savedVacancies: startAddingAction.savedVacancies,
+          })
         ).pipe(
           map(() => {
             return VacanciesActions.addToSavedVacanciesSuccess({
-              savedVacancies: updatedSavedVacancies,
+              savedVacancies: startAddingAction.savedVacancies,
             });
           }),
-          catchError((error) =>
-            this.handleError(
+          catchError((error) => {
+            return this.handleError(
               VacanciesActions.addToSavedVacanciesFailed,
               VacanciesActions.clearSavedVacanciesError,
               error.message
-            )
-          )
+            );
+          })
         );
       })
     )

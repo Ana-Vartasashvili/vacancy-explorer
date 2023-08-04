@@ -83,7 +83,7 @@ export const clearMyVacanciesError = createAction(
 
 export const startAddingToSavedVacancies = createAction(
   '[Vacancies] Start Adding To Saved Vacancies',
-  props<{ vacancy: Vacancy }>()
+  props<{ savedVacancies: Vacancy[] }>()
 );
 
 export const addToSavedVacanciesSuccess = createAction(

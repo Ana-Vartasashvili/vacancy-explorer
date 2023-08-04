@@ -2,11 +2,17 @@
   <div class="vacancy">
     <h3 class="vacancy__title">{{ vacancy.jobTitle }}</h3>
     <mat-icon
-      class="bookmark-icon bookmark-icon--border"
-      (click)="addToSavedVacancies($event)"
+      class="bookmark-icon"
+      *ngIf="!savedVacancyWithSameId"
+      (click)="addOrRemoveFromSavedVacancies($event)"
       >bookmark_border</mat-icon
     >
-    <mat-icon class="bookmark-icon bookmark-icon--fill">bookmark</mat-icon>
+    <mat-icon
+      class="bookmark-icon"
+      *ngIf="savedVacancyWithSameId"
+      (click)="addOrRemoveFromSavedVacancies($event)"
+      >bookmark</mat-icon
+    >
 
     <div class="vacancy__info">
       <div class="vacancy__location-company">

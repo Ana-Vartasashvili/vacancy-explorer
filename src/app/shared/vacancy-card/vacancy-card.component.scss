@@ -14,12 +14,8 @@
     box-shadow: 0.5rem 0.5rem 0 $color-black;
     border: $border-width-sm solid $color-black;
 
-    .bookmark-icon--border {
+    .bookmark-icon {
       display: block;
-
-      &:hover {
-        color: lighten($color-blue, 5%);
-      }
     }
   }
 
