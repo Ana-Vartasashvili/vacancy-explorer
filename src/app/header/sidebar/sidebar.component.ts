@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -21,6 +22,7 @@ import { AppState } from 'src/app/store/app.reducer';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   @Output() hideSidebar = new EventEmitter<void>();
+  @Input() sidebarIsOpen: boolean;
   storeSub: Subscription;
   currentUser: User;
 

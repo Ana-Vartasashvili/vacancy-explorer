@@ -118,7 +118,6 @@ export class VacanciesEffects {
         return actionForSuccess({ [actionObjectKey]: vacancies });
       }),
       catchError((error) => {
-        console.log(error);
         return this.handleError(actionForFail, clearErrorAction, errorMessage);
       })
     );
@@ -147,6 +146,7 @@ export class VacanciesEffects {
         const queries = startFetchingAction.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
+
         const baseQuery = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active'),

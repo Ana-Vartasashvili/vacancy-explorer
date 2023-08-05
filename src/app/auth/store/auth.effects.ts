@@ -209,6 +209,9 @@ export class AuthEffects {
                     redirect: false,
                   })
                 );
+              } else {
+                localStorage.removeItem('tokenData');
+                return of(AuthActions.autoLoginFail());
               }
             }
 

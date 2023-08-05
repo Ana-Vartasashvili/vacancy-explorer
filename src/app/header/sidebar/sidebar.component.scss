@@ -2,7 +2,7 @@
 
 .overlay {
   @include overlay();
-  z-index: 20;
+  z-index: 30;
 }
 
 .sidebar {
@@ -14,7 +14,7 @@
   font-size: 2rem;
   overflow: hidden;
   height: 100%;
-  width: 28rem;
+  width: 30rem;
   padding: 8rem 0 0rem 0;
 
   @media (min-width: 55rem) {

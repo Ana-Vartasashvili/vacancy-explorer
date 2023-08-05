@@ -18,6 +18,7 @@ export interface VacanciesState {
   savedVacancies: Vacancy[];
   savedVacanciesError: string;
   savedVacanciesLoading: boolean;
+  vacanciesSearchInputValue: string;
 }
 
 const initialState: VacanciesState = {
@@ -36,6 +37,7 @@ const initialState: VacanciesState = {
   savedVacancies: [],
   savedVacanciesError: null,
   savedVacanciesLoading: false,
+  vacanciesSearchInputValue: '',
 };
 
 export const VacanciesReducer = createReducer(
@@ -169,5 +171,10 @@ export const VacanciesReducer = createReducer(
   on(VacanciesActions.clearSavedVacanciesError, (state, action) => ({
     ...state,
     savedVacanciesError: null,
+  })),
+
+  on(VacanciesActions.setVacanciesSearchInputValue, (state, action) => ({
+    ...state,
+    vacanciesSearchInputValue: action.inputValue,
   }))
 );

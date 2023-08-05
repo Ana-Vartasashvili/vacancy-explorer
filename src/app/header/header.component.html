@@ -2,4 +2,5 @@
 <app-sidebar
   (hideSidebar)="setSidebarIsShown(false)"
   *ngIf="sidebarIsShown"
+  [sidebarIsOpen]="sidebarIsShown"
 ></app-sidebar>

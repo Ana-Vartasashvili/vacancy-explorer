@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -12,28 +12,30 @@ import { Vacancy } from './vacancies.types';
   templateUrl: './vacancies.component.html',
   styleUrls: ['./vacancies.component.scss'],
 })
-export class VacanciesComponent implements OnInit {
+export class VacanciesComponent implements OnInit, OnDestroy {
   filterbarIsShown = false;
   searchForm: FormGroup;
   storeSub: Subscription;
   vacancies: Vacancy[];
   isLoading = false;
+  searchInputValue: string = '';
 
   constructor(private store: Store<AppState>) {}
 
-  setFilterbarIsShown(isShown: boolean) {
-    this.filterbarIsShown = isShown;
-  }
-
   ngOnInit(): void {
-    this.searchForm = new FormGroup({
-      jobTitle: new FormControl(''),
-    });
-
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
       this.vacancies = vacanciesState.vacancies;
       this.isLoading = vacanciesState.vacanciesLoading;
+      this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
     });
+
+    this.searchForm = new FormGroup({
+      jobTitle: new FormControl(this.searchInputValue),
+    });
+  }
+
+  setFilterbarIsShown(isShown: boolean) {
+    this.filterbarIsShown = isShown;
   }
 
   onSubmit() {
@@ -61,5 +63,9 @@ export class VacanciesComponent implements OnInit {
     );
 
     this.searchForm.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.storeSub.unsubscribe();
   }
 }

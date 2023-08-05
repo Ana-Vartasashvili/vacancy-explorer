@@ -99,3 +99,8 @@ export const addToSavedVacanciesFailed = createAction(
 export const clearSavedVacanciesError = createAction(
   '[Vacancies] Clear Saved Vacancies Error'
 );
+
+export const setVacanciesSearchInputValue = createAction(
+  '[Vacancies] Set Vacancies Search Input Value',
+  props<{ inputValue: string }>()
+);

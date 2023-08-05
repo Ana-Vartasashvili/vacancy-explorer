@@ -63,3 +63,8 @@ export const savedVacanciesLoading = createSelector(
   vacancies,
   (state: VacanciesState) => state.savedVacanciesLoading
 );
+
+export const vacanciesSearchInputValue = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.vacanciesSearchInputValue
+);

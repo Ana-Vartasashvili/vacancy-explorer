@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { AppState } from 'src/app/store/app.reducer';
-import { startFetchingVacancies } from 'src/app/vacancies/store/vacancies.actions';
+import { vacancies } from 'src/app/vacancies/store/vacancies.selectors';
+import { Vacancy } from 'src/app/vacancies/vacancies.types';
+import { setVacanciesSearchInputValue } from '../../vacancies/store/vacancies.actions';
 
 @Component({
   selector: 'app-hero',
@@ -13,12 +15,9 @@ import { startFetchingVacancies } from 'src/app/vacancies/store/vacancies.action
 })
 export class HeroComponent implements OnInit {
   searchForm: FormGroup;
+  vacancies: Vacancy[];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<AppState>
-  ) {}
+  constructor(private router: Router, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -27,21 +26,20 @@ export class HeroComponent implements OnInit {
         AppValidators.noWhiteSpaces,
       ]),
     });
+
+    this.store.select(vacancies).subscribe((vacanciesState) => {
+      this.vacancies = vacanciesState.vacancies;
+    });
   }
 
   onSubmit() {
     const jobTitle = this.searchForm.value.jobTitle.trim();
-    this.store.dispatch(
-      startFetchingVacancies({
-        queries: [
-          {
-            queryFieldPath: 'jobTitle',
-            operator: '==',
-            value: jobTitle,
-          },
-        ],
-      })
-    );
-    this.router.navigate(['/vacancies'], { relativeTo: this.route });
+
+    if (jobTitle) {
+      this.store.dispatch(
+        setVacanciesSearchInputValue({ inputValue: jobTitle })
+      );
+      this.router.navigate(['/vacancies']);
+    }
   }
 }
