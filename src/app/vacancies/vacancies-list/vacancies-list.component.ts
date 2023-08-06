@@ -23,6 +23,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   storeSub: Subscription;
   vacanciesSearchInputValue: string;
   currentPageSize: number;
+  allVacanciesCount: number;
 
   constructor(private store: Store<AppState>) {}
 
@@ -33,6 +34,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       this.vacanciesError = vacanciesState.vacanciesError;
       this.vacanciesSearchInputValue = vacanciesState.vacanciesSearchInputValue;
       this.currentPageSize = vacanciesState.pageSize;
+      this.allVacanciesCount = vacanciesState.numberOfFetchedVacancies;
     });
 
     this.fetchVacancies();

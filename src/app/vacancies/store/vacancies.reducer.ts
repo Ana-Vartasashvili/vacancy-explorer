@@ -22,6 +22,7 @@ export interface VacanciesState {
   vacanciesSearchInputValue: string;
   pageSize: number;
   queries: Query[];
+  numberOfFetchedVacancies: number;
 }
 
 const initialState: VacanciesState = {
@@ -43,6 +44,7 @@ const initialState: VacanciesState = {
   vacanciesSearchInputValue: '',
   pageSize: 10,
   queries: [],
+  numberOfFetchedVacancies: 0,
 };
 
 export const VacanciesReducer = createReducer(
@@ -191,5 +193,10 @@ export const VacanciesReducer = createReducer(
   on(VacanciesActions.setQueries, (state, action) => ({
     ...state,
     queries: action.queries,
+  })),
+
+  on(VacanciesActions.setNumberOfFetchedVacancies, (state, action) => ({
+    ...state,
+    numberOfFetchedVacancies: action.numberOfFetchedVacancies,
   }))
 );

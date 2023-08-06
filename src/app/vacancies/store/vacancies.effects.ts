@@ -30,6 +30,7 @@ import {
   map,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 import { UserData } from 'src/app/auth/auth.types';
 import { db } from 'src/app/firebase/firebase-config';
@@ -114,18 +115,37 @@ export class VacanciesEffects {
         );
         const combinedQuery = query(baseQuery, or(...queries));
 
-        const q = query(
+        const queryWithoutPageLimit = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active')
         );
-        getCountFromServer(q).then((count) => console.log(count.data().count));
 
-        return this.handleFetchVacancies(
-          combinedQuery,
-          'vacancies',
-          VacanciesActions.setVacancies,
-          VacanciesActions.getVacanciesFailed,
-          VacanciesActions.clearVacanciesError
+        return from(
+          getCountFromServer(query(queryWithoutPageLimit, or(...queries)))
+        ).pipe(
+          tap((vacanciesSnaps) =>
+            this.store.dispatch(
+              VacanciesActions.setNumberOfFetchedVacancies({
+                numberOfFetchedVacancies: vacanciesSnaps.data().count,
+              })
+            )
+          ),
+          switchMap(() => {
+            return this.handleFetchVacancies(
+              combinedQuery,
+              'vacancies',
+              VacanciesActions.setVacancies,
+              VacanciesActions.getVacanciesFailed,
+              VacanciesActions.clearVacanciesError
+            );
+          }),
+          catchError((error) => {
+            return this.handleError(
+              VacanciesActions.getVacanciesFailed,
+              VacanciesActions.clearVacanciesError,
+              error.message
+            );
+          })
         );
       })
     )

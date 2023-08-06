@@ -113,3 +113,8 @@ export const setQueries = createAction(
   '[Vacancies] Set Queries',
   props<{ queries: Query[] }>()
 );
+
+export const setNumberOfFetchedVacancies = createAction(
+  '[Vacancies] Set Number Of Fetched Vacancies',
+  props<{ numberOfFetchedVacancies: number }>()
+);
