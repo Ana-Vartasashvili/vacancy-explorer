@@ -81,17 +81,17 @@ export const clearMyVacanciesError = createAction(
   '[Vacancies] Clear My Vacancies Error'
 );
 
-export const startAddingToSavedVacancies = createAction(
+export const startUpdatingSavedVacancies = createAction(
   '[Vacancies] Start Adding To Saved Vacancies',
-  props<{ savedVacancies: Vacancy[] }>()
+  props<{ vacancyId: string; updateType: string }>()
 );
 
-export const addToSavedVacanciesSuccess = createAction(
+export const updateSavedVacanciesSuccess = createAction(
   '[Vacancies] Add To Saved Vacancies Success',
   props<{ savedVacancies: Vacancy[] }>()
 );
 
-export const addToSavedVacanciesFailed = createAction(
+export const updateSavedVacanciesFailed = createAction(
   '[Vacancies] Add To Saved Vacancies Failed',
   props<{ errorMessage: string }>()
 );

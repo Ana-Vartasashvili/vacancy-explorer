@@ -19,6 +19,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   vacancies: Vacancy[];
   isLoading = false;
   searchInputValue: string = '';
+  error: string;
 
   constructor(private store: Store<AppState>) {}
 
@@ -27,6 +28,8 @@ export class VacanciesComponent implements OnInit, OnDestroy {
       this.vacancies = vacanciesState.vacancies;
       this.isLoading = vacanciesState.vacanciesLoading;
       this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
+      this.error = vacanciesState.vacanciesError;
+      this.error = vacanciesState.savedVacanciesError;
     });
 
     this.searchForm = new FormGroup({

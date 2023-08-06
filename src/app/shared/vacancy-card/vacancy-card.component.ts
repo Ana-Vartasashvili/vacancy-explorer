@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
-import { startAddingToSavedVacancies } from 'src/app/vacancies/store/vacancies.actions';
+import { startUpdatingSavedVacancies } from 'src/app/vacancies/store/vacancies.actions';
 import { savedVacancies } from 'src/app/vacancies/store/vacancies.selectors';
 import { Vacancy } from 'src/app/vacancies/vacancies.types';
 
@@ -43,19 +43,10 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
     event.stopImmediatePropagation();
     const user = localStorage.getItem('tokenData');
     if (user) {
-      let updatedSavedVacancies: Vacancy[];
-
-      if (this.savedVacancyWithSameId) {
-        const savedVacancies = [...this.savedVacancies];
-        savedVacancies.splice(this.savedVacancyIndex, 1);
-        updatedSavedVacancies = [...savedVacancies];
-      } else {
-        updatedSavedVacancies = [...this.savedVacancies, this.vacancy];
-      }
-
       this.store.dispatch(
-        startAddingToSavedVacancies({
-          savedVacancies: updatedSavedVacancies,
+        startUpdatingSavedVacancies({
+          vacancyId: this.vacancy.id,
+          updateType: this.savedVacancyWithSameId ? 'remove' : 'add',
         })
       );
     } else {

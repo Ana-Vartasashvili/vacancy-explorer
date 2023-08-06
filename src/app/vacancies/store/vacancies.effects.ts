@@ -3,11 +3,15 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ActionCreator, Store } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import {
+  DocumentSnapshot,
   Query,
   QuerySnapshot,
   Timestamp,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
+  getDoc,
   getDocs,
   limit,
   or,
@@ -17,9 +21,22 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { catchError, from, map, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  defaultIfEmpty,
+  from,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
+import { UserData } from 'src/app/auth/auth.types';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import {
+  getSavedVacanciesDocSnaps,
+  getVacanciesList,
+} from '../vacancies-helpers';
 import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
@@ -66,78 +83,17 @@ export class VacanciesEffects {
 
             return VacanciesActions.addVacancySuccess();
           }),
-          catchError(() =>
+          catchError((error) =>
             this.handleError(
               VacanciesActions.addVacancyFailed,
               clearAddVacancyMessage,
-              'Could not add new vacancy'
+              error.message
             )
           )
         );
       })
     )
   );
-
-  private getVacancyDataFromAction(
-    vacancyActionPayload: Vacancy,
-    vacancyId: string,
-    userId: string
-  ): Vacancy {
-    return {
-      jobTitle: vacancyActionPayload.jobTitle.trim(),
-      companyName: vacancyActionPayload.companyName.trim(),
-      category: vacancyActionPayload.category,
-      city: vacancyActionPayload.city,
-      employementType: vacancyActionPayload.employementType,
-      experience: vacancyActionPayload.experience,
-      jobDescription: vacancyActionPayload.jobDescription.trim(),
-      workingType: vacancyActionPayload.workingType,
-      salary: vacancyActionPayload.salary,
-      status: 'pending',
-      createdAt: Timestamp.now(),
-      id: vacancyId,
-      userId,
-    };
-  }
-
-  private handleFetchVacancies(
-    query: Query,
-    actionObjectKey: string,
-    actionForSuccess,
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction,
-    errorMessage?: string
-  ) {
-    return from(getDocs(query)).pipe(
-      map((resData: QuerySnapshot<Vacancy>) => {
-        let vacancies: Vacancy[] = [];
-        resData.forEach((doc) => {
-          vacancies.push(doc.data());
-        });
-
-        return actionForSuccess({ [actionObjectKey]: vacancies });
-      }),
-      catchError((error) => {
-        return this.handleError(actionForFail, clearErrorAction, errorMessage);
-      })
-    );
-  }
-
-  private handleError(
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction,
-    errorMessage = 'Could not fetch vacancies.'
-  ) {
-    setTimeout(() => {
-      this.store.dispatch(clearErrorAction());
-    }, 3500);
-
-    return of(
-      actionForFail({
-        errorMessage,
-      })
-    );
-  }
 
   fetchVacancies = createEffect(() =>
     this.actions$.pipe(
@@ -210,26 +166,49 @@ export class VacanciesEffects {
     )
   );
 
-  addToSavedVacancies = createEffect(() =>
+  updateSavedVacancies = createEffect(() =>
     this.actions$.pipe(
-      ofType(VacanciesActions.startAddingToSavedVacancies),
-      switchMap((startAddingAction) => {
+      ofType(VacanciesActions.startUpdatingSavedVacancies),
+      concatMap((startAddingAction) => {
         const userId = JSON.parse(localStorage.getItem('tokenData')).userId;
         const userRef = doc(db, 'users', userId);
+        const vacancyDocRef = doc(db, 'vacancies', startAddingAction.vacancyId);
+        let updatedSavedVacanciesField = {
+          savedVacancies: arrayUnion(vacancyDocRef),
+        };
+        if (startAddingAction.updateType === 'remove') {
+          updatedSavedVacanciesField = {
+            savedVacancies: arrayRemove(vacancyDocRef),
+          };
+        }
 
-        return from(
-          updateDoc(userRef, {
-            savedVacancies: [],
-          })
-        ).pipe(
-          map(() => {
-            return VacanciesActions.addToSavedVacanciesSuccess({
-              savedVacancies: [],
-            });
+        return from(updateDoc(userRef, updatedSavedVacanciesField)).pipe(
+          concatMap(() => {
+            return from(getDoc(userRef)).pipe(
+              map((userDocSnap) => {
+                if (userDocSnap.exists()) {
+                  return userDocSnap.data();
+                }
+                return null;
+              }),
+              concatMap((userData: UserData) => {
+                return getSavedVacanciesDocSnaps(userData.savedVacancies).pipe(
+                  defaultIfEmpty([]),
+                  map((savedVacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
+                    const savedVacancies = getVacanciesList(
+                      savedVacanciesDocSnaps
+                    );
+                    return VacanciesActions.updateSavedVacanciesSuccess({
+                      savedVacancies: savedVacancies,
+                    });
+                  })
+                );
+              })
+            );
           }),
           catchError((error) => {
             return this.handleError(
-              VacanciesActions.addToSavedVacanciesFailed,
+              VacanciesActions.updateSavedVacanciesFailed,
               VacanciesActions.clearSavedVacanciesError,
               error.message
             );
@@ -238,4 +217,65 @@ export class VacanciesEffects {
       })
     )
   );
+
+  private getVacancyDataFromAction(
+    vacancyActionPayload: Vacancy,
+    vacancyId: string,
+    userId: string
+  ): Vacancy {
+    return {
+      jobTitle: vacancyActionPayload.jobTitle.trim(),
+      companyName: vacancyActionPayload.companyName.trim(),
+      category: vacancyActionPayload.category,
+      city: vacancyActionPayload.city,
+      employementType: vacancyActionPayload.employementType,
+      experience: vacancyActionPayload.experience,
+      jobDescription: vacancyActionPayload.jobDescription.trim(),
+      workingType: vacancyActionPayload.workingType,
+      salary: vacancyActionPayload.salary,
+      status: 'pending',
+      createdAt: Timestamp.now(),
+      id: vacancyId,
+      userId,
+    };
+  }
+
+  private handleFetchVacancies(
+    query: Query,
+    actionObjectKey: string,
+    actionForSuccess,
+    actionForFail: ActionFail,
+    clearErrorAction: clearErrorAction
+  ) {
+    return from(getDocs(query)).pipe(
+      map((resData: QuerySnapshot<Vacancy>) => {
+        let vacancies: Vacancy[] = [];
+        resData.forEach((doc) => {
+          vacancies.push(doc.data());
+        });
+
+        return actionForSuccess({ [actionObjectKey]: vacancies });
+      }),
+      catchError((error) => {
+        return this.handleError(actionForFail, clearErrorAction, error.message);
+      })
+    );
+  }
+
+  private handleError(
+    actionForFail: ActionFail,
+    clearErrorAction: clearErrorAction,
+    errorMsg: string
+  ) {
+    const errorMessage = errorMsg.split('.')[0].split(':')[0];
+    setTimeout(() => {
+      this.store.dispatch(clearErrorAction());
+    }, 3500);
+
+    return of(
+      actionForFail({
+        errorMessage,
+      })
+    );
+  }
 }

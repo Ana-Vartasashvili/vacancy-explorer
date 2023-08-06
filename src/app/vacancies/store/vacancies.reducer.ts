@@ -149,19 +149,19 @@ export const VacanciesReducer = createReducer(
     myVacanciesLoading: false,
   })),
 
-  on(VacanciesActions.startAddingToSavedVacancies, (state) => ({
+  on(VacanciesActions.startUpdatingSavedVacancies, (state) => ({
     ...state,
     savedVacanciesLoading: true,
   })),
 
-  on(VacanciesActions.addToSavedVacanciesSuccess, (state, action) => ({
+  on(VacanciesActions.updateSavedVacanciesSuccess, (state, action) => ({
     ...state,
     savedVacanciesLoading: false,
     savedVacanciesError: null,
     savedVacancies: action.savedVacancies,
   })),
 
-  on(VacanciesActions.addToSavedVacanciesFailed, (state, action) => ({
+  on(VacanciesActions.updateSavedVacanciesFailed, (state, action) => ({
     ...state,
     savedVacanciesLoading: false,
     savedVacanciesError: action.errorMessage,
