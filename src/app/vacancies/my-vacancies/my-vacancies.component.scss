@@ -13,8 +13,32 @@
     }
   }
 
-  &__heading {
+  &__header {
+    @include flex(0, row, space-between);
     margin-bottom: 2rem;
+
+    @media (max-width: 26rem) {
+      @include flex(1rem, column, space-between, flex-start);
+    }
+  }
+
+  &__filters {
+    @include flex(1.2rem);
+    font-size: 1.7rem;
+  }
+
+  &__filter {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-blue;
+      border-bottom: 0.2rem solid $color-blue;
+    }
+  }
+
+  .active {
+    color: $color-blue;
+    border-bottom: 0.2rem solid $color-blue;
   }
 
   &__list {

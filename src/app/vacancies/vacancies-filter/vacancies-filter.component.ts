@@ -57,7 +57,7 @@ export class VacanciesFilterComponent implements OnInit {
     this.sidebarClosed.emit();
   }
 
-  onChange(formGroup: string, formControl: string) {
+  onInputValueChange(formGroup: string, formControl: string) {
     const formControlValue = this.filtersForm
       .get(formGroup)
       .get(formControl).value;
