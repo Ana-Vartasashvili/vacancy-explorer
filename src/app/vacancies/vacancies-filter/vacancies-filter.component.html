@@ -30,7 +30,7 @@
     <div class="filter-options" *ngIf="filterBlockIsOpen(formGroup)" @fade>
       <div class="filter-option" *ngFor="let formControl of filters[formGroup]">
         <input
-          (change)="onChange(formGroup, formControl)"
+          (change)="onInputValueChange(formGroup, formControl)"
           type="checkbox"
           class="filter-option__input"
           id="{{ formControl }}"

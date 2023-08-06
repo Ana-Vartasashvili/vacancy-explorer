@@ -6,7 +6,30 @@
 
 <section class="my-vacancies">
   <div class="my-vacancies__container">
-    <h1 class="my-vacancies__heading">My Vacancies</h1>
+    <div class="my-vacancies__header">
+      <h1>My Vacancies</h1>
+
+      <div class="my-vacancies__filters">
+        <span
+          class="my-vacancies__filter"
+          [ngClass]="{ active: myVacanciesStatus === 'all' }"
+          (click)="getMyVacanciesWithStatus('all')"
+          >All</span
+        >
+        <span
+          class="my-vacancies__filter"
+          [ngClass]="{ active: myVacanciesStatus === 'pending' }"
+          (click)="getMyVacanciesWithStatus('pending')"
+          >Pending</span
+        >
+        <span
+          class="my-vacancies__filter"
+          [ngClass]="{ active: myVacanciesStatus === 'approved' }"
+          (click)="getMyVacanciesWithStatus('approved')"
+          >Approved</span
+        >
+      </div>
+    </div>
 
     <div
       *ngIf="myVacancies.length == 0 && !isLoading"
