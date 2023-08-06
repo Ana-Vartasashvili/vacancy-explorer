@@ -27,8 +27,7 @@ export const clearAddVacancyMessage = createAction(
 );
 
 export const startFetchingVacancies = createAction(
-  '[Vacancies] Start Fetching Vacancies',
-  props<{ queries: Query[] }>()
+  '[Vacancies] Start Fetching Vacancies'
 );
 
 export const setVacancies = createAction(
@@ -103,4 +102,14 @@ export const clearSavedVacanciesError = createAction(
 export const setVacanciesSearchInputValue = createAction(
   '[Vacancies] Set Vacancies Search Input Value',
   props<{ inputValue: string }>()
+);
+
+export const setPageSize = createAction(
+  '[Vacancies] Set Page Size',
+  props<{ pageSize: number }>()
+);
+
+export const setQueries = createAction(
+  '[Vacancies] Set Queries',
+  props<{ queries: Query[] }>()
 );

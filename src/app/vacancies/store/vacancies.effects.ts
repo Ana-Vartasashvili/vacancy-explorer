@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ActionCreator, Store } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import {
@@ -11,6 +11,7 @@ import {
   arrayUnion,
   collection,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   limit,
@@ -40,6 +41,7 @@ import {
 import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
+import { pageSize, vacancies } from './vacancies.selectors';
 
 type ActionFail = ActionCreator<
   string,
@@ -98,8 +100,9 @@ export class VacanciesEffects {
   fetchVacancies = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startFetchingVacancies),
-      switchMap((startFetchingAction) => {
-        const queries = startFetchingAction.queries.map((query) => {
+      concatLatestFrom(() => this.store.select(vacancies)),
+      switchMap(([action, vacancies]) => {
+        const queries = vacancies.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
 
@@ -107,9 +110,15 @@ export class VacanciesEffects {
           collection(db, 'vacancies'),
           where('status', '==', 'active'),
           orderBy('createdAt', 'desc'),
-          limit(10)
+          limit(vacancies.pageSize)
         );
         const combinedQuery = query(baseQuery, or(...queries));
+
+        const q = query(
+          collection(db, 'vacancies'),
+          where('status', '==', 'active')
+        );
+        getCountFromServer(q).then((count) => console.log(count.data().count));
 
         return this.handleFetchVacancies(
           combinedQuery,

@@ -68,3 +68,8 @@ export const vacanciesSearchInputValue = createSelector(
   vacancies,
   (state: VacanciesState) => state.vacanciesSearchInputValue
 );
+
+export const pageSize = createSelector(
+  vacancies,
+  (state: VacanciesState) => state.pageSize
+);

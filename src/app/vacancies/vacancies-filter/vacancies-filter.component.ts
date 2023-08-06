@@ -6,7 +6,11 @@ import {
   ArrowRotateAnimation,
   FilterBlockAnimation,
 } from '../../shared/animations/app-animations';
-import { Query, startFetchingVacancies } from '../store/vacancies.actions';
+import {
+  Query,
+  setQueries,
+  startFetchingVacancies,
+} from '../store/vacancies.actions';
 import { VacanciesFilterService } from './vacancies-filter.service';
 import { Options } from './vacancies-filter.types';
 
@@ -74,7 +78,7 @@ export class VacanciesFilterComponent implements OnInit {
         (query) => query.value !== formControl
       );
     }
-
-    this.store.dispatch(startFetchingVacancies({ queries: this.queries }));
+    this.store.dispatch(setQueries({ queries: this.queries }));
+    this.store.dispatch(startFetchingVacancies());
   }
 }

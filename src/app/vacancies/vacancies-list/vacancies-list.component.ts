@@ -1,8 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
-import { startFetchingVacancies } from '../store/vacancies.actions';
+import {
+  setPageSize,
+  setQueries,
+  startFetchingVacancies,
+} from '../store/vacancies.actions';
 import { vacancies } from '../store/vacancies.selectors';
 import { Vacancy } from '../vacancies.types';
 
@@ -17,6 +22,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   vacanciesError: string;
   storeSub: Subscription;
   vacanciesSearchInputValue: string;
+  currentPageSize: number;
 
   constructor(private store: Store<AppState>) {}
 
@@ -26,6 +32,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       this.isLoading = vacanciesState.vacanciesLoading;
       this.vacanciesError = vacanciesState.vacanciesError;
       this.vacanciesSearchInputValue = vacanciesState.vacanciesSearchInputValue;
+      this.currentPageSize = vacanciesState.pageSize;
     });
 
     this.fetchVacancies();
@@ -42,11 +49,16 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
         },
       ];
     }
-    this.store.dispatch(
-      startFetchingVacancies({
-        queries,
-      })
-    );
+    this.store.dispatch(setQueries({ queries }));
+    this.store.dispatch(startFetchingVacancies());
+  }
+
+  onPageChange(event: PageEvent) {
+    if (this.currentPageSize !== event.pageSize) {
+      this.currentPageSize = event.pageSize;
+      this.store.dispatch(setPageSize({ pageSize: event.pageSize }));
+      this.store.dispatch(startFetchingVacancies());
+    }
   }
 
   ngOnDestroy(): void {

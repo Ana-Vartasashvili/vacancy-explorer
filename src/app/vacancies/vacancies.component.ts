@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../store/app.reducer';
-import { startFetchingVacancies } from './store/vacancies.actions';
+import { setQueries, startFetchingVacancies } from './store/vacancies.actions';
 import { vacancies } from './store/vacancies.selectors';
 import { Vacancy } from './vacancies.types';
 
@@ -25,7 +25,6 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
-      this.vacancies = vacanciesState.vacancies;
       this.isLoading = vacanciesState.vacanciesLoading;
       this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
       this.error = vacanciesState.vacanciesError;
@@ -45,7 +44,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
     const jobTitle = this.searchForm.value.jobTitle.trim();
     if (jobTitle) {
       this.store.dispatch(
-        startFetchingVacancies({
+        setQueries({
           queries: [
             {
               queryFieldPath: 'jobTitle',
@@ -55,15 +54,13 @@ export class VacanciesComponent implements OnInit, OnDestroy {
           ],
         })
       );
+      this.store.dispatch(startFetchingVacancies());
     }
   }
 
   fetchAllVacancies() {
-    this.store.dispatch(
-      startFetchingVacancies({
-        queries: [],
-      })
-    );
+    this.store.dispatch(setQueries({ queries: [] }));
+    this.store.dispatch(startFetchingVacancies());
 
     this.searchForm.reset();
   }
