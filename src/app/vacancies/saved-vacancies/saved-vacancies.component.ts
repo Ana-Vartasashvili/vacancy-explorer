@@ -10,7 +10,7 @@ import { Vacancy } from '../vacancies.types';
   styleUrls: ['./saved-vacancies.component.scss'],
 })
 export class SavedVacanciesComponent implements OnInit {
-  savedVacancies: Vacancy[];
+  savedVacancies: Vacancy[] = [];
   isLoading = false;
   error: string;
 

@@ -35,7 +35,7 @@ export const AuthReducer = createReducer(
       action.role,
       action.email,
       action.userId,
-      action.savedVacancies,
+      action.savedVacancies as [],
       action.token,
       action.expirationDate
     );

@@ -1,3 +1,5 @@
+import { Vacancy } from '../vacancies/vacancies.types';
+
 export class User {
   constructor(
     public firstName: string,
@@ -5,7 +7,7 @@ export class User {
     public role: string,
     public email: string,
     public userId: string,
-    public savedVacancies: [],
+    public savedVacancies: Vacancy[],
     private _token: string,
     public tokenExpirationDate: Date
   ) {}

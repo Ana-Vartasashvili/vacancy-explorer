@@ -6,11 +6,21 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {
+  DocumentData,
+  DocumentReference,
+  DocumentSnapshot,
+  doc,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
+import {
+  Observable,
   catchError,
   concatMap,
+  defaultIfEmpty,
   finalize,
+  forkJoin,
   from,
   map,
   mergeMap,
@@ -21,7 +31,7 @@ import {
 import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { addToSavedVacanciesSuccess } from 'src/app/vacancies/store/vacancies.actions';
-import * as VacanciesActions from '../../vacancies/store/vacancies.actions';
+import { Vacancy } from 'src/app/vacancies/vacancies.types';
 import { handleAuthentication, handleError } from '../auth-helpers';
 import { AuthService } from '../auth.service';
 import { AuthResponseData, TokenData, UserData } from '../auth.types';
@@ -44,17 +54,14 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signupStart),
       concatMap((signupStartAction) => {
+        const { email, firstName, lastName, password } = signupStartAction;
         return from(
-          createUserWithEmailAndPassword(
-            auth,
-            signupStartAction.email.trim(),
-            signupStartAction.password.trim()
-          )
+          createUserWithEmailAndPassword(auth, email.trim(), password.trim())
         ).pipe(
           map((resData: AuthResponseData) => ({
-            email: signupStartAction.email.trim(),
-            firstName: signupStartAction.firstName.trim(),
-            lastName: signupStartAction.lastName.trim(),
+            email: email.trim(),
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
             expiresIn: +resData._tokenResponse.expiresIn,
             token: resData._tokenResponse.idToken,
             userId: resData._tokenResponse.localId,
@@ -69,16 +76,11 @@ export class AuthEffects {
                 email: userData.email,
                 role: userData.role,
                 userId: userData.userId,
-                savedVacancies: userData.savedVacancies,
+                savedVacancies: [],
               })
             ).pipe(
               tap(() => {
                 this.authService.setLogoutTimer(userData.expiresIn * 1000);
-                this.store.dispatch(
-                  VacanciesActions.addToSavedVacanciesSuccess({
-                    savedVacancies: userData.savedVacancies,
-                  })
-                );
               }),
               map(() => handleAuthentication(userData)),
               catchError((error: any) => handleError(error.code))
@@ -87,12 +89,7 @@ export class AuthEffects {
           catchError((error: any) => handleError(error.code))
         );
       }),
-      finalize(() => {
-        setTimeout(
-          () => this.store.dispatch(AuthActions.clearAuthError()),
-          CLEAR_ERROR_TIMEOUT_TIME
-        );
-      })
+      finalize(() => this.clearErrorAfterTimeout(clearAuthError))
     )
   );
 
@@ -107,53 +104,55 @@ export class AuthEffects {
             loginStartAction.password.trim()
           )
         ).pipe(
-          mergeMap((response: AuthResponseData) => {
-            const { expiresIn, email, idToken, localId } =
-              response._tokenResponse;
-            const docRef = doc(db, 'users', localId);
+          mergeMap((authResponse: AuthResponseData) => {
+            const { expiresIn, localId } = authResponse._tokenResponse;
 
-            return from(getDoc(docRef)).pipe(
-              tap((docSnap) => {
-                this.authService.setLogoutTimer(+expiresIn * 1000);
-                if (docSnap.exists()) {
-                  const userData: UserData = docSnap.data() as UserData;
-                  this.store.dispatch(
-                    addToSavedVacanciesSuccess({
-                      savedVacancies: userData.savedVacancies,
-                    })
+            return from(getDoc(doc(db, 'users', localId))).pipe(
+              map((userDocSnap) => {
+                return userDocSnap.exists()
+                  ? (userDocSnap.data() as UserData)
+                  : null;
+              }),
+              mergeMap((userResData: UserData) => {
+                if (userResData) {
+                  let userData: UserData = this.createUserDataObject(
+                    userResData,
+                    authResponse
+                  );
+
+                  return this.getSavedVacanciesDocSnaps(
+                    userData.savedVacancies
+                  ).pipe(
+                    defaultIfEmpty([]),
+                    map((vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
+                      return this.getVacanciesList(vacanciesDocSnaps);
+                    }),
+                    tap((vacancies: Vacancy[]) => {
+                      userData.savedVacancies = vacancies;
+                      this.store.dispatch(
+                        addToSavedVacanciesSuccess({
+                          savedVacancies: vacancies,
+                        })
+                      );
+                      this.authService.setLogoutTimer(+expiresIn * 1000);
+                    }),
+                    map(() => handleAuthentication(userData))
                   );
                 }
-              }),
-              mergeMap((docSnap) => {
-                if (docSnap.exists()) {
-                  const userDataResponse: UserData = docSnap.data() as UserData;
-                  let userData: UserData = {
-                    firstName: userDataResponse.firstName,
-                    lastName: userDataResponse.lastName,
-                    email,
-                    userId: localId,
-                    savedVacancies: userDataResponse.savedVacancies,
-                    token: idToken,
-                    expiresIn: +expiresIn,
-                    role: userDataResponse.role,
-                  };
-
-                  return of(handleAuthentication(userData));
-                }
-
                 return of(
                   AuthActions.authFail({ errorMessage: 'Could not find user!' })
                 );
               })
             );
+          }),
+          catchError((error) => {
+            this.clearErrorAfterTimeout(clearAuthError);
+            return handleError(error.code);
           })
         );
       }),
       catchError((error: any) => {
-        setTimeout(() => {
-          this.store.dispatch(clearAuthError());
-        }, CLEAR_ERROR_TIMEOUT_TIME);
-
+        this.clearErrorAfterTimeout(clearAuthError);
         return handleError(error.code);
       })
     )
@@ -167,61 +166,129 @@ export class AuthEffects {
           localStorage.getItem('tokenData')
         );
         if (!tokenData) return of(AuthActions.autoLoginFail());
-        const docRef = doc(db, 'users', tokenData.userId);
 
-        return from(getDoc(docRef)).pipe(
-          map((docSnap) => {
-            if (docSnap.exists()) return docSnap.data() as UserData;
-
-            return null;
-          }),
-          tap((userData: UserData) => {
-            this.store.dispatch(
-              addToSavedVacanciesSuccess({
-                savedVacancies: userData.savedVacancies,
-              })
-            );
+        return from(getDoc(doc(db, 'users', tokenData.userId))).pipe(
+          map((userDocSnap) => {
+            return userDocSnap.exists()
+              ? (userDocSnap.data() as UserData)
+              : null;
           }),
           mergeMap((userData: UserData) => {
             if (userData) {
-              const loadedUser = new User(
-                userData.firstName,
-                userData.lastName,
-                userData.role,
-                userData.email,
-                userData.userId,
-                userData.savedVacancies,
-                tokenData.token,
-                new Date(tokenData.expirationDate)
+              return this.getSavedVacanciesDocSnaps(
+                userData.savedVacancies
+              ).pipe(
+                defaultIfEmpty([]),
+                map((vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
+                  return this.getVacanciesList(vacanciesDocSnaps);
+                }),
+                tap((vacancies: Vacancy[]) => {
+                  this.store.dispatch(
+                    addToSavedVacanciesSuccess({ savedVacancies: vacancies })
+                  );
+                }),
+                map((vacancies: Vacancy[]) => {
+                  const loadedUser = this.createNewUserObject(
+                    userData,
+                    tokenData,
+                    vacancies
+                  );
+
+                  return this.checkTokenValidityAndFinishAuth(loadedUser);
+                })
               );
-
-              if (loadedUser.token) {
-                const expirationDuration =
-                  loadedUser.tokenExpirationDate.getTime() -
-                  new Date().getTime();
-                this.authService.setLogoutTimer(expirationDuration);
-
-                return of(
-                  AuthActions.authSuccess({
-                    ...loadedUser,
-                    token: loadedUser.token,
-                    expirationDate: loadedUser.tokenExpirationDate,
-                    redirect: false,
-                  })
-                );
-              } else {
-                localStorage.removeItem('tokenData');
-                return of(AuthActions.autoLoginFail());
-              }
+            } else {
+              return of(AuthActions.autoLoginFail());
             }
-
-            return of(AuthActions.autoLoginFail());
           }),
-          catchError(() => of(AuthActions.autoLoginFail()))
+          catchError(() => {
+            return of(AuthActions.autoLoginFail());
+          })
         );
       })
     )
   );
+
+  getVacanciesList(vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) {
+    return vacanciesDocSnaps
+      .filter((vacancyDocSnap: DocumentSnapshot<Vacancy>) =>
+        vacancyDocSnap.exists()
+      )
+      .map((filteredVacancyDocSnap: DocumentSnapshot<Vacancy>) =>
+        filteredVacancyDocSnap.data()
+      );
+  }
+
+  clearErrorAfterTimeout(action) {
+    setTimeout(() => {
+      this.store.dispatch(action());
+    }, CLEAR_ERROR_TIMEOUT_TIME);
+  }
+
+  createUserDataObject(userResData: UserData, authResData: AuthResponseData) {
+    const { email, expiresIn, idToken, localId } = authResData._tokenResponse;
+    const { firstName, lastName, savedVacancies, role } = userResData;
+    return {
+      firstName,
+      lastName,
+      email,
+      userId: localId,
+      savedVacancies,
+      token: idToken,
+      expiresIn: +expiresIn,
+      role,
+    };
+  }
+
+  createNewUserObject(
+    userData: UserData,
+    tokenData: TokenData,
+    savedVacancies: Vacancy[]
+  ) {
+    return new User(
+      userData.firstName,
+      userData.lastName,
+      userData.role,
+      userData.email,
+      userData.userId,
+      savedVacancies,
+      tokenData.token,
+      new Date(tokenData.expirationDate)
+    );
+  }
+
+  startLogoutTimer(user: User) {
+    const expirationDuration =
+      user.tokenExpirationDate.getTime() - new Date().getTime();
+    this.authService.setLogoutTimer(expirationDuration);
+  }
+
+  getSavedVacanciesDocSnaps(
+    docRefs: DocumentReference[]
+  ): Observable<DocumentSnapshot<DocumentData, DocumentData>[]> {
+    const vacanciesDocs = docRefs.map((docRef) => {
+      const docReference = doc(db, 'vacancies', docRef.id);
+      return getDoc(docReference);
+    });
+
+    return forkJoin(vacanciesDocs);
+  }
+
+  checkTokenValidityAndFinishAuth(loadedUser: User) {
+    if (loadedUser.token) {
+      this.startLogoutTimer(loadedUser);
+
+      return AuthActions.authSuccess({
+        ...loadedUser,
+        token: loadedUser.token,
+        expirationDate: loadedUser.tokenExpirationDate,
+        redirect: false,
+      });
+    } else {
+      localStorage.removeItem('tokenData');
+      return AuthActions.autoLoginFail();
+    }
+  }
 
   authRedirect = createEffect(
     () =>

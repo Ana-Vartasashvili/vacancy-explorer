@@ -27,12 +27,14 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
       .select(savedVacancies)
       .subscribe((savedVacancies) => {
         this.savedVacancies = savedVacancies;
-        this.savedVacancyWithSameId = this.savedVacancies.find(
-          (savedVacancy, index) => {
-            this.savedVacancyIndex = index;
-            return savedVacancy.id === this.vacancy.id;
-          }
-        );
+        if (savedVacancies) {
+          this.savedVacancyWithSameId = this.savedVacancies.find(
+            (savedVacancy, index) => {
+              this.savedVacancyIndex = index;
+              return savedVacancy.id === this.vacancy.id;
+            }
+          );
+        }
       });
   }
 

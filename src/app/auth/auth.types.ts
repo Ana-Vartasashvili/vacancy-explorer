@@ -22,7 +22,7 @@ export interface UserData {
   role: string;
   expiresIn: number;
   token: string;
-  savedVacancies: [];
+  savedVacancies: any[];
 }
 
 export interface UserResponseData {

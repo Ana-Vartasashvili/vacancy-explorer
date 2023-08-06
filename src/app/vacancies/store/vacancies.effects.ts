@@ -219,12 +219,12 @@ export class VacanciesEffects {
 
         return from(
           updateDoc(userRef, {
-            savedVacancies: startAddingAction.savedVacancies,
+            savedVacancies: [],
           })
         ).pipe(
           map(() => {
             return VacanciesActions.addToSavedVacanciesSuccess({
-              savedVacancies: startAddingAction.savedVacancies,
+              savedVacancies: [],
             });
           }),
           catchError((error) => {
