@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
-import { addToSavedVacanciesSuccess } from 'src/app/vacancies/store/vacancies.actions';
+import { updateSavedVacanciesSuccess } from 'src/app/vacancies/store/vacancies.actions';
 import { Vacancy } from 'src/app/vacancies/vacancies.types';
 import { handleAuthentication, handleError } from '../auth-helpers';
 import { AuthService } from '../auth.service';
@@ -130,7 +130,7 @@ export class AuthEffects {
                     tap((vacancies: Vacancy[]) => {
                       userData.savedVacancies = vacancies;
                       this.store.dispatch(
-                        addToSavedVacanciesSuccess({
+                        updateSavedVacanciesSuccess({
                           savedVacancies: vacancies,
                         })
                       );
@@ -184,7 +184,7 @@ export class AuthEffects {
                 }),
                 tap((vacancies: Vacancy[]) => {
                   this.store.dispatch(
-                    addToSavedVacanciesSuccess({ savedVacancies: vacancies })
+                    updateSavedVacanciesSuccess({ savedVacancies: vacancies })
                   );
                 }),
                 map((vacancies: Vacancy[]) => {

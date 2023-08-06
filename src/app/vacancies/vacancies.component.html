@@ -1,4 +1,10 @@
 <section class="vacancies">
+  <app-flash-message
+    [messageText]="error"
+    messageType="error"
+    *ngIf="error"
+  ></app-flash-message>
+
   <div class="vacancies__container">
     <app-vacancies-filter
       [filterbarIsShown]="filterbarIsShown"

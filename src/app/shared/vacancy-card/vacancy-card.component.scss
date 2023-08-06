@@ -14,18 +14,27 @@
     box-shadow: 0.5rem 0.5rem 0 $color-black;
     border: $border-width-sm solid $color-black;
 
+    @media (max-width: 55rem) {
+      transform: none;
+      box-shadow: none;
+    }
+
     .bookmark-icon {
       display: block;
     }
   }
 
   .bookmark-icon {
-    @include position(absolute, 10%, 90%);
+    @include position(absolute, 1rem, 90%);
     display: none;
     transition: all 0.2s ease-in-out;
 
     @media (max-width: 55rem) {
       display: block;
+    }
+
+    @media (max-width: 26rem) {
+      left: 85%;
     }
   }
 
