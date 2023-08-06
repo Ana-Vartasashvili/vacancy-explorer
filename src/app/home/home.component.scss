@@ -1,14 +1,10 @@
 @import "../../styles.scss";
 
 .home {
-  padding: 0 2rem 9rem 2rem;
-
-  @media (max-width: 86rem) {
-    padding-bottom: 9rem;
-  }
+  padding: 0 2rem 6rem 2rem;
 
   @media (max-width: 46rem) {
-    padding: 0 0 9rem 0;
+    padding: 0 0 6rem 0;
   }
 }
 
