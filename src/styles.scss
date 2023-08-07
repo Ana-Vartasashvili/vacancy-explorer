@@ -63,3 +63,8 @@ select:-webkit-autofill:focus {
   border: none;
   outline: none;
 }
+
+.mat-mdc-option.mdc-list-item {
+  font-size: 1.4rem;
+  padding-left: 1.2rem;
+}

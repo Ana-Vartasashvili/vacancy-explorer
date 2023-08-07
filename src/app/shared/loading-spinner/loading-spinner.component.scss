@@ -3,8 +3,8 @@
 .spinner {
   position: absolute;
   top: 50%;
-  left: 50;
-  transform: translateX(-50%);
+  left: 50%;
+  transform: translateX(-50%) !important;
   transform: translateY(-50%);
   display: inline-block;
   width: 80px;

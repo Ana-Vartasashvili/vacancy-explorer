@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
+import { Query } from './vacancies.actions';
 
 export interface VacanciesState {
   addVacancyloading: boolean;
@@ -19,6 +20,9 @@ export interface VacanciesState {
   savedVacanciesError: string;
   savedVacanciesLoading: boolean;
   vacanciesSearchInputValue: string;
+  pageSize: number;
+  queries: Query[];
+  numberOfFetchedVacancies: number;
 }
 
 const initialState: VacanciesState = {
@@ -38,6 +42,9 @@ const initialState: VacanciesState = {
   savedVacanciesError: null,
   savedVacanciesLoading: false,
   vacanciesSearchInputValue: '',
+  pageSize: 10,
+  queries: [],
+  numberOfFetchedVacancies: 0,
 };
 
 export const VacanciesReducer = createReducer(
@@ -176,5 +183,20 @@ export const VacanciesReducer = createReducer(
   on(VacanciesActions.setVacanciesSearchInputValue, (state, action) => ({
     ...state,
     vacanciesSearchInputValue: action.inputValue,
+  })),
+
+  on(VacanciesActions.setPageSize, (state, action) => ({
+    ...state,
+    pageSize: action.pageSize,
+  })),
+
+  on(VacanciesActions.setQueries, (state, action) => ({
+    ...state,
+    queries: action.queries,
+  })),
+
+  on(VacanciesActions.setNumberOfFetchedVacancies, (state, action) => ({
+    ...state,
+    numberOfFetchedVacancies: action.numberOfFetchedVacancies,
   }))
 );

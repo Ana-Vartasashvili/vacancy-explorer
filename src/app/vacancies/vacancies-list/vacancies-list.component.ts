@@ -1,8 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
-import { startFetchingVacancies } from '../store/vacancies.actions';
+import {
+  setPageSize,
+  setQueries,
+  startFetchingVacancies,
+} from '../store/vacancies.actions';
 import { vacancies } from '../store/vacancies.selectors';
 import { Vacancy } from '../vacancies.types';
 
@@ -17,6 +22,9 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   vacanciesError: string;
   storeSub: Subscription;
   vacanciesSearchInputValue: string;
+  currentPageSize: number;
+  allVacanciesCount: number;
+  currentPageIndex = 0;
 
   constructor(private store: Store<AppState>) {}
 
@@ -26,6 +34,8 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       this.isLoading = vacanciesState.vacanciesLoading;
       this.vacanciesError = vacanciesState.vacanciesError;
       this.vacanciesSearchInputValue = vacanciesState.vacanciesSearchInputValue;
+      this.currentPageSize = vacanciesState.pageSize;
+      this.allVacanciesCount = vacanciesState.numberOfFetchedVacancies;
     });
 
     this.fetchVacancies();
@@ -42,11 +52,28 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
         },
       ];
     }
-    this.store.dispatch(
-      startFetchingVacancies({
-        queries,
-      })
-    );
+    this.store.dispatch(setQueries({ queries }));
+    this.store.dispatch(startFetchingVacancies({ page: null }));
+  }
+
+  onPageChange(event: PageEvent) {
+    const { pageIndex, pageSize, previousPageIndex } = event;
+    let page: null | 'previous' | 'next';
+
+    if (this.currentPageSize !== pageSize) {
+      this.currentPageIndex = 0;
+      this.currentPageSize = pageSize;
+      page = null;
+      this.store.dispatch(setPageSize({ pageSize: pageSize }));
+    } else if (pageIndex > previousPageIndex) {
+      this.currentPageIndex++;
+      page = 'next';
+    } else if (pageIndex < previousPageIndex) {
+      this.currentPageIndex--;
+      page = 'previous';
+    }
+
+    this.store.dispatch(startFetchingVacancies({ page }));
   }
 
   ngOnDestroy(): void {

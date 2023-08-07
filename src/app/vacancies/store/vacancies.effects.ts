@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ActionCreator, Store } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import {
   DocumentSnapshot,
   Query,
+  QueryFieldFilterConstraint,
   QuerySnapshot,
   Timestamp,
   arrayRemove,
   arrayUnion,
   collection,
   doc,
+  endBefore,
+  getCountFromServer,
   getDoc,
   getDocs,
   limit,
+  limitToLast,
   or,
   orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -29,6 +34,7 @@ import {
   map,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 import { UserData } from 'src/app/auth/auth.types';
 import { db } from 'src/app/firebase/firebase-config';
@@ -40,6 +46,7 @@ import {
 import { Vacancy } from '../vacancies.types';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
+import { vacancies } from './vacancies.selectors';
 
 type ActionFail = ActionCreator<
   string,
@@ -52,6 +59,8 @@ type clearErrorAction = ActionCreator<string, () => TypedAction<string>>;
 
 @Injectable()
 export class VacanciesEffects {
+  firstDoc: DocumentSnapshot;
+  lastDoc: DocumentSnapshot;
   constructor(private actions$: Actions, private store: Store<AppState>) {}
 
   addVacancy = createEffect(() =>
@@ -98,29 +107,100 @@ export class VacanciesEffects {
   fetchVacancies = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startFetchingVacancies),
-      switchMap((startFetchingAction) => {
-        const queries = startFetchingAction.queries.map((query) => {
+      concatLatestFrom(() => this.store.select(vacancies)),
+      switchMap(([action, vacancies]) => {
+        const queries = vacancies.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
-
-        const baseQuery = query(
-          collection(db, 'vacancies'),
-          where('status', '==', 'active'),
-          orderBy('createdAt', 'desc'),
-          limit(10)
+        const mainQuery = this.generateMainQuery(
+          action.page,
+          vacancies.pageSize,
+          queries
         );
-        const combinedQuery = query(baseQuery, or(...queries));
+        const queryWithoutPageLimit = query(
+          collection(db, 'vacancies'),
+          where('status', '==', 'active')
+        );
 
-        return this.handleFetchVacancies(
-          combinedQuery,
-          'vacancies',
-          VacanciesActions.setVacancies,
-          VacanciesActions.getVacanciesFailed,
-          VacanciesActions.clearVacanciesError
+        return from(
+          getCountFromServer(query(queryWithoutPageLimit, or(...queries)))
+        ).pipe(
+          tap((vacanciesSnaps) =>
+            this.store.dispatch(
+              VacanciesActions.setNumberOfFetchedVacancies({
+                numberOfFetchedVacancies: vacanciesSnaps.data().count,
+              })
+            )
+          ),
+          switchMap(() => {
+            return from(getDocs(mainQuery)).pipe(
+              map((vacanciesDocsSnaps: QuerySnapshot<Vacancy>) => {
+                this.lastDoc =
+                  vacanciesDocsSnaps.docs[vacanciesDocsSnaps.docs.length - 1];
+                this.firstDoc = vacanciesDocsSnaps.docs[0];
+
+                let vacancies: Vacancy[] = [];
+                vacanciesDocsSnaps.forEach((doc) => {
+                  vacancies.push(doc.data());
+                });
+
+                return VacanciesActions.setVacancies({ vacancies });
+              }),
+              catchError((error) => {
+                return this.handleError(
+                  VacanciesActions.getVacanciesFailed,
+                  VacanciesActions.clearVacanciesError,
+                  error.message
+                );
+              })
+            );
+          }),
+          catchError((error) => {
+            return this.handleError(
+              VacanciesActions.getVacanciesFailed,
+              VacanciesActions.clearVacanciesError,
+              error.message
+            );
+          })
         );
       })
     )
   );
+
+  private generateMainQuery(
+    page: 'previous' | 'next' | null,
+    pageSize: number,
+    queries: QueryFieldFilterConstraint[]
+  ) {
+    const baseQuery = query(
+      collection(db, 'vacancies'),
+      where('status', '==', 'active'),
+      orderBy('createdAt', 'desc')
+    );
+
+    let combinedQuery: Query;
+    switch (page) {
+      case null:
+        combinedQuery = query(baseQuery, limit(pageSize));
+        break;
+      case 'next':
+        combinedQuery = query(
+          baseQuery,
+          startAfter(this.lastDoc),
+          limit(pageSize)
+        );
+        break;
+      case 'previous':
+        combinedQuery = query(
+          baseQuery,
+          endBefore(this.firstDoc),
+          limitToLast(pageSize)
+        );
+        break;
+    }
+
+    return query(combinedQuery, or(...queries));
+  }
 
   fetchLatestVacancies = createEffect(() =>
     this.actions$.pipe(

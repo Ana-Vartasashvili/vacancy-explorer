@@ -4,21 +4,35 @@
   *ngIf="vacanciesError"
 ></app-flash-message>
 
-<app-loading-spinner
-  *ngIf="isLoading"
-  class="vacancies-list__loading-spinner"
-></app-loading-spinner>
+<section class="vacanclies-list-container">
+  <app-loading-spinner
+    *ngIf="isLoading"
+    class="vacancies-list__loading-spinner"
+  ></app-loading-spinner>
 
-<div
-  class="vacancies-list__no-vacancies-text"
-  *ngIf="!isLoading && vacancies.length === 0"
->
-  No vacancies found.
-</div>
+  <div
+    class="vacancies-list__no-vacancies-text"
+    *ngIf="!isLoading && vacancies.length === 0"
+  >
+    No vacancies found.
+  </div>
 
-<div class="vacancies-list" *ngIf="!isLoading && vacancies">
-  <app-vacancy-card
-    *ngFor="let vacancy of vacancies"
-    [vacancy]="vacancy"
-  ></app-vacancy-card>
-</div>
+  <div class="vacancies-list" *ngIf="!isLoading && vacancies">
+    <app-vacancy-card
+      *ngFor="let vacancy of vacancies"
+      [vacancy]="vacancy"
+    ></app-vacancy-card>
+  </div>
+
+  <mat-paginator
+    *ngIf="!isLoading"
+    [length]="allVacanciesCount"
+    [pageIndex]="currentPageIndex"
+    [pageSize]="currentPageSize"
+    [pageSizeOptions]="[5, 10, 25]"
+    aria-label="Select page"
+    class="vacancies-list__paginator"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</section>
