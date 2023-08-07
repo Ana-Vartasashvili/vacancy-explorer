@@ -18,6 +18,7 @@ import { Vacancy } from 'src/app/vacancies/vacancies.types';
 })
 export class VacancyCardComponent implements OnInit, OnDestroy {
   @Input() vacancy: Vacancy;
+  isOnVacanciesPage: boolean;
   savedVacancies: Vacancy[];
   savedVacancyIndex: number;
   vacancyIsSaved: boolean;
@@ -42,6 +43,8 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
           );
         }
       });
+
+    this.isOnVacanciesPage = this.router.url === '/vacancies';
 
     this.userSub = this.store.select(user).subscribe((user) => {
       if (user) {

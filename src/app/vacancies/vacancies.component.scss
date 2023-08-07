@@ -84,9 +84,24 @@
   }
 
   &__fetch-all {
-    color: $color-blue;
     font-size: 1.8rem;
     cursor: pointer;
+  }
+
+  &__manage-btns {
+    @include flex(1rem, row);
+  }
+
+  &__manage-btn {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  .active {
+    color: $color-blue;
   }
 }
 

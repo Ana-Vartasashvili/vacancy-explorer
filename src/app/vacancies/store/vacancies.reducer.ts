@@ -64,11 +64,11 @@ export const VacanciesReducer = createReducer(
     addVacancySuccessMessage: null,
   })),
 
-  on(VacanciesActions.addVacancySuccess, (state) => ({
+  on(VacanciesActions.addVacancySuccess, (state, action) => ({
     ...state,
     addVacancyloading: false,
     addVacancyError: null,
-    addVacancySuccessMessage: 'Your vacancy has been sent successfully.',
+    addVacancySuccessMessage: action.message,
   })),
 
   on(VacanciesActions.clearAddVacancyMessage, (state) => ({

@@ -33,8 +33,27 @@
           />
         </form>
 
-        <div class="vacancies__fetch-all" (click)="fetchAllVacancies()">
+        <div
+          class="vacancies__fetch-all"
+          (click)="fetchAllVacancies()"
+          [ngClass]="{ active: vacanciesStatus === 'all' }"
+        >
           All vacancies
+        </div>
+
+        <div *ngIf="userRole === 'admin'" class="vacancies__manage-btns">
+          <span
+            class="vacancies__manage-btn"
+            (click)="setVacanciesStatus('pending')"
+            [ngClass]="{ active: vacanciesStatus === 'pending' }"
+            >Requests</span
+          >
+          <span
+            class="vacancies__manage-btn"
+            (click)="setVacanciesStatus('active')"
+            [ngClass]="{ active: vacanciesStatus === 'active' }"
+            >Active vacancies</span
+          >
         </div>
       </div>
 

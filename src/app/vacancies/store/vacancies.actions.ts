@@ -19,7 +19,8 @@ export const addVacancyFailed = createAction(
 );
 
 export const addVacancySuccess = createAction(
-  '[Vacancies] Add Vacancy Success'
+  '[Vacancies] Add Vacancy Success',
+  props<{ message: string }>()
 );
 
 export const clearAddVacancyMessage = createAction(

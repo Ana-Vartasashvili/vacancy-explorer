@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { user } from '../auth/store/auth.selectors';
 import { AppState } from '../store/app.reducer';
 import { setQueries, startFetchingVacancies } from './store/vacancies.actions';
 import { vacancies } from './store/vacancies.selectors';
 import { Vacancy } from './vacancies.types';
-import { user } from '../auth/store/auth.selectors';
-import { User } from '../auth/user.model';
 
 @Component({
   selector: 'app-vacancies',
@@ -24,6 +23,8 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   searchInputValue: string = '';
   error: string;
   userRole: string;
+  userSub: Subscription;
+  vacanciesStatus: string = 'all';
 
   constructor(private store: Store<AppState>) {}
 
@@ -39,6 +40,12 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
     this.searchForm = new FormGroup({
       jobTitle: new FormControl(this.searchInputValue),
+    });
+
+    this.userSub = this.store.select(user).subscribe((user) => {
+      if (user) {
+        this.userRole = user.role;
+      }
     });
   }
 
@@ -65,9 +72,14 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   }
 
   fetchAllVacancies() {
+    this.setVacanciesStatus('all');
     this.store.dispatch(setQueries({ queries: [] }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
     this.searchForm.reset();
+  }
+
+  setVacanciesStatus(status: string) {
+    this.vacanciesStatus = status;
   }
 
   ngOnDestroy(): void {

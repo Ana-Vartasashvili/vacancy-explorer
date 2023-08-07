@@ -38,6 +38,7 @@ import {
   tap,
 } from 'rxjs';
 import { UserData } from 'src/app/auth/auth.types';
+import { user } from 'src/app/auth/store/auth.selectors';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import {
@@ -67,7 +68,8 @@ export class VacanciesEffects {
   addVacancy = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startAddingVacancy),
-      switchMap((startAddingVacancyAction) => {
+      concatLatestFrom(() => this.store.select(user)),
+      switchMap(([startAddingVacancyAction, currentUser]) => {
         const user = JSON.parse(localStorage.getItem('tokenData'));
         if (!user) {
           return of(
@@ -82,7 +84,8 @@ export class VacanciesEffects {
         const newVacancy = this.getVacancyDataFromAction(
           startAddingVacancyAction,
           docId,
-          user.userId
+          user.userId,
+          currentUser.role
         );
 
         return from(setDoc(doc(db, 'vacancies', docId), newVacancy)).pipe(
@@ -91,7 +94,12 @@ export class VacanciesEffects {
               this.store.dispatch(clearAddVacancyMessage());
             }, 3500);
 
-            return VacanciesActions.addVacancySuccess();
+            return VacanciesActions.addVacancySuccess({
+              message:
+                currentUser.role === 'admin'
+                  ? 'Vacancy added successfully!'
+                  : 'Your vacancy has been sent successfully.',
+            });
           }),
           catchError((error) =>
             this.handleError(
@@ -322,7 +330,8 @@ export class VacanciesEffects {
   private getVacancyDataFromAction(
     vacancyActionPayload: Vacancy,
     vacancyId: string,
-    userId: string
+    userId: string,
+    currentUserRole: string
   ): Vacancy {
     return {
       jobTitle: vacancyActionPayload.jobTitle.trim(),
@@ -334,7 +343,7 @@ export class VacanciesEffects {
       jobDescription: vacancyActionPayload.jobDescription.trim(),
       workingType: vacancyActionPayload.workingType,
       salary: vacancyActionPayload.salary,
-      status: 'pending',
+      status: currentUserRole === 'admin' ? 'active' : 'pending',
       createdAt: Timestamp.now(),
       id: vacancyId,
       userId,
