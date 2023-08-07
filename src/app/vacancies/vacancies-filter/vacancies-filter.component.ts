@@ -79,6 +79,6 @@ export class VacanciesFilterComponent implements OnInit {
       );
     }
     this.store.dispatch(setQueries({ queries: this.queries }));
-    this.store.dispatch(startFetchingVacancies());
+    this.store.dispatch(startFetchingVacancies({ page: null }));
   }
 }

@@ -27,7 +27,8 @@ export const clearAddVacancyMessage = createAction(
 );
 
 export const startFetchingVacancies = createAction(
-  '[Vacancies] Start Fetching Vacancies'
+  '[Vacancies] Start Fetching Vacancies',
+  props<{ page: 'next' | 'previous' | null }>()
 );
 
 export const setVacancies = createAction(

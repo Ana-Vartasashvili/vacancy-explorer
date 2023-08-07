@@ -24,6 +24,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   vacanciesSearchInputValue: string;
   currentPageSize: number;
   allVacanciesCount: number;
+  currentPageIndex = 0;
 
   constructor(private store: Store<AppState>) {}
 
@@ -52,15 +53,27 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       ];
     }
     this.store.dispatch(setQueries({ queries }));
-    this.store.dispatch(startFetchingVacancies());
+    this.store.dispatch(startFetchingVacancies({ page: null }));
   }
 
   onPageChange(event: PageEvent) {
-    if (this.currentPageSize !== event.pageSize) {
-      this.currentPageSize = event.pageSize;
-      this.store.dispatch(setPageSize({ pageSize: event.pageSize }));
-      this.store.dispatch(startFetchingVacancies());
+    const { pageIndex, pageSize, previousPageIndex } = event;
+    let page: null | 'previous' | 'next';
+
+    if (this.currentPageSize !== pageSize) {
+      this.currentPageIndex = 0;
+      this.currentPageSize = pageSize;
+      page = null;
+      this.store.dispatch(setPageSize({ pageSize: pageSize }));
+    } else if (pageIndex > previousPageIndex) {
+      this.currentPageIndex++;
+      page = 'next';
+    } else if (pageIndex < previousPageIndex) {
+      this.currentPageIndex--;
+      page = 'previous';
     }
+
+    this.store.dispatch(startFetchingVacancies({ page }));
   }
 
   ngOnDestroy(): void {

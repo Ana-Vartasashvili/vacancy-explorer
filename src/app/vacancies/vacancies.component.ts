@@ -54,14 +54,13 @@ export class VacanciesComponent implements OnInit, OnDestroy {
           ],
         })
       );
-      this.store.dispatch(startFetchingVacancies());
+      this.store.dispatch(startFetchingVacancies({ page: null }));
     }
   }
 
   fetchAllVacancies() {
     this.store.dispatch(setQueries({ queries: [] }));
-    this.store.dispatch(startFetchingVacancies());
-
+    this.store.dispatch(startFetchingVacancies({ page: null }));
     this.searchForm.reset();
   }
 

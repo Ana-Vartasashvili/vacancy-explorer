@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { autoLoginStart } from './auth/store/auth.actions';
 import { AppState } from './store/app.reducer';
-import {
-  startFetchingLatestVacancies,
-  startFetchingVacancies,
-} from './vacancies/store/vacancies.actions';
 
 @Component({
   selector: 'app-root',
