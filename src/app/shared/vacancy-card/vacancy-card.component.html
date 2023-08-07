@@ -25,5 +25,12 @@
 
       <span class="vacancy__publish-date">{{ vacancy.createdAt | date }}</span>
     </div>
+
+    <div class="vacancy__manage-btns" *ngIf="userRole === 'admin'">
+      <button class="btn btn--with-shadow" *ngIf="vacancy.status === 'pending'">
+        Approve
+      </button>
+      <button class="btn btn--white-with-shadow">Delete</button>
+    </div>
   </div>
 </a>

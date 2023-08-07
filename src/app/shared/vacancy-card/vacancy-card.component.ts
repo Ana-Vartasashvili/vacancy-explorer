@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { user } from 'src/app/auth/store/auth.selectors';
 import { AppState } from 'src/app/store/app.reducer';
 import { startUpdatingSavedVacancies } from 'src/app/vacancies/store/vacancies.actions';
 import { savedVacancies } from 'src/app/vacancies/store/vacancies.selectors';
@@ -19,6 +20,8 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
   vacancyIsSaved: boolean;
   savedVacancyWithSameId: Vacancy;
   storeSub: Subscription;
+  userSub: Subscription;
+  userRole: string;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
@@ -36,6 +39,12 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
           );
         }
       });
+
+    this.userSub = this.store.select(user).subscribe((user) => {
+      if (user) {
+        this.userRole = user.role;
+      }
+    });
   }
 
   addOrRemoveFromSavedVacancies(event: Event) {
@@ -56,5 +65,6 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.storeSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

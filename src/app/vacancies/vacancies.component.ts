@@ -6,6 +6,8 @@ import { AppState } from '../store/app.reducer';
 import { setQueries, startFetchingVacancies } from './store/vacancies.actions';
 import { vacancies } from './store/vacancies.selectors';
 import { Vacancy } from './vacancies.types';
+import { user } from '../auth/store/auth.selectors';
+import { User } from '../auth/user.model';
 
 @Component({
   selector: 'app-vacancies',
@@ -15,21 +17,25 @@ import { Vacancy } from './vacancies.types';
 export class VacanciesComponent implements OnInit, OnDestroy {
   filterbarIsShown = false;
   searchForm: FormGroup;
-  storeSub: Subscription;
+  vacanciesStoreSub: Subscription;
+  userStoreSub: Subscription;
   vacancies: Vacancy[];
   isLoading = false;
   searchInputValue: string = '';
   error: string;
+  userRole: string;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
-      this.isLoading = vacanciesState.vacanciesLoading;
-      this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
-      this.error = vacanciesState.vacanciesError;
-      this.error = vacanciesState.savedVacanciesError;
-    });
+    this.vacanciesStoreSub = this.store
+      .select(vacancies)
+      .subscribe((vacanciesState) => {
+        this.isLoading = vacanciesState.vacanciesLoading;
+        this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
+        this.error = vacanciesState.vacanciesError;
+        this.error = vacanciesState.savedVacanciesError;
+      });
 
     this.searchForm = new FormGroup({
       jobTitle: new FormControl(this.searchInputValue),
@@ -65,6 +71,6 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.storeSub.unsubscribe();
+    this.vacanciesStoreSub.unsubscribe();
   }
 }
