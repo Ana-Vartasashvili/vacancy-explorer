@@ -4,7 +4,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { user } from 'src/app/auth/store/auth.selectors';
 import { AppState } from 'src/app/store/app.reducer';
-import { startUpdatingSavedVacancies } from 'src/app/vacancies/store/vacancies.actions';
+import {
+  deleteVacancy,
+  startUpdatingSavedVacancies,
+} from 'src/app/vacancies/store/vacancies.actions';
 import { savedVacancies } from 'src/app/vacancies/store/vacancies.selectors';
 import { Vacancy } from 'src/app/vacancies/vacancies.types';
 
@@ -61,6 +64,12 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/auth/login']);
     }
+  }
+
+  onDelete(event: Event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
   }
 
   ngOnDestroy(): void {

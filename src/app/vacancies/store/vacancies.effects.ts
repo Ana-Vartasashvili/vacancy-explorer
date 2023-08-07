@@ -11,6 +11,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   endBefore,
   getCountFromServer,
@@ -285,6 +286,26 @@ export class VacanciesEffects {
                 );
               })
             );
+          }),
+          catchError((error) => {
+            return this.handleError(
+              VacanciesActions.updateSavedVacanciesFailed,
+              VacanciesActions.clearSavedVacanciesError,
+              error.message
+            );
+          })
+        );
+      })
+    )
+  );
+
+  deleteVacancy = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.deleteVacancy),
+      switchMap((action) => {
+        return from(deleteDoc(doc(db, 'vacancies', action.vacancyId))).pipe(
+          map(() => {
+            return VacanciesActions.startFetchingVacancies({ page: null });
           }),
           catchError((error) => {
             return this.handleError(

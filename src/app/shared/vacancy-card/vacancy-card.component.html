@@ -30,7 +30,9 @@
       <button class="btn btn--with-shadow" *ngIf="vacancy.status === 'pending'">
         Approve
       </button>
-      <button class="btn btn--white-with-shadow">Delete</button>
+      <button class="btn btn--white-with-shadow" (click)="onDelete($event)">
+        Delete
+      </button>
     </div>
   </div>
 </a>

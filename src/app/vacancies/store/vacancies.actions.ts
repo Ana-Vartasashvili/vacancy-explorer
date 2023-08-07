@@ -119,3 +119,8 @@ export const setNumberOfFetchedVacancies = createAction(
   '[Vacancies] Set Number Of Fetched Vacancies',
   props<{ numberOfFetchedVacancies: number }>()
 );
+
+export const deleteVacancy = createAction(
+  '[Vacancies] Delete Vacancy',
+  props<{ vacancyId: string }>()
+);
