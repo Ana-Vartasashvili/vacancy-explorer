@@ -73,6 +73,7 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       page = 'previous';
     }
 
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     this.store.dispatch(startFetchingVacancies({ page }));
   }
 
