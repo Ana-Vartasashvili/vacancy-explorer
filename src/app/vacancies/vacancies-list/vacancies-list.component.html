@@ -5,11 +5,6 @@
 ></app-flash-message>
 
 <section class="vacanclies-list-container">
-  <app-loading-spinner
-    *ngIf="isLoading"
-    class="vacancies-list__loading-spinner"
-  ></app-loading-spinner>
-
   <div
     class="vacancies-list__no-vacancies-text"
     *ngIf="!isLoading && vacancies.length === 0"

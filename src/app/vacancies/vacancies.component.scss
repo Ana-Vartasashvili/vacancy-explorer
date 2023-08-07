@@ -19,6 +19,8 @@
   }
 
   &__main-content {
+    min-height: 100vh;
+    position: relative;
     margin-left: 25rem;
     width: 60%;
     padding: 2rem 0;
