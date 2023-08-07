@@ -5,6 +5,7 @@ import { TypedAction } from '@ngrx/store/src/models';
 import {
   DocumentSnapshot,
   Query,
+  QueryFieldFilterConstraint,
   QuerySnapshot,
   Timestamp,
   arrayRemove,
@@ -111,40 +112,11 @@ export class VacanciesEffects {
         const queries = vacancies.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
-
-        let baseQuery: Query;
-
-        if (action.page === null) {
-          baseQuery = query(
-            collection(db, 'vacancies'),
-            where('status', '==', 'active'),
-            orderBy('createdAt', 'desc'),
-            limit(vacancies.pageSize)
-          );
-        }
-
-        if (action.page === 'next') {
-          baseQuery = query(
-            collection(db, 'vacancies'),
-            where('status', '==', 'active'),
-            orderBy('createdAt', 'desc'),
-            startAfter(this.lastDoc),
-            limit(vacancies.pageSize)
-          );
-        }
-
-        if (action.page === 'previous') {
-          baseQuery = query(
-            collection(db, 'vacancies'),
-            where('status', '==', 'active'),
-            orderBy('createdAt', 'desc'),
-            endBefore(this.firstDoc),
-            limitToLast(vacancies.pageSize)
-          );
-        }
-
-        const combinedQuery = query(baseQuery, or(...queries));
-
+        const mainQuery = this.generateMainQuery(
+          action.page,
+          vacancies.pageSize,
+          queries
+        );
         const queryWithoutPageLimit = query(
           collection(db, 'vacancies'),
           where('status', '==', 'active')
@@ -161,7 +133,7 @@ export class VacanciesEffects {
             )
           ),
           switchMap(() => {
-            return from(getDocs(combinedQuery)).pipe(
+            return from(getDocs(mainQuery)).pipe(
               map((vacanciesDocsSnaps: QuerySnapshot<Vacancy>) => {
                 this.lastDoc =
                   vacanciesDocsSnaps.docs[vacanciesDocsSnaps.docs.length - 1];
@@ -175,7 +147,6 @@ export class VacanciesEffects {
                 return VacanciesActions.setVacancies({ vacancies });
               }),
               catchError((error) => {
-                console.log(error);
                 return this.handleError(
                   VacanciesActions.getVacanciesFailed,
                   VacanciesActions.clearVacanciesError,
@@ -195,6 +166,41 @@ export class VacanciesEffects {
       })
     )
   );
+
+  private generateMainQuery(
+    page: 'previous' | 'next' | null,
+    pageSize: number,
+    queries: QueryFieldFilterConstraint[]
+  ) {
+    const baseQuery = query(
+      collection(db, 'vacancies'),
+      where('status', '==', 'active'),
+      orderBy('createdAt', 'desc')
+    );
+
+    let combinedQuery: Query;
+    switch (page) {
+      case null:
+        combinedQuery = query(baseQuery, limit(pageSize));
+        break;
+      case 'next':
+        combinedQuery = query(
+          baseQuery,
+          startAfter(this.lastDoc),
+          limit(pageSize)
+        );
+        break;
+      case 'previous':
+        combinedQuery = query(
+          baseQuery,
+          endBefore(this.firstDoc),
+          limitToLast(pageSize)
+        );
+        break;
+    }
+
+    return query(combinedQuery, or(...queries));
+  }
 
   fetchLatestVacancies = createEffect(() =>
     this.actions$.pipe(
