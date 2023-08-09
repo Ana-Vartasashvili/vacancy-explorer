@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { vacancies } from '../store/vacancies.selectors';
 import { Vacancy } from '../vacancies.types';
 import { startFetchingMyVacancies } from '../store/vacancies.actions';
+import { user } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-my-vacancies',
@@ -13,11 +14,13 @@ import { startFetchingMyVacancies } from '../store/vacancies.actions';
 })
 export class MyVacanciesComponent implements OnInit, OnDestroy {
   storeSub: Subscription;
+  userSub: Subscription;
   myVacancies: Vacancy[];
   allMyVacancies: Vacancy[];
   isLoading = false;
   error: string;
   myVacanciesStatus: string = 'all';
+  currentUserRole: string;
 
   constructor(private store: Store<AppState>) {}
 
@@ -28,6 +31,11 @@ export class MyVacanciesComponent implements OnInit, OnDestroy {
       this.myVacancies = vacanciesState.myVacancies;
       this.allMyVacancies = vacanciesState.myVacancies;
       this.error = vacanciesState.myVacanciesError;
+    });
+    this.userSub = this.store.select(user).subscribe((user) => {
+      if (user) {
+        this.currentUserRole = user.role;
+      }
     });
   }
 

@@ -9,7 +9,7 @@
     <div class="my-vacancies__header">
       <h1>My Vacancies</h1>
 
-      <div class="my-vacancies__filters">
+      <div class="my-vacancies__filters" *ngIf="currentUserRole === 'user'">
         <span
           class="my-vacancies__filter"
           [ngClass]="{ active: myVacanciesStatus === 'all' }"

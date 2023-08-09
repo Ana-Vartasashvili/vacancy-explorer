@@ -26,6 +26,7 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
   storeSub: Subscription;
   userSub: Subscription;
   userRole: string;
+  modalIsOpen: boolean;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
@@ -69,10 +70,18 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDelete(event: Event) {
+  onDeleteBtnClick(event: Event) {
     event.preventDefault();
     event.stopImmediatePropagation();
+    this.setModalIsOpen(true);
+  }
+
+  onDelete() {
     this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
+  }
+
+  setModalIsOpen(isOpen: boolean) {
+    this.modalIsOpen = isOpen;
   }
 
   ngOnDestroy(): void {
