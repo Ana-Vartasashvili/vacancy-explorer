@@ -21,6 +21,7 @@ import { catchError, from, map, of } from 'rxjs';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { Vacancy } from '../vacancies.types';
+import { VacanciesState } from './vacancies.reducer';
 
 type ActionFail = ActionCreator<
   string,
@@ -103,17 +104,25 @@ export class VacanciesEffectsHelper {
 
   static generateMainQuery(
     page: 'previous' | 'next' | null,
-    pageSize: number,
     queries: QueryFieldFilterConstraint[],
-    status: 'pending' | 'active',
     lastDoc: DocumentSnapshot,
-    firstDoc: DocumentSnapshot
+    firstDoc: DocumentSnapshot,
+    vacanciesState: VacanciesState
   ) {
-    const baseQuery = query(
+    const { vacanciesSearchInputValue, pageSize, vacanciesStatus } =
+      vacanciesState;
+    let baseQuery = query(
       collection(db, 'vacancies'),
-      where('status', '==', status),
+      where('status', '==', vacanciesStatus),
       orderBy('createdAt', 'desc')
     );
+
+    if (vacanciesSearchInputValue) {
+      baseQuery = query(
+        baseQuery,
+        where('jobTitle', '==', vacanciesSearchInputValue)
+      );
+    }
 
     let combinedQuery: Query;
     switch (page) {
@@ -133,5 +142,21 @@ export class VacanciesEffectsHelper {
     }
 
     return query(combinedQuery, or(...queries));
+  }
+
+  static generateQueryWithoutPageLimit(vacanciesState: VacanciesState) {
+    const { vacanciesStatus, vacanciesSearchInputValue } = vacanciesState;
+    let queryWithoutPageLimit = query(
+      collection(db, 'vacancies'),
+      where('status', '==', vacanciesStatus)
+    );
+    if (vacanciesSearchInputValue) {
+      queryWithoutPageLimit = query(
+        queryWithoutPageLimit,
+        where('jobTitle', '==', vacanciesSearchInputValue)
+      );
+    }
+
+    return queryWithoutPageLimit;
   }
 }

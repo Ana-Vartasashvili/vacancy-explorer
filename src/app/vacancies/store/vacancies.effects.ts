@@ -42,7 +42,7 @@ import { Vacancy } from '../vacancies.types';
 import { VacanciesEffectsHelper } from './vacancies-effects.helper';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
-import { vacancies } from './vacancies.selectors';
+import { vacancies, vacanciesSearchInputValue } from './vacancies.selectors';
 
 @Injectable()
 export class VacanciesEffects {
@@ -103,22 +103,20 @@ export class VacanciesEffects {
     this.actions$.pipe(
       ofType(VacanciesActions.startFetchingVacancies),
       concatLatestFrom(() => this.store.select(vacancies)),
-      switchMap(([action, vacancies]) => {
-        const queries = vacancies.queries.map((query) => {
+      switchMap(([action, vacanciesState]) => {
+        const queries = vacanciesState.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
         const mainQuery = VacanciesEffectsHelper.generateMainQuery(
           action.page,
-          vacancies.pageSize,
           queries,
-          vacancies.vacanciesStatus,
           this.lastDoc,
-          this.firstDoc
+          this.firstDoc,
+          vacanciesState
         );
-        const queryWithoutPageLimit = query(
-          collection(db, 'vacancies'),
-          where('status', '==', vacancies.vacanciesStatus)
-        );
+
+        const queryWithoutPageLimit =
+          VacanciesEffectsHelper.generateQueryWithoutPageLimit(vacanciesState);
 
         return from(
           getCountFromServer(query(queryWithoutPageLimit, or(...queries)))

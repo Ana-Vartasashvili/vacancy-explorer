@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { user } from '../auth/store/auth.selectors';
 import { AppState } from '../store/app.reducer';
 import {
-  setQueries,
+  setVacanciesSearchInputValue,
   setVacanciesStatus,
   startFetchingVacancies,
 } from './store/vacancies.actions';
@@ -42,14 +42,8 @@ export class VacanciesComponent implements OnInit, OnDestroy {
         this.error = vacanciesState.savedVacanciesError;
       });
 
-    this.searchForm = new FormGroup({
-      jobTitle: new FormControl(this.searchInputValue),
-    });
-
     this.userSub = this.store.select(user).subscribe((user) => {
-      if (user) {
-        this.userRole = user.role;
-      }
+      this.userRole = user ? user.role : null;
     });
   }
 
@@ -57,29 +51,18 @@ export class VacanciesComponent implements OnInit, OnDestroy {
     this.filterbarIsShown = isShown;
   }
 
-  onSubmit() {
-    const jobTitle = this.searchForm.value.jobTitle.trim();
-    if (jobTitle) {
-      this.store.dispatch(
-        setQueries({
-          queries: [
-            {
-              queryFieldPath: 'jobTitle',
-              operator: '==',
-              value: jobTitle,
-            },
-          ],
-        })
-      );
-      this.store.dispatch(startFetchingVacancies({ page: null }));
-    }
-  }
-
   fetchVacancies(status: 'active' | 'pending') {
     this.store.dispatch(setVacanciesStatus({ status }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
     this.vacanciesStatus = status;
-    this.searchForm.reset();
+  }
+
+  onSearchInputValueChange(e: KeyboardEvent) {
+    const inputValue = (e.target as HTMLInputElement).value.trim();
+    if (inputValue !== this.searchInputValue) {
+      this.store.dispatch(setVacanciesSearchInputValue({ inputValue }));
+      this.store.dispatch(startFetchingVacancies({ page: null }));
+    }
   }
 
   ngOnDestroy(): void {
