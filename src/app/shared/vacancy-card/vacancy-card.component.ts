@@ -7,6 +7,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import {
   deleteVacancy,
   startUpdatingSavedVacancies,
+  updateVacancy,
 } from 'src/app/vacancies/store/vacancies.actions';
 import { savedVacancies } from 'src/app/vacancies/store/vacancies.selectors';
 import { Vacancy } from 'src/app/vacancies/vacancies.types';
@@ -44,7 +45,6 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
           );
         }
       });
-
     this.isOnVacanciesPage = this.router.url === '/vacancies';
 
     this.userSub = this.store.select(user).subscribe((user) => {
@@ -78,6 +78,18 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
+  }
+
+  approveVacancy(e: Event) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.store.dispatch(
+      updateVacancy({
+        fieldName: 'status',
+        updatedValue: 'active',
+        vacancyId: this.vacancy.id,
+      })
+    );
   }
 
   setModalIsOpen(isOpen: boolean) {

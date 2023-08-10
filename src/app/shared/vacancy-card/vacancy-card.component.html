@@ -30,7 +30,11 @@
       class="vacancy__manage-btns"
       *ngIf="userRole === 'admin' && isOnVacanciesPage"
     >
-      <button class="btn btn--with-shadow" *ngIf="vacancy.status === 'pending'">
+      <button
+        class="btn btn--with-shadow"
+        *ngIf="vacancy.status === 'pending'"
+        (click)="approveVacancy($event)"
+      >
         Approve
       </button>
       <button

@@ -37,7 +37,7 @@
           class="vacancies__fetch-all"
           (click)="fetchVacancies('active')"
           [ngClass]="{ active: vacanciesStatus === 'all' }"
-          *ngIf="userRole === 'user'"
+          *ngIf="userRole !== 'admin'"
         >
           All vacancies
         </div>

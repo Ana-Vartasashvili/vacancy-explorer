@@ -130,3 +130,8 @@ export const setVacanciesStatus = createAction(
   '[Vacancies] Set Vacancies Status',
   props<{ status: 'pending' | 'active' }>()
 );
+
+export const updateVacancy = createAction(
+  '[Vacancies] Update Vacancy',
+  props<{ fieldName: string; updatedValue: string; vacancyId: string }>()
+);

@@ -286,4 +286,27 @@ export class VacanciesEffects {
       })
     )
   );
+
+  updateVacancy = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.updateVacancy),
+      switchMap((action) => {
+        const vacancyDocRef = doc(db, 'vacancies', action.vacancyId);
+
+        return from(
+          updateDoc(vacancyDocRef, { [action.fieldName]: action.updatedValue })
+        ).pipe(
+          map(() => VacanciesActions.startFetchingVacancies({ page: null })),
+          catchError((error) => {
+            return VacanciesEffectsHelper.handleError(
+              this.store,
+              VacanciesActions.updateSavedVacanciesFailed,
+              VacanciesActions.clearSavedVacanciesError,
+              error.message
+            );
+          })
+        );
+      })
+    )
+  );
 }
