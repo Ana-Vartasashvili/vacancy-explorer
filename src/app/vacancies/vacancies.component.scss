@@ -90,6 +90,7 @@
 
   &__manage-btns {
     @include flex(1rem, row);
+    font-size: 1.8rem;
   }
 
   &__manage-btn {

@@ -4,7 +4,11 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { user } from '../auth/store/auth.selectors';
 import { AppState } from '../store/app.reducer';
-import { setQueries, startFetchingVacancies } from './store/vacancies.actions';
+import {
+  setQueries,
+  setVacanciesStatus,
+  startFetchingVacancies,
+} from './store/vacancies.actions';
 import { vacancies } from './store/vacancies.selectors';
 import { Vacancy } from './vacancies.types';
 
@@ -24,7 +28,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   error: string;
   userRole: string;
   userSub: Subscription;
-  vacanciesStatus: string = 'all';
+  vacanciesStatus: string = 'active';
 
   constructor(private store: Store<AppState>) {}
 
@@ -71,15 +75,11 @@ export class VacanciesComponent implements OnInit, OnDestroy {
     }
   }
 
-  fetchAllVacancies() {
-    this.setVacanciesStatus('all');
-    this.store.dispatch(setQueries({ queries: [] }));
+  fetchVacancies(status: 'active' | 'pending') {
+    this.store.dispatch(setVacanciesStatus({ status }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
-    this.searchForm.reset();
-  }
-
-  setVacanciesStatus(status: string) {
     this.vacanciesStatus = status;
+    this.searchForm.reset();
   }
 
   ngOnDestroy(): void {

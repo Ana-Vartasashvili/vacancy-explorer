@@ -125,3 +125,8 @@ export const deleteVacancy = createAction(
   '[Vacancies] Delete Vacancy',
   props<{ vacancyId: string }>()
 );
+
+export const setVacanciesStatus = createAction(
+  '[Vacancies] Set Vacancies Status',
+  props<{ status: 'pending' | 'active' }>()
+);

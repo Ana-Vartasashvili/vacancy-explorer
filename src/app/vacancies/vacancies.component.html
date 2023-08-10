@@ -35,8 +35,9 @@
 
         <div
           class="vacancies__fetch-all"
-          (click)="fetchAllVacancies()"
+          (click)="fetchVacancies('active')"
           [ngClass]="{ active: vacanciesStatus === 'all' }"
+          *ngIf="userRole === 'user'"
         >
           All vacancies
         </div>
@@ -44,21 +45,20 @@
         <div *ngIf="userRole === 'admin'" class="vacancies__manage-btns">
           <span
             class="vacancies__manage-btn"
-            (click)="setVacanciesStatus('pending')"
-            [ngClass]="{ active: vacanciesStatus === 'pending' }"
-            >Requests</span
+            (click)="fetchVacancies('active')"
+            [ngClass]="{ active: vacanciesStatus === 'active' }"
+            >Active vacancies</span
           >
           <span
             class="vacancies__manage-btn"
-            (click)="setVacanciesStatus('active')"
-            [ngClass]="{ active: vacanciesStatus === 'active' }"
-            >Active vacancies</span
+            (click)="fetchVacancies('pending')"
+            [ngClass]="{ active: vacanciesStatus === 'pending' }"
+            >Requests</span
           >
         </div>
       </div>
 
       <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-
       <app-vacancies-list></app-vacancies-list>
     </div>
   </div>

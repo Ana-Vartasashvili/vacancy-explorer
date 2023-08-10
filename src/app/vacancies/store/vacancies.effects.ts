@@ -124,11 +124,12 @@ export class VacanciesEffects {
         const mainQuery = this.generateMainQuery(
           action.page,
           vacancies.pageSize,
-          queries
+          queries,
+          vacancies.vacanciesStatus
         );
         const queryWithoutPageLimit = query(
           collection(db, 'vacancies'),
-          where('status', '==', 'active')
+          where('status', '==', vacancies.vacanciesStatus)
         );
 
         return from(
@@ -179,11 +180,12 @@ export class VacanciesEffects {
   private generateMainQuery(
     page: 'previous' | 'next' | null,
     pageSize: number,
-    queries: QueryFieldFilterConstraint[]
+    queries: QueryFieldFilterConstraint[],
+    status: 'pending' | 'active'
   ) {
     const baseQuery = query(
       collection(db, 'vacancies'),
-      where('status', '==', 'active'),
+      where('status', '==', status),
       orderBy('createdAt', 'desc')
     );
 
