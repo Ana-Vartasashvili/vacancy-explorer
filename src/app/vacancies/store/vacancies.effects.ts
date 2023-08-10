@@ -42,7 +42,7 @@ import { Vacancy } from '../vacancies.types';
 import { VacanciesEffectsHelper } from './vacancies-effects.helper';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
-import { vacancies, vacanciesSearchInputValue } from './vacancies.selectors';
+import { vacancies } from './vacancies.selectors';
 
 @Injectable()
 export class VacanciesEffects {

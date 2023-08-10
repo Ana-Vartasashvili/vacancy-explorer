@@ -30,15 +30,6 @@
           />
         </div>
 
-        <div
-          class="vacancies__fetch-all"
-          (click)="fetchVacancies('active')"
-          [ngClass]="{ active: vacanciesStatus === 'all' }"
-          *ngIf="userRole !== 'admin'"
-        >
-          All vacancies
-        </div>
-
         <div *ngIf="userRole === 'admin'" class="vacancies__manage-btns">
           <span
             class="vacancies__manage-btn"
