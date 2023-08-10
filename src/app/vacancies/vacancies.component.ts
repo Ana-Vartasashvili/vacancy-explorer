@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   userSub: Subscription;
   vacanciesStatus: string = 'active';
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.vacanciesStoreSub = this.store
@@ -41,6 +41,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
         this.error = vacanciesState.vacanciesError;
         this.error = vacanciesState.savedVacanciesError;
       });
+    this.cd.detectChanges();
 
     this.userSub = this.store.select(user).subscribe((user) => {
       this.userRole = user ? user.role : null;
