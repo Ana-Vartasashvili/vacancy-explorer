@@ -35,6 +35,9 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.errorMessage = error.message;
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 3500);
           this.isLoading = false;
         },
       });

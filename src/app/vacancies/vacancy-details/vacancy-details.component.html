@@ -4,6 +4,12 @@
     class="loading-spinner"
   ></app-loading-spinner>
 
+  <app-flash-message
+    [messageText]="errorMessage"
+    messageType="error"
+    *ngIf="errorMessage"
+  ></app-flash-message>
+
   <div class="details-container" *ngIf="vacancy && !isLoading">
     <div class="details__heading-container">
       <div class="details__heading">
