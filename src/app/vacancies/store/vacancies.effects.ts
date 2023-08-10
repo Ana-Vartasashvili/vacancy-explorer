@@ -1,29 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ActionCreator, Store } from '@ngrx/store';
-import { TypedAction } from '@ngrx/store/src/models';
+import { Store } from '@ngrx/store';
 import {
   DocumentSnapshot,
-  Query,
-  QueryFieldFilterConstraint,
   QuerySnapshot,
-  Timestamp,
   arrayRemove,
   arrayUnion,
   collection,
   deleteDoc,
   doc,
-  endBefore,
   getCountFromServer,
   getDoc,
   getDocs,
   limit,
-  limitToLast,
   or,
   orderBy,
   query,
   setDoc,
-  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -46,18 +39,10 @@ import {
   getVacanciesList,
 } from '../vacancies-helpers';
 import { Vacancy } from '../vacancies.types';
+import { VacanciesEffectsHelper } from './vacancies-effects.helper';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
 import { vacancies } from './vacancies.selectors';
-
-type ActionFail = ActionCreator<
-  string,
-  (props: { errorMessage: string }) => {
-    errorMessage: string;
-  } & TypedAction<string>
->;
-
-type clearErrorAction = ActionCreator<string, () => TypedAction<string>>;
 
 @Injectable()
 export class VacanciesEffects {
@@ -81,7 +66,7 @@ export class VacanciesEffects {
 
         const newVacancyRef = doc(collection(db, 'vacancies'));
         const docId = newVacancyRef.id;
-        const newVacancy = this.getVacancyDataFromAction(
+        const newVacancy = VacanciesEffectsHelper.getVacancyDataFromAction(
           startAddingVacancyAction,
           docId,
           user.userId,
@@ -102,7 +87,8 @@ export class VacanciesEffects {
             });
           }),
           catchError((error) =>
-            this.handleError(
+            VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.addVacancyFailed,
               clearAddVacancyMessage,
               error.message
@@ -121,11 +107,13 @@ export class VacanciesEffects {
         const queries = vacancies.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
-        const mainQuery = this.generateMainQuery(
+        const mainQuery = VacanciesEffectsHelper.generateMainQuery(
           action.page,
           vacancies.pageSize,
           queries,
-          vacancies.vacanciesStatus
+          vacancies.vacanciesStatus,
+          this.lastDoc,
+          this.firstDoc
         );
         const queryWithoutPageLimit = query(
           collection(db, 'vacancies'),
@@ -157,7 +145,8 @@ export class VacanciesEffects {
                 return VacanciesActions.setVacancies({ vacancies });
               }),
               catchError((error) => {
-                return this.handleError(
+                return VacanciesEffectsHelper.handleError(
+                  this.store,
                   VacanciesActions.getVacanciesFailed,
                   VacanciesActions.clearVacanciesError,
                   error.message
@@ -166,7 +155,8 @@ export class VacanciesEffects {
             );
           }),
           catchError((error) => {
-            return this.handleError(
+            return VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.getVacanciesFailed,
               VacanciesActions.clearVacanciesError,
               error.message
@@ -176,42 +166,6 @@ export class VacanciesEffects {
       })
     )
   );
-
-  private generateMainQuery(
-    page: 'previous' | 'next' | null,
-    pageSize: number,
-    queries: QueryFieldFilterConstraint[],
-    status: 'pending' | 'active'
-  ) {
-    const baseQuery = query(
-      collection(db, 'vacancies'),
-      where('status', '==', status),
-      orderBy('createdAt', 'desc')
-    );
-
-    let combinedQuery: Query;
-    switch (page) {
-      case null:
-        combinedQuery = query(baseQuery, limit(pageSize));
-        break;
-      case 'next':
-        combinedQuery = query(
-          baseQuery,
-          startAfter(this.lastDoc),
-          limit(pageSize)
-        );
-        break;
-      case 'previous':
-        combinedQuery = query(
-          baseQuery,
-          endBefore(this.firstDoc),
-          limitToLast(pageSize)
-        );
-        break;
-    }
-
-    return query(combinedQuery, or(...queries));
-  }
 
   fetchLatestVacancies = createEffect(() =>
     this.actions$.pipe(
@@ -224,7 +178,8 @@ export class VacanciesEffects {
           limit(6)
         );
 
-        return this.handleFetchVacancies(
+        return VacanciesEffectsHelper.handleFetchVacancies(
+          this.store,
           q,
           'latestVacancies',
           VacanciesActions.setLatestVacancies,
@@ -246,7 +201,8 @@ export class VacanciesEffects {
           orderBy('createdAt', 'desc')
         );
 
-        return this.handleFetchVacancies(
+        return VacanciesEffectsHelper.handleFetchVacancies(
+          this.store,
           q,
           'myVacancies',
           VacanciesActions.fetchMyVacanciesSuccess,
@@ -298,7 +254,8 @@ export class VacanciesEffects {
             );
           }),
           catchError((error) => {
-            return this.handleError(
+            return VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.updateSavedVacanciesFailed,
               VacanciesActions.clearSavedVacanciesError,
               error.message
@@ -318,7 +275,8 @@ export class VacanciesEffects {
             return VacanciesActions.startFetchingVacancies({ page: null });
           }),
           catchError((error) => {
-            return this.handleError(
+            return VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.updateSavedVacanciesFailed,
               VacanciesActions.clearSavedVacanciesError,
               error.message
@@ -328,66 +286,4 @@ export class VacanciesEffects {
       })
     )
   );
-
-  private getVacancyDataFromAction(
-    vacancyActionPayload: Vacancy,
-    vacancyId: string,
-    userId: string,
-    currentUserRole: string
-  ): Vacancy {
-    return {
-      jobTitle: vacancyActionPayload.jobTitle.trim(),
-      companyName: vacancyActionPayload.companyName.trim(),
-      category: vacancyActionPayload.category,
-      city: vacancyActionPayload.city,
-      employementType: vacancyActionPayload.employementType,
-      experience: vacancyActionPayload.experience,
-      jobDescription: vacancyActionPayload.jobDescription.trim(),
-      workingType: vacancyActionPayload.workingType,
-      salary: vacancyActionPayload.salary,
-      status: currentUserRole === 'admin' ? 'active' : 'pending',
-      createdAt: Timestamp.now(),
-      id: vacancyId,
-      userId,
-    };
-  }
-
-  private handleFetchVacancies(
-    query: Query,
-    actionObjectKey: string,
-    actionForSuccess,
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction
-  ) {
-    return from(getDocs(query)).pipe(
-      map((resData: QuerySnapshot<Vacancy>) => {
-        let vacancies: Vacancy[] = [];
-        resData.forEach((doc) => {
-          vacancies.push(doc.data());
-        });
-
-        return actionForSuccess({ [actionObjectKey]: vacancies });
-      }),
-      catchError((error) => {
-        return this.handleError(actionForFail, clearErrorAction, error.message);
-      })
-    );
-  }
-
-  private handleError(
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction,
-    errorMsg: string
-  ) {
-    const errorMessage = errorMsg.split('.')[0].split(':')[0];
-    setTimeout(() => {
-      this.store.dispatch(clearErrorAction());
-    }, 3500);
-
-    return of(
-      actionForFail({
-        errorMessage,
-      })
-    );
-  }
 }
