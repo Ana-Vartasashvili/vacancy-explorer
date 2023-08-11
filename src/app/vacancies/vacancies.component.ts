@@ -38,6 +38,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
       .subscribe((vacanciesState) => {
         this.isLoading = vacanciesState.vacanciesLoading;
         this.searchInputValue = vacanciesState.vacanciesSearchInputValue;
+        this.vacanciesStatus = vacanciesState.vacanciesStatus;
         this.error = vacanciesState.vacanciesError;
         this.error = vacanciesState.savedVacanciesError;
       });
