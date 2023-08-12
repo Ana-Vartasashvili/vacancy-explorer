@@ -7,6 +7,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { deleteVacancy, updateVacancy } from '../store/vacancies.actions';
 import { VacanciesService } from '../vacancies.service';
 import { Vacancy } from '../vacancies.types';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vacancy-details',
@@ -30,7 +31,8 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private vacanciesService: VacanciesService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +69,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
-    this.router.navigate(['/vacancies']);
+    this.location.back();
   }
 
   approveVacancy(e: Event) {
@@ -80,7 +82,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
         vacancyId: this.vacancy.id,
       })
     );
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.location.back();
   }
 
   setModalIsOpen(isOpen: boolean) {

@@ -4,12 +4,12 @@
   &__container {
     width: 70vw;
     margin: 0 auto;
-    padding: 3rem 0;
+    padding: 3rem 0 9rem 0;
     max-width: 160rem;
 
     @media (max-width: 46rem) {
       width: 100%;
-      padding: 3rem 2rem;
+      padding: 3rem 2rem 9rem 2rem;
     }
   }
 

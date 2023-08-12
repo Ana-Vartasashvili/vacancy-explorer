@@ -13,21 +13,23 @@
 
     <div class="vacancies__main-content">
       <div class="vacancies__header">
-        <mat-icon
-          (click)="setFilterbarIsShown(true)"
-          class="vacancies__filter-icon"
-          >filter_list</mat-icon
-        >
+        <div class="vacancies__search-filter">
+          <mat-icon
+            (click)="setFilterbarIsShown(true)"
+            class="vacancies__filter-icon"
+            >filter_list</mat-icon
+          >
 
-        <div class="vacancies__search">
-          <mat-icon>search</mat-icon>
-          <input
-            type="text"
-            class="vacancies__search__input"
-            placeholder="Search"
-            [value]="searchInputValue"
-            (keyup)="onSearchInputValueChange($event)"
-          />
+          <div class="vacancies__search">
+            <mat-icon>search</mat-icon>
+            <input
+              type="text"
+              class="vacancies__search__input"
+              placeholder="Search"
+              [value]="searchInputValue"
+              (keyup)="onSearchInputValueChange($event)"
+            />
+          </div>
         </div>
 
         <div *ngIf="userRole === 'admin'" class="vacancies__manage-btns">

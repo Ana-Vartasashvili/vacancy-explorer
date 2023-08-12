@@ -2,6 +2,7 @@
 
 .form {
   min-height: calc(100vh - 6.3rem);
+  padding-bottom: 7rem;
 
   &__container {
     @include flex(3rem, column);

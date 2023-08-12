@@ -1,6 +1,8 @@
 @import "../../../styles.scss";
 
 .details {
+  padding-bottom: 5rem;
+
   &__heading-container {
     border-bottom: $border-width-sm solid $color-black;
     background-color: lighten($color-blue, 43%);

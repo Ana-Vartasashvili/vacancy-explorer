@@ -30,6 +30,9 @@
     <div class="form-control">
       <editor
         class="form__textarea"
+        [ngClass]="{
+          'error-border': isInvalidAndTouched('jobDescription')
+        }"
         apiKey="ui3ksr8nmq7rkzgbwjv47j6e0ehpj1c384y3m9k3lc9qezsr"
         formControlName="jobDescription"
         [init]="{
