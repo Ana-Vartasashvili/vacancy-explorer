@@ -8,9 +8,8 @@ import {
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { logout } from 'src/app/auth/store/auth.actions';
-import { auth as authState, user } from 'src/app/auth/store/auth.selectors';
+import { auth as authState } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/auth/user.model';
-import { auth } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 
 @Component({

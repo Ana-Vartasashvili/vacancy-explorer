@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import {
   setPageSize,
-  setQueries,
   startFetchingVacancies,
 } from '../store/vacancies.actions';
 import { vacancies } from '../store/vacancies.selectors';
@@ -21,7 +20,6 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
   isLoading = false;
   vacanciesError: string;
   storeSub: Subscription;
-  vacanciesSearchInputValue: string;
   currentPageSize: number;
   allVacanciesCount: number;
   currentPageIndex = 0;
@@ -33,26 +31,10 @@ export class VacanciesListComponent implements OnInit, OnDestroy {
       this.vacancies = vacanciesState.vacancies;
       this.isLoading = vacanciesState.vacanciesLoading;
       this.vacanciesError = vacanciesState.vacanciesError;
-      this.vacanciesSearchInputValue = vacanciesState.vacanciesSearchInputValue;
       this.currentPageSize = vacanciesState.pageSize;
       this.allVacanciesCount = vacanciesState.numberOfFetchedVacancies;
     });
 
-    this.fetchVacancies();
-  }
-
-  fetchVacancies() {
-    let queries = [];
-    if (this.vacanciesSearchInputValue) {
-      queries = [
-        {
-          queryFieldPath: 'jobTitle',
-          operator: '==',
-          value: this.vacanciesSearchInputValue,
-        },
-      ];
-    }
-    this.store.dispatch(setQueries({ queries }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
   }
 

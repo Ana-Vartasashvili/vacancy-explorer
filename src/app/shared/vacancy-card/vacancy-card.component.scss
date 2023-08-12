@@ -3,7 +3,7 @@
 .vacancy {
   position: relative;
   width: 100%;
-  padding: 3rem;
+  padding: 2.5rem;
   border-radius: $border-radius-sm;
   cursor: pointer;
   border: $border-width-sm solid $color-black;
@@ -95,5 +95,10 @@
 
   &__publish-date {
     color: lighten($color-dark-gray, 20%);
+  }
+
+  &__manage-btns {
+    @include flex(1rem, row, flex-end);
+    margin-top: 1rem;
   }
 }

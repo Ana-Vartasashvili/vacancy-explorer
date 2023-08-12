@@ -12,13 +12,21 @@
       *ngIf="savedVacancies.length === 0"
       class="saved-vacancies__no-vacancies"
     >
-      <span class="my-vacancies__no-vacancies_text">No vacancies.</span>
-      <a
-        routerLink="/vacancies"
-        routerLinkActive="router-link-active"
-        class="my-vacancies__no-vacancies-link"
-        >Add</a
-      >
+      <div class="saved-vacancies__no-vacancies-text">
+        <span>No vacancies.</span>
+        <a
+          routerLink="/vacancies"
+          routerLinkActive="router-link-active"
+          class="saved-vacancies__no-vacancies-link"
+          >Add</a
+        >
+      </div>
+
+      <img
+        class="saved-vacancies__img"
+        src="../../../assets/girl-with-computer.png"
+        alt="Girl typing on a laptop"
+      />
     </div>
 
     <app-loading-spinner

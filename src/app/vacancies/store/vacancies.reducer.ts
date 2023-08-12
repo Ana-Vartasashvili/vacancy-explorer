@@ -23,6 +23,7 @@ export interface VacanciesState {
   pageSize: number;
   queries: Query[];
   numberOfFetchedVacancies: number;
+  vacanciesStatus: 'active' | 'pending';
 }
 
 const initialState: VacanciesState = {
@@ -45,6 +46,7 @@ const initialState: VacanciesState = {
   pageSize: 10,
   queries: [],
   numberOfFetchedVacancies: 0,
+  vacanciesStatus: 'active',
 };
 
 export const VacanciesReducer = createReducer(
@@ -64,11 +66,11 @@ export const VacanciesReducer = createReducer(
     addVacancySuccessMessage: null,
   })),
 
-  on(VacanciesActions.addVacancySuccess, (state) => ({
+  on(VacanciesActions.addVacancySuccess, (state, action) => ({
     ...state,
     addVacancyloading: false,
     addVacancyError: null,
-    addVacancySuccessMessage: 'Your vacancy has been sent successfully.',
+    addVacancySuccessMessage: action.message,
   })),
 
   on(VacanciesActions.clearAddVacancyMessage, (state) => ({
@@ -198,5 +200,10 @@ export const VacanciesReducer = createReducer(
   on(VacanciesActions.setNumberOfFetchedVacancies, (state, action) => ({
     ...state,
     numberOfFetchedVacancies: action.numberOfFetchedVacancies,
+  })),
+
+  on(VacanciesActions.setVacanciesStatus, (state, action) => ({
+    ...state,
+    vacanciesStatus: action.status,
   }))
 );

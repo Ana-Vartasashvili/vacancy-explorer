@@ -13,33 +13,42 @@
 
     <div class="vacancies__main-content">
       <div class="vacancies__header">
-        <mat-icon
-          (click)="setFilterbarIsShown(true)"
-          class="vacancies__filter-icon"
-          >filter_list</mat-icon
-        >
+        <div class="vacancies__search-filter">
+          <mat-icon
+            (click)="setFilterbarIsShown(true)"
+            class="vacancies__filter-icon"
+            >filter_list</mat-icon
+          >
 
-        <form
-          class="vacancies__search"
-          [formGroup]="searchForm"
-          (submit)="onSubmit()"
-        >
-          <mat-icon>search</mat-icon>
-          <input
-            type="text"
-            class="vacancies__search__input"
-            placeholder="Search"
-            formControlName="jobTitle"
-          />
-        </form>
+          <div class="vacancies__search">
+            <mat-icon>search</mat-icon>
+            <input
+              type="text"
+              class="vacancies__search__input"
+              placeholder="Search"
+              [value]="searchInputValue"
+              (keyup)="onSearchInputValueChange($event)"
+            />
+          </div>
+        </div>
 
-        <div class="vacancies__fetch-all" (click)="fetchAllVacancies()">
-          All vacancies
+        <div *ngIf="userRole === 'admin'" class="vacancies__manage-btns">
+          <span
+            class="vacancies__manage-btn"
+            (click)="fetchVacancies('active')"
+            [ngClass]="{ active: vacanciesStatus === 'active' }"
+            >Active vacancies</span
+          >
+          <span
+            class="vacancies__manage-btn"
+            (click)="fetchVacancies('pending')"
+            [ngClass]="{ active: vacanciesStatus === 'pending' }"
+            >Requests</span
+          >
         </div>
       </div>
 
       <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-
       <app-vacancies-list></app-vacancies-list>
     </div>
   </div>

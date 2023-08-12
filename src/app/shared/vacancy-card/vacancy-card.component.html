@@ -25,5 +25,30 @@
 
       <span class="vacancy__publish-date">{{ vacancy.createdAt | date }}</span>
     </div>
+
+    <div
+      class="vacancy__manage-btns"
+      *ngIf="userRole === 'admin' && isOnVacanciesPage"
+    >
+      <button
+        class="btn btn--with-shadow"
+        *ngIf="vacancy.status === 'pending'"
+        (click)="approveVacancy($event)"
+      >
+        Approve
+      </button>
+      <button
+        class="btn btn--white-with-shadow"
+        (click)="onDeleteBtnClick($event)"
+      >
+        Delete
+      </button>
+    </div>
   </div>
 </a>
+
+<app-confirmation-modal
+  [vacancyId]="vacancy.id"
+  [modalIsOpen]="modalIsOpen"
+  (modalClosed)="setModalIsOpen(false)"
+></app-confirmation-modal>

@@ -1,13 +1,13 @@
-<app-form-container [formHeading]="authHeading">
+<app-form-container [formHeading]="authHeading" class="auth-form">
   <ng-content></ng-content>
 
-  <p *ngIf="authHeading === 'Login'" class="auth-text">
+  <p *ngIf="authHeading === 'Login'" class="auth-form__text">
     Don't have an account?
-    <a routerLink="/auth/signup">Sign Up</a>
+    <a routerLink="/auth/signup" class="auth-form__link">Sign Up</a>
   </p>
 
-  <p *ngIf="authHeading === 'Sign Up'" class="auth-text">
+  <p *ngIf="authHeading === 'Sign Up'" class="auth-form__text">
     Already have an account?
-    <a routerLink="/auth/login">Log In</a>
+    <a routerLink="/auth/login" class="auth-form__link">Log In</a>
   </p>
 </app-form-container>

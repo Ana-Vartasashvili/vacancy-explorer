@@ -19,7 +19,8 @@ export const addVacancyFailed = createAction(
 );
 
 export const addVacancySuccess = createAction(
-  '[Vacancies] Add Vacancy Success'
+  '[Vacancies] Add Vacancy Success',
+  props<{ message: string }>()
 );
 
 export const clearAddVacancyMessage = createAction(
@@ -118,4 +119,19 @@ export const setQueries = createAction(
 export const setNumberOfFetchedVacancies = createAction(
   '[Vacancies] Set Number Of Fetched Vacancies',
   props<{ numberOfFetchedVacancies: number }>()
+);
+
+export const deleteVacancy = createAction(
+  '[Vacancies] Delete Vacancy',
+  props<{ vacancyId: string }>()
+);
+
+export const setVacanciesStatus = createAction(
+  '[Vacancies] Set Vacancies Status',
+  props<{ status: 'pending' | 'active' }>()
+);
+
+export const updateVacancy = createAction(
+  '[Vacancies] Update Vacancy',
+  props<{ fieldName: string; updatedValue: string; vacancyId: string }>()
 );

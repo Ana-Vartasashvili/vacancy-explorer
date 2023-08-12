@@ -19,6 +19,7 @@ import { DatePipe } from './pipes/date.pipe';
 import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
 import { SelectComponent } from './select/select.component';
 import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     DatePipe,
     LoadingSpinnerComponent,
     CamelCaseToTitleCasePipe,
+    ConfirmationModalComponent,
   ],
   providers: [
     {
@@ -58,6 +60,7 @@ import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
     SelectMultipleComponent,
     LoadingSpinnerComponent,
     CamelCaseToTitleCasePipe,
+    ConfirmationModalComponent,
   ],
 })
 export class SharedModule {}

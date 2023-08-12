@@ -1,28 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ActionCreator, Store } from '@ngrx/store';
-import { TypedAction } from '@ngrx/store/src/models';
+import { Store } from '@ngrx/store';
 import {
   DocumentSnapshot,
-  Query,
-  QueryFieldFilterConstraint,
   QuerySnapshot,
-  Timestamp,
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
-  endBefore,
   getCountFromServer,
   getDoc,
   getDocs,
   limit,
-  limitToLast,
   or,
   orderBy,
   query,
   setDoc,
-  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -37,6 +31,7 @@ import {
   tap,
 } from 'rxjs';
 import { UserData } from 'src/app/auth/auth.types';
+import { user } from 'src/app/auth/store/auth.selectors';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import {
@@ -44,18 +39,10 @@ import {
   getVacanciesList,
 } from '../vacancies-helpers';
 import { Vacancy } from '../vacancies.types';
+import { VacanciesEffectsHelper } from './vacancies-effects.helper';
 import * as VacanciesActions from './vacancies.actions';
 import { clearAddVacancyMessage } from './vacancies.actions';
 import { vacancies } from './vacancies.selectors';
-
-type ActionFail = ActionCreator<
-  string,
-  (props: { errorMessage: string }) => {
-    errorMessage: string;
-  } & TypedAction<string>
->;
-
-type clearErrorAction = ActionCreator<string, () => TypedAction<string>>;
 
 @Injectable()
 export class VacanciesEffects {
@@ -66,7 +53,8 @@ export class VacanciesEffects {
   addVacancy = createEffect(() =>
     this.actions$.pipe(
       ofType(VacanciesActions.startAddingVacancy),
-      switchMap((startAddingVacancyAction) => {
+      concatLatestFrom(() => this.store.select(user)),
+      switchMap(([startAddingVacancyAction, currentUser]) => {
         const user = JSON.parse(localStorage.getItem('tokenData'));
         if (!user) {
           return of(
@@ -78,10 +66,11 @@ export class VacanciesEffects {
 
         const newVacancyRef = doc(collection(db, 'vacancies'));
         const docId = newVacancyRef.id;
-        const newVacancy = this.getVacancyDataFromAction(
+        const newVacancy = VacanciesEffectsHelper.getVacancyDataFromAction(
           startAddingVacancyAction,
           docId,
-          user.userId
+          user.userId,
+          currentUser.role
         );
 
         return from(setDoc(doc(db, 'vacancies', docId), newVacancy)).pipe(
@@ -90,10 +79,16 @@ export class VacanciesEffects {
               this.store.dispatch(clearAddVacancyMessage());
             }, 3500);
 
-            return VacanciesActions.addVacancySuccess();
+            return VacanciesActions.addVacancySuccess({
+              message:
+                currentUser.role === 'admin'
+                  ? 'Vacancy added successfully!'
+                  : 'Your vacancy has been sent successfully.',
+            });
           }),
           catchError((error) =>
-            this.handleError(
+            VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.addVacancyFailed,
               clearAddVacancyMessage,
               error.message
@@ -108,19 +103,20 @@ export class VacanciesEffects {
     this.actions$.pipe(
       ofType(VacanciesActions.startFetchingVacancies),
       concatLatestFrom(() => this.store.select(vacancies)),
-      switchMap(([action, vacancies]) => {
-        const queries = vacancies.queries.map((query) => {
+      switchMap(([action, vacanciesState]) => {
+        const queries = vacanciesState.queries.map((query) => {
           return where(query.queryFieldPath, query.operator, query.value);
         });
-        const mainQuery = this.generateMainQuery(
+        const mainQuery = VacanciesEffectsHelper.generateMainQuery(
           action.page,
-          vacancies.pageSize,
-          queries
+          queries,
+          this.lastDoc,
+          this.firstDoc,
+          vacanciesState
         );
-        const queryWithoutPageLimit = query(
-          collection(db, 'vacancies'),
-          where('status', '==', 'active')
-        );
+
+        const queryWithoutPageLimit =
+          VacanciesEffectsHelper.generateQueryWithoutPageLimit(vacanciesState);
 
         return from(
           getCountFromServer(query(queryWithoutPageLimit, or(...queries)))
@@ -147,7 +143,8 @@ export class VacanciesEffects {
                 return VacanciesActions.setVacancies({ vacancies });
               }),
               catchError((error) => {
-                return this.handleError(
+                return VacanciesEffectsHelper.handleError(
+                  this.store,
                   VacanciesActions.getVacanciesFailed,
                   VacanciesActions.clearVacanciesError,
                   error.message
@@ -156,7 +153,8 @@ export class VacanciesEffects {
             );
           }),
           catchError((error) => {
-            return this.handleError(
+            return VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.getVacanciesFailed,
               VacanciesActions.clearVacanciesError,
               error.message
@@ -166,41 +164,6 @@ export class VacanciesEffects {
       })
     )
   );
-
-  private generateMainQuery(
-    page: 'previous' | 'next' | null,
-    pageSize: number,
-    queries: QueryFieldFilterConstraint[]
-  ) {
-    const baseQuery = query(
-      collection(db, 'vacancies'),
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc')
-    );
-
-    let combinedQuery: Query;
-    switch (page) {
-      case null:
-        combinedQuery = query(baseQuery, limit(pageSize));
-        break;
-      case 'next':
-        combinedQuery = query(
-          baseQuery,
-          startAfter(this.lastDoc),
-          limit(pageSize)
-        );
-        break;
-      case 'previous':
-        combinedQuery = query(
-          baseQuery,
-          endBefore(this.firstDoc),
-          limitToLast(pageSize)
-        );
-        break;
-    }
-
-    return query(combinedQuery, or(...queries));
-  }
 
   fetchLatestVacancies = createEffect(() =>
     this.actions$.pipe(
@@ -213,7 +176,8 @@ export class VacanciesEffects {
           limit(6)
         );
 
-        return this.handleFetchVacancies(
+        return VacanciesEffectsHelper.handleFetchVacancies(
+          this.store,
           q,
           'latestVacancies',
           VacanciesActions.setLatestVacancies,
@@ -235,7 +199,8 @@ export class VacanciesEffects {
           orderBy('createdAt', 'desc')
         );
 
-        return this.handleFetchVacancies(
+        return VacanciesEffectsHelper.handleFetchVacancies(
+          this.store,
           q,
           'myVacancies',
           VacanciesActions.fetchMyVacanciesSuccess,
@@ -287,7 +252,8 @@ export class VacanciesEffects {
             );
           }),
           catchError((error) => {
-            return this.handleError(
+            return VacanciesEffectsHelper.handleError(
+              this.store,
               VacanciesActions.updateSavedVacanciesFailed,
               VacanciesActions.clearSavedVacanciesError,
               error.message
@@ -298,64 +264,47 @@ export class VacanciesEffects {
     )
   );
 
-  private getVacancyDataFromAction(
-    vacancyActionPayload: Vacancy,
-    vacancyId: string,
-    userId: string
-  ): Vacancy {
-    return {
-      jobTitle: vacancyActionPayload.jobTitle.trim(),
-      companyName: vacancyActionPayload.companyName.trim(),
-      category: vacancyActionPayload.category,
-      city: vacancyActionPayload.city,
-      employementType: vacancyActionPayload.employementType,
-      experience: vacancyActionPayload.experience,
-      jobDescription: vacancyActionPayload.jobDescription.trim(),
-      workingType: vacancyActionPayload.workingType,
-      salary: vacancyActionPayload.salary,
-      status: 'pending',
-      createdAt: Timestamp.now(),
-      id: vacancyId,
-      userId,
-    };
-  }
-
-  private handleFetchVacancies(
-    query: Query,
-    actionObjectKey: string,
-    actionForSuccess,
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction
-  ) {
-    return from(getDocs(query)).pipe(
-      map((resData: QuerySnapshot<Vacancy>) => {
-        let vacancies: Vacancy[] = [];
-        resData.forEach((doc) => {
-          vacancies.push(doc.data());
-        });
-
-        return actionForSuccess({ [actionObjectKey]: vacancies });
-      }),
-      catchError((error) => {
-        return this.handleError(actionForFail, clearErrorAction, error.message);
+  deleteVacancy = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.deleteVacancy),
+      switchMap((action) => {
+        return from(deleteDoc(doc(db, 'vacancies', action.vacancyId))).pipe(
+          map(() => {
+            return VacanciesActions.startFetchingVacancies({ page: null });
+          }),
+          catchError((error) => {
+            return VacanciesEffectsHelper.handleError(
+              this.store,
+              VacanciesActions.updateSavedVacanciesFailed,
+              VacanciesActions.clearSavedVacanciesError,
+              error.message
+            );
+          })
+        );
       })
-    );
-  }
+    )
+  );
 
-  private handleError(
-    actionForFail: ActionFail,
-    clearErrorAction: clearErrorAction,
-    errorMsg: string
-  ) {
-    const errorMessage = errorMsg.split('.')[0].split(':')[0];
-    setTimeout(() => {
-      this.store.dispatch(clearErrorAction());
-    }, 3500);
+  updateVacancy = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VacanciesActions.updateVacancy),
+      switchMap((action) => {
+        const vacancyDocRef = doc(db, 'vacancies', action.vacancyId);
 
-    return of(
-      actionForFail({
-        errorMessage,
+        return from(
+          updateDoc(vacancyDocRef, { [action.fieldName]: action.updatedValue })
+        ).pipe(
+          map(() => VacanciesActions.startFetchingVacancies({ page: null })),
+          catchError((error) => {
+            return VacanciesEffectsHelper.handleError(
+              this.store,
+              VacanciesActions.updateSavedVacanciesFailed,
+              VacanciesActions.clearSavedVacanciesError,
+              error.message
+            );
+          })
+        );
       })
-    );
-  }
+    )
+  );
 }

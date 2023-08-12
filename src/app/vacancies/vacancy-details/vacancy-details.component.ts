@@ -1,8 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { user } from 'src/app/auth/store/auth.selectors';
+import { AppState } from 'src/app/store/app.reducer';
+import { deleteVacancy, updateVacancy } from '../store/vacancies.actions';
 import { VacanciesService } from '../vacancies.service';
 import { Vacancy } from '../vacancies.types';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vacancy-details',
@@ -17,10 +22,17 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
   errorMessage: string;
   serviceSub: Subscription;
   plainTextContent: string;
+  modalIsOpen: boolean;
+  isOnVacanciesPage: boolean;
+  userSub: Subscription;
+  userRole: string;
 
   constructor(
     private route: ActivatedRoute,
-    private vacanciesService: VacanciesService
+    private vacanciesService: VacanciesService,
+    private store: Store<AppState>,
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -35,9 +47,46 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.errorMessage = error.message;
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 3500);
           this.isLoading = false;
         },
       });
+
+    this.userSub = this.store.select(user).subscribe((user) => {
+      if (user) {
+        this.userRole = user.role;
+      }
+    });
+  }
+
+  onDeleteBtnClick(event: Event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    this.setModalIsOpen(true);
+  }
+
+  onDelete() {
+    this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
+    this.location.back();
+  }
+
+  approveVacancy(e: Event) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.store.dispatch(
+      updateVacancy({
+        fieldName: 'status',
+        updatedValue: 'active',
+        vacancyId: this.vacancy.id,
+      })
+    );
+    this.location.back();
+  }
+
+  setModalIsOpen(isOpen: boolean) {
+    this.modalIsOpen = isOpen;
   }
 
   ngOnDestroy(): void {

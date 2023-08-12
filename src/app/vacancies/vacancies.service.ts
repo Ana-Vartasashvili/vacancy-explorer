@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { doc, getDoc } from 'firebase/firestore';
-import { from, map } from 'rxjs';
+import { catchError, from, map } from 'rxjs';
 import { db } from '../firebase/firebase-config';
 import { Vacancy } from './vacancies.types';
 

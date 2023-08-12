@@ -4,103 +4,137 @@
     class="loading-spinner"
   ></app-loading-spinner>
 
+  <app-flash-message
+    [messageText]="errorMessage"
+    messageType="error"
+    *ngIf="errorMessage"
+  ></app-flash-message>
+
+  <app-confirmation-modal
+    [vacancyId]="vacancyId"
+    [modalIsOpen]="modalIsOpen"
+    (modalClosed)="setModalIsOpen(false)"
+  ></app-confirmation-modal>
+
   <div class="details-container" *ngIf="vacancy && !isLoading">
     <div class="details__heading-container">
       <div class="details__heading">
-        <h2 class="details__job-title">{{ vacancy.jobTitle }}</h2>
-        <span class="details__location">
-          <mat-icon class="details__location-icon">location_on</mat-icon>
-          <span class="details__location-text">{{ vacancy.city }}</span>
-        </span>
+        <div class="details__heading-text">
+          <h2 class="details__job-title">{{ vacancy.jobTitle }}</h2>
+          <span class="details__location">
+            <mat-icon class="details__location-icon">location_on</mat-icon>
+            <span class="details__location-text">{{ vacancy.city }}</span>
+          </span>
 
-        <div class="details__badges">
-          <div class="details__badges__badge">
-            {{ vacancy.employementType }}
+          <div class="details__badges">
+            <div class="details__badges__badge">
+              {{ vacancy.employementType }}
+            </div>
+            <div class="details__badges__badge">{{ vacancy.experience }}</div>
+            <div class="details__badges__badge">{{ vacancy.workingType }}</div>
           </div>
-          <div class="details__badges__badge">{{ vacancy.experience }}</div>
-          <div class="details__badges__badge">{{ vacancy.workingType }}</div>
         </div>
       </div>
     </div>
 
-    <div class="details__content">
-      <div class="details__description">
-        <h4 class="details__description__title">Vacancy Description</h4>
-        <div
-          [innerHTML]="vacancy.jobDescription"
-          class="details__description__text"
-        ></div>
+    <div class="details__container">
+      <div class="details__content">
+        <div class="details__description">
+          <h4 class="details__description__title">Vacancy Description</h4>
+          <div
+            [innerHTML]="vacancy.jobDescription"
+            class="details__description__text"
+          ></div>
+        </div>
+
+        <div class="details__more-info">
+          <h4 class="details__more-info__title">Details</h4>
+
+          <div class="details__more-info__block">
+            <div>
+              <mat-icon class="details__more-info__block-icon"
+                >attach_money</mat-icon
+              >
+            </div>
+
+            <div class="details__more-info__block-content">
+              <span class="details__more-info__block-title">Salary</span>
+              <span class="details__more-info__block-text"
+                >{{ vacancy.salary }} $</span
+              >
+            </div>
+          </div>
+
+          <div class="details__more-info__block">
+            <mat-icon class="details__more-info__block-icon"
+              >access_time</mat-icon
+            >
+
+            <div class="details__more-info__block-content">
+              <span class="details__more-info__block-title"
+                >Employement type</span
+              >
+              <span class="details__more-info__block-text">{{
+                vacancy.employementType
+              }}</span>
+            </div>
+          </div>
+
+          <div class="details__more-info__block">
+            <mat-icon class="details__more-info__block-icon">person</mat-icon>
+
+            <div class="details__more-info__block-content">
+              <span class="details__more-info__block-title">Experience</span>
+              <span class="details__more-info__block-text">{{
+                vacancy.experience
+              }}</span>
+            </div>
+          </div>
+
+          <div class="details__more-info__block">
+            <mat-icon class="details__more-info__block-icon"
+              >work_outline</mat-icon
+            >
+
+            <div class="details__more-info__block-content">
+              <span class="details__more-info__block-title">Working type</span>
+              <span class="details__more-info__block-text">{{
+                vacancy.workingType
+              }}</span>
+            </div>
+          </div>
+
+          <div class="details__more-info__block">
+            <div>
+              <mat-icon class="details__more-info__block-icon"
+                >business</mat-icon
+              >
+            </div>
+
+            <div class="details__more-info__block-content">
+              <span class="details__more-info__block-title">Company</span>
+              <span class="details__more-info__block-text">{{
+                vacancy.companyName
+              }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="details__more-info">
-        <h4 class="details__more-info__title">Details</h4>
-
-        <div class="details__more-info__block">
-          <div>
-            <mat-icon class="details__more-info__block-icon"
-              >attach_money</mat-icon
-            >
-          </div>
-
-          <div class="details__more-info__block-content">
-            <span class="details__more-info__block-title">Salary</span>
-            <span class="details__more-info__block-text"
-              >{{ vacancy.salary }} $</span
-            >
-          </div>
-        </div>
-
-        <div class="details__more-info__block">
-          <mat-icon class="details__more-info__block-icon"
-            >access_time</mat-icon
-          >
-
-          <div class="details__more-info__block-content">
-            <span class="details__more-info__block-title"
-              >Employement type</span
-            >
-            <span class="details__more-info__block-text">{{
-              vacancy.employementType
-            }}</span>
-          </div>
-        </div>
-
-        <div class="details__more-info__block">
-          <mat-icon class="details__more-info__block-icon">person</mat-icon>
-
-          <div class="details__more-info__block-content">
-            <span class="details__more-info__block-title">Experience</span>
-            <span class="details__more-info__block-text">{{
-              vacancy.experience
-            }}</span>
-          </div>
-        </div>
-
-        <div class="details__more-info__block">
-          <mat-icon class="details__more-info__block-icon"
-            >work_outline</mat-icon
-          >
-
-          <div class="details__more-info__block-content">
-            <span class="details__more-info__block-title">Working type</span>
-            <span class="details__more-info__block-text">{{
-              vacancy.workingType
-            }}</span>
-          </div>
-        </div>
-
-        <div class="details__more-info__block">
-          <div>
-            <mat-icon class="details__more-info__block-icon">business</mat-icon>
-          </div>
-
-          <div class="details__more-info__block-content">
-            <span class="details__more-info__block-title">Company</span>
-            <span class="details__more-info__block-text">{{
-              vacancy.companyName
-            }}</span>
-          </div>
-        </div>
+      <div class="details__manage-btns" *ngIf="userRole === 'admin'">
+        <button
+          class="btn btn--with-shadow"
+          *ngIf="vacancy.status === 'pending'"
+          (click)="approveVacancy($event)"
+        >
+          Approve
+        </button>
+        <button
+          class="btn btn--white-with-shadow"
+          (click)="onDeleteBtnClick($event)"
+        >
+          Delete
+        </button>
       </div>
     </div>
   </div>

@@ -42,6 +42,19 @@
   }
 }
 
+.btn--white-with-shadow {
+  @extend .btn--with-shadow;
+  outline: $border-width-sm solid $color-black;
+  outline-offset: -0.2rem;
+  color: $color-black;
+  background-color: $color-white;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-black;
+  }
+}
+
 .btn--submit {
   margin-top: 1rem;
   width: 100%;

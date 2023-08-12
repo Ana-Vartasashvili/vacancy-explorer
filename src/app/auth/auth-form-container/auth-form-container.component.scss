@@ -1,7 +1,18 @@
 @import "../../../styles.scss";
 
-.auth-text {
-  font-size: 1.5rem;
-  margin-top: -1.6rem;
-  color: $color-dark-gray;
+.auth-form {
+  &__text {
+    font-size: 1.5rem;
+    margin-top: -1.6rem;
+    color: $color-dark-gray;
+  }
+
+  &__link {
+    @extend %link-default;
+    color: darken($color-pink, 52%);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

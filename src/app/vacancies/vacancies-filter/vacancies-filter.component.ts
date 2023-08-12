@@ -28,6 +28,7 @@ export class VacanciesFilterComponent implements OnInit {
   openedFilterBlocks: string[] = [];
   formGroupNames: string[];
   queries: Query[] = [];
+  vacanciesStatus: string;
 
   constructor(
     private vacanciesFilterService: VacanciesFilterService,
@@ -78,6 +79,7 @@ export class VacanciesFilterComponent implements OnInit {
         (query) => query.value !== formControl
       );
     }
+
     this.store.dispatch(setQueries({ queries: this.queries }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
   }

@@ -4,7 +4,7 @@
   &__container {
     width: 70vw;
     margin: 0 auto;
-    padding: 3rem 0;
+    padding: 3rem 0 9rem 0;
     max-width: 160rem;
 
     @media (max-width: 46rem) {
@@ -14,7 +14,7 @@
   }
 
   &__heading {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   &__list {
@@ -27,17 +27,39 @@
   }
 
   &__no-vacancies {
-    @include flex(1rem);
+    @include flex(1.8rem, column);
     text-align: center;
+    font-size: 1.8rem;
+  }
+
+  &__no-vacancies-text {
+    @include flex(1rem);
+    margin-right: 1.5rem;
   }
 
   &__no-vacancies-link {
     cursor: pointer;
     color: $color-blue;
-    text-decoration: underline;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__loading-spinner {
     @include flex;
+  }
+
+  &__img {
+    width: 35rem;
+
+    @media (max-width: 28rem) {
+      width: 30rem;
+    }
+
+    @media (max-width: 22rem) {
+      width: 25rem;
+    }
   }
 }

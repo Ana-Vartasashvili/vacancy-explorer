@@ -23,18 +23,31 @@
     position: relative;
     margin-left: 25rem;
     width: 60%;
-    padding: 2rem 0;
+    padding: 2rem 0 7rem 0;
 
     @media (max-width: 46rem) {
       width: 100%;
       margin-left: 0;
-      padding: 2rem;
+      padding: 2rem 2rem 7rem 2rem;
     }
   }
 
   &__header {
     @include flex(1.4rem, row, flex-start, center);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 31rem) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__search-filter {
+    @include flex(1.4rem);
+
+    @media (max-width: 46rem) {
+      width: 100%;
+    }
   }
 
   &__filter-icon {
@@ -84,9 +97,25 @@
   }
 
   &__fetch-all {
-    color: $color-blue;
     font-size: 1.8rem;
     cursor: pointer;
+  }
+
+  &__manage-btns {
+    @include flex(1rem, row);
+    font-size: 1.8rem;
+  }
+
+  &__manage-btn {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  .active {
+    color: $color-blue;
   }
 }
 
