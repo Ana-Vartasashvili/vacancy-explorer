@@ -34,10 +34,6 @@ import { UserData } from 'src/app/auth/auth.types';
 import { user } from 'src/app/auth/store/auth.selectors';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
-import {
-  getSavedVacanciesDocSnaps,
-  getVacanciesList,
-} from '../vacancies-helpers';
 import { Vacancy } from '../vacancies.types';
 import { VacanciesEffectsHelper } from './vacancies-effects.helper';
 import * as VacanciesActions from './vacancies.actions';
@@ -114,7 +110,6 @@ export class VacanciesEffects {
           this.firstDoc,
           vacanciesState
         );
-
         const queryWithoutPageLimit =
           VacanciesEffectsHelper.generateQueryWithoutPageLimit(vacanciesState);
 
@@ -237,12 +232,15 @@ export class VacanciesEffects {
                 return null;
               }),
               concatMap((userData: UserData) => {
-                return getSavedVacanciesDocSnaps(userData.savedVacancies).pipe(
+                return VacanciesEffectsHelper.getSavedVacanciesDocSnaps(
+                  userData.savedVacancies
+                ).pipe(
                   defaultIfEmpty([]),
                   map((savedVacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
-                    const savedVacancies = getVacanciesList(
-                      savedVacanciesDocSnaps
-                    );
+                    const savedVacancies =
+                      VacanciesEffectsHelper.getVacanciesList(
+                        savedVacanciesDocSnaps
+                      );
                     return VacanciesActions.updateSavedVacanciesSuccess({
                       savedVacancies: savedVacancies,
                     });
