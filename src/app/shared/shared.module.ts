@@ -60,6 +60,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     SelectMultipleComponent,
     LoadingSpinnerComponent,
     CamelCaseToTitleCasePipe,
+    ConfirmationModalComponent,
   ],
 })
 export class SharedModule {}

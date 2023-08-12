@@ -76,10 +76,6 @@ export class VacancyCardComponent implements OnInit, OnDestroy {
     this.setModalIsOpen(true);
   }
 
-  onDelete() {
-    this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
-  }
-
   approveVacancy(e: Event) {
     e.preventDefault();
     e.stopImmediatePropagation();

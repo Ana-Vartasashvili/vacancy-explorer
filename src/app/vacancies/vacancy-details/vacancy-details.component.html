@@ -10,6 +10,12 @@
     *ngIf="errorMessage"
   ></app-flash-message>
 
+  <app-confirmation-modal
+    [vacancyId]="vacancyId"
+    [modalIsOpen]="modalIsOpen"
+    (modalClosed)="setModalIsOpen(false)"
+  ></app-confirmation-modal>
+
   <div class="details-container" *ngIf="vacancy && !isLoading">
     <div class="details__heading-container">
       <div class="details__heading">
@@ -133,30 +139,3 @@
     </div>
   </div>
 </section>
-
-<div
-  class="details__overlay"
-  *ngIf="modalIsOpen"
-  (click)="setModalIsOpen(false)"
-></div>
-
-<div
-  class="confirmation-modal"
-  *ngIf="modalIsOpen"
-  (click)="setModalIsOpen(false)"
->
-  <div class="confirmation-modal__content">
-    <p class="confirmation-modal__text">
-      Are you sure you want to delete this vacancy?
-    </p>
-
-    <div class="confirmation-modal__btns">
-      <button class="btn btn--with-shadow" (click)="setModalIsOpen(false)">
-        Cancel
-      </button>
-      <button class="btn btn--white-with-shadow" (click)="onDelete()">
-        Delete
-      </button>
-    </div>
-  </div>
-</div>

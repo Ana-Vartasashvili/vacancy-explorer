@@ -101,38 +101,4 @@
     @include flex(1rem, row, flex-end);
     margin-top: 1rem;
   }
-
-  &__overlay {
-    @include position(fixed);
-    height: 100vh;
-    width: 100vw;
-    background-color: darken($color-dark-gray, 40%);
-    opacity: 0.5;
-    z-index: 99;
-    overflow: hidden;
-  }
-}
-
-.confirmation-modal {
-  @include position(fixed, 50%, 50%);
-  transform: translateX(-50%) translateY(-50%);
-  z-index: 9999 !important;
-  background-color: $color-white;
-  padding: 1rem 1rem;
-  border-radius: $border-radius-sm;
-
-  &__content {
-    color: $color-black;
-    opacity: 1 !important;
-    padding: 2rem 3rem;
-  }
-
-  &__text {
-    font-size: 1.8rem;
-    margin-bottom: 2.8rem;
-  }
-
-  &__btns {
-    @include flex(1rem, row, flex-end);
-  }
 }
