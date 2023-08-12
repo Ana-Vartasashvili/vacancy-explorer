@@ -1,13 +1,17 @@
 import { ActionCreator, Store } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import {
+  DocumentData,
+  DocumentReference,
   DocumentSnapshot,
   Query,
   QueryFieldFilterConstraint,
   QuerySnapshot,
   Timestamp,
   collection,
+  doc,
   endBefore,
+  getDoc,
   getDocs,
   limit,
   limitToLast,
@@ -17,7 +21,7 @@ import {
   startAfter,
   where,
 } from 'firebase/firestore';
-import { catchError, from, map, of } from 'rxjs';
+import { Observable, catchError, forkJoin, from, map, of } from 'rxjs';
 import { db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
 import { Vacancy } from '../vacancies.types';
@@ -158,5 +162,26 @@ export class VacanciesEffectsHelper {
     }
 
     return queryWithoutPageLimit;
+  }
+
+  static getSavedVacanciesDocSnaps(
+    docRefs: DocumentReference[]
+  ): Observable<DocumentSnapshot<DocumentData, DocumentData>[]> {
+    const vacanciesDocs = docRefs.map((docRef) => {
+      const docReference = doc(db, 'vacancies', docRef.id);
+      return getDoc(docReference);
+    });
+
+    return forkJoin(vacanciesDocs);
+  }
+
+  static getVacanciesList(vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) {
+    return vacanciesDocSnaps
+      .filter((vacancyDocSnap: DocumentSnapshot<Vacancy>) =>
+        vacancyDocSnap.exists()
+      )
+      .map((filteredVacancyDocSnap: DocumentSnapshot<Vacancy>) =>
+        filteredVacancyDocSnap.data()
+      );
   }
 }

@@ -6,21 +6,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { DocumentSnapshot, doc, getDoc, setDoc } from 'firebase/firestore';
 import {
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-  doc,
-  getDoc,
-  setDoc,
-} from 'firebase/firestore';
-import {
-  Observable,
   catchError,
   concatMap,
   defaultIfEmpty,
   finalize,
-  forkJoin,
   from,
   map,
   mergeMap,
@@ -30,6 +21,7 @@ import {
 } from 'rxjs';
 import { auth, db } from 'src/app/firebase/firebase-config';
 import { AppState } from 'src/app/store/app.reducer';
+import { VacanciesEffectsHelper } from 'src/app/vacancies/store/vacancies-effects.helper';
 import { updateSavedVacanciesSuccess } from 'src/app/vacancies/store/vacancies.actions';
 import { Vacancy } from 'src/app/vacancies/vacancies.types';
 import { handleAuthentication, handleError } from '../auth-helpers';
@@ -120,12 +112,14 @@ export class AuthEffects {
                     authResponse
                   );
 
-                  return this.getSavedVacanciesDocSnaps(
+                  return VacanciesEffectsHelper.getSavedVacanciesDocSnaps(
                     userData.savedVacancies
                   ).pipe(
                     defaultIfEmpty([]),
                     map((vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
-                      return this.getVacanciesList(vacanciesDocSnaps);
+                      return VacanciesEffectsHelper.getVacanciesList(
+                        vacanciesDocSnaps
+                      );
                     }),
                     tap((vacancies: Vacancy[]) => {
                       userData.savedVacancies = vacancies;
@@ -175,12 +169,14 @@ export class AuthEffects {
           }),
           mergeMap((userData: UserData) => {
             if (userData) {
-              return this.getSavedVacanciesDocSnaps(
+              return VacanciesEffectsHelper.getSavedVacanciesDocSnaps(
                 userData.savedVacancies
               ).pipe(
                 defaultIfEmpty([]),
                 map((vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) => {
-                  return this.getVacanciesList(vacanciesDocSnaps);
+                  return VacanciesEffectsHelper.getVacanciesList(
+                    vacanciesDocSnaps
+                  );
                 }),
                 tap((vacancies: Vacancy[]) => {
                   this.store.dispatch(
@@ -208,16 +204,6 @@ export class AuthEffects {
       })
     )
   );
-
-  getVacanciesList(vacanciesDocSnaps: DocumentSnapshot<Vacancy>[]) {
-    return vacanciesDocSnaps
-      .filter((vacancyDocSnap: DocumentSnapshot<Vacancy>) =>
-        vacancyDocSnap.exists()
-      )
-      .map((filteredVacancyDocSnap: DocumentSnapshot<Vacancy>) =>
-        filteredVacancyDocSnap.data()
-      );
-  }
 
   clearErrorAfterTimeout(action) {
     setTimeout(() => {
@@ -261,17 +247,6 @@ export class AuthEffects {
     const expirationDuration =
       user.tokenExpirationDate.getTime() - new Date().getTime();
     this.authService.setLogoutTimer(expirationDuration);
-  }
-
-  getSavedVacanciesDocSnaps(
-    docRefs: DocumentReference[]
-  ): Observable<DocumentSnapshot<DocumentData, DocumentData>[]> {
-    const vacanciesDocs = docRefs.map((docRef) => {
-      const docReference = doc(db, 'vacancies', docRef.id);
-      return getDoc(docReference);
-    });
-
-    return forkJoin(vacanciesDocs);
   }
 
   checkTokenValidityAndFinishAuth(loadedUser: User) {

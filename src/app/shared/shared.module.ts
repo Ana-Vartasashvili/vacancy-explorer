@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { FlashMessageComponent } from './flash-message/flash-message.component';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { InputComponent } from './input/input.component';
@@ -16,10 +17,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CamelCaseToTitleCasePipe } from './pipes/camel-case-to-title-case.pipe';
 import { DatePipe } from './pipes/date.pipe';
-import { SelectMultipleComponent } from './select-multiple/select-multiple.component';
 import { SelectComponent } from './select/select.component';
 import { VacancyCardComponent } from './vacancy-card/vacancy-card.component';
-import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +28,6 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     FormContainerComponent,
     InputComponent,
     SelectComponent,
-    SelectMultipleComponent,
     DatePipe,
     LoadingSpinnerComponent,
     CamelCaseToTitleCasePipe,
@@ -57,7 +55,6 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     FormContainerComponent,
     InputComponent,
     SelectComponent,
-    SelectMultipleComponent,
     LoadingSpinnerComponent,
     CamelCaseToTitleCasePipe,
     ConfirmationModalComponent,
