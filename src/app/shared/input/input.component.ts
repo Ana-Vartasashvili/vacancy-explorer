@@ -42,6 +42,7 @@ export class InputComponent implements ControlValueAccessor {
   onInputChange(event: Event) {
     const newValue = (event.target as HTMLInputElement).value;
     this.onChange(newValue);
+    this.value = newValue;
   }
 
   onInputTouch() {

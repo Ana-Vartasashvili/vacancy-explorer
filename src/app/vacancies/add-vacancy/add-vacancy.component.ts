@@ -77,8 +77,8 @@ export class AddVacancyComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.store.dispatch(startAddingVacancy(this.addVacancyForm.value));
-    this.formDirective.resetForm();
     this.addVacancyForm.reset();
+    this.formDirective.resetForm();
   }
 
   ngOnDestroy(): void {

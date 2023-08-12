@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { user } from 'src/app/auth/store/auth.selectors';
@@ -29,7 +29,8 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private vacanciesService: VacanciesService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +67,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.store.dispatch(deleteVacancy({ vacancyId: this.vacancy.id }));
+    this.router.navigate(['/vacancies']);
   }
 
   approveVacancy(e: Event) {
@@ -78,6 +80,7 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
         vacancyId: this.vacancy.id,
       })
     );
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   setModalIsOpen(isOpen: boolean) {
