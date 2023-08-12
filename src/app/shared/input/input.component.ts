@@ -23,6 +23,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() formControlName: string;
   @Input() placeholder: string;
   @Input() inputType: string = 'text';
+  passwordIsHidden = true;
   value: string;
   onChange: (newValue: string) => void;
   onTouched: () => void;
@@ -47,6 +48,16 @@ export class InputComponent implements ControlValueAccessor {
 
   onInputTouch() {
     this.onTouched();
+  }
+
+  togglePasswordVisibility() {
+    this.passwordIsHidden = !this.passwordIsHidden;
+  }
+
+  getErrorStyle(): { color: string } {
+    return {
+      color: this.isInvalidAndTouched() ? 'red' : '',
+    };
   }
 
   getFormControl(): AbstractControl {

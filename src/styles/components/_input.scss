@@ -8,6 +8,7 @@
 .input--invalid {
   outline: 0.15rem solid $color-red !important;
   outline-offset: -0.15rem !important;
+  color: red;
 
   &::placeholder {
     color: $color-red;

@@ -1,6 +1,14 @@
 <div class="form-control">
+  <mat-icon
+    *ngIf="inputType === 'password'"
+    class="visibility-icon"
+    (click)="togglePasswordVisibility()"
+    [ngStyle]="getErrorStyle()"
+    >{{ passwordIsHidden ? "visibility_off" : "visibility" }}</mat-icon
+  >
+
   <input
-    [type]="inputType"
+    [type]="inputType === 'password' && passwordIsHidden ? 'password' : 'text'"
     [id]="formControlName"
     [placeholder]="placeholder"
     [class]="isInvalidAndTouched() ? 'input input--invalid' : 'input'"

@@ -22,9 +22,23 @@
 
   &__list-item {
     @extend %link-default;
+    outline-offset: 1rem;
+    position: relative;
 
-    &:hover {
-      border-bottom: $border-width-sm solid $color-black;
+    &::after {
+      content: "";
+      display: block;
+      border-bottom: 0.2rem solid $color-black;
+      width: 0;
+      position: absolute;
+      bottom: -0.28rem;
+      left: 0;
+      -webkit-transition: 0.2s ease;
+      transition: 0.2s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
     }
   }
 
@@ -53,6 +67,8 @@
   }
 
   .active {
-    border-bottom: $border-width-sm solid $color-black;
+    &::after {
+      width: 100%;
+    }
   }
 }
