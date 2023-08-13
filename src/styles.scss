@@ -22,9 +22,26 @@ body {
   color: $color-black;
   scroll-behavior: smooth;
 
-  ul {
-    margin-left: 2rem;
-    line-height: 1.5rem;
+  .details__description__text {
+    ul {
+      line-height: 1.7rem;
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        margin: 5px;
+      }
+
+      li::before {
+        content: "•";
+        font-size: 2rem;
+        margin-right: 0.4rem;
+      }
+
+      li span {
+        display: block;
+      }
+    }
   }
 }
 

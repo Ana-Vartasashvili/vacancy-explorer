@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
 import { deleteVacancy } from 'src/app/vacancies/store/vacancies.actions';
@@ -13,7 +14,7 @@ export class ConfirmationModalComponent {
   @Input() vacancyId: string;
   @Output() modalClosed = new EventEmitter<void>();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   closeModal() {
     this.modalClosed.emit();
@@ -21,5 +22,6 @@ export class ConfirmationModalComponent {
 
   onDelete() {
     this.store.dispatch(deleteVacancy({ vacancyId: this.vacancyId }));
+    this.router.navigate(['/vacancies']);
   }
 }
