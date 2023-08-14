@@ -197,12 +197,36 @@ export class AuthEffects {
               return of(AuthActions.autoLoginFail());
             }
           }),
-          catchError(() => {
-            return of(AuthActions.autoLoginFail());
-          })
+          catchError(() => of(AuthActions.autoLoginFail()))
         );
       })
     )
+  );
+
+  authRedirect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.authSuccess),
+        tap((authSuccessAction) => {
+          if (authSuccessAction.redirect) {
+            this.router.navigate(['/']);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  autoLogout = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          this.authService.clearLogoutTimer();
+          localStorage.removeItem('tokenData');
+          this.router.navigate(['/auth/login']);
+        })
+      ),
+    { dispatch: false }
   );
 
   clearErrorAfterTimeout(action) {
@@ -264,30 +288,4 @@ export class AuthEffects {
       return AuthActions.autoLoginFail();
     }
   }
-
-  authRedirect = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.authSuccess),
-        tap((authSuccessAction) => {
-          if (authSuccessAction.redirect) {
-            this.router.navigate(['/']);
-          }
-        })
-      ),
-    { dispatch: false }
-  );
-
-  autoLogout = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.logout),
-        tap(() => {
-          this.authService.clearLogoutTimer();
-          localStorage.removeItem('tokenData');
-          this.router.navigate(['/auth/login']);
-        })
-      ),
-    { dispatch: false }
-  );
 }

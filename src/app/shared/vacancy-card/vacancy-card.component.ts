@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { user } from 'src/app/auth/store/auth.selectors';
 import { AppState } from 'src/app/store/app.reducer';
 import {
-  deleteVacancy,
   startUpdatingSavedVacancies,
   updateVacancy,
 } from 'src/app/vacancies/store/vacancies.actions';

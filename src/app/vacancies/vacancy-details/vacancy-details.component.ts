@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { user } from 'src/app/auth/store/auth.selectors';
@@ -7,7 +8,6 @@ import { AppState } from 'src/app/store/app.reducer';
 import { deleteVacancy, updateVacancy } from '../store/vacancies.actions';
 import { VacanciesService } from '../vacancies.service';
 import { Vacancy } from '../vacancies.types';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vacancy-details',
@@ -31,7 +31,6 @@ export class VacancyDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private vacanciesService: VacanciesService,
     private store: Store<AppState>,
-    private router: Router,
     private location: Location
   ) {}
 

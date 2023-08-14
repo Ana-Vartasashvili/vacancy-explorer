@@ -7,17 +7,14 @@ import {
   trigger,
 } from '@angular/animations';
 
-export const FilterBlockAnimation = trigger('fade', [
+export const SidebarAnimation = trigger('slide', [
   transition(':enter', [
-    animate(
-      '180ms',
-      keyframes([
-        style({ opacity: 0, height: 0 }),
-        style({ opacity: 1, height: '*' }),
-      ])
-    ),
+    style({ transform: 'translateX(-100%)' }),
+    animate('300ms ease-in-out'),
   ]),
-  transition(':leave', [animate('200ms', style({ opacity: 0, height: 0 }))]),
+  transition(':leave', [
+    animate('300ms ease-in-out', style({ transform: 'translateX(100%)' })),
+  ]),
 ]);
 
 export const ArrowRotateAnimation = trigger('openClose', [
@@ -41,12 +38,15 @@ export const FlashMessageAnimation = trigger('flash', [
   ]),
 ]);
 
-export const SidebarAnimation = trigger('slide', [
+export const FilterBlockAnimation = trigger('fade', [
   transition(':enter', [
-    style({ transform: 'translateX(-100%)' }),
-    animate('300ms ease-in-out'),
+    animate(
+      '180ms',
+      keyframes([
+        style({ opacity: 0, height: 0 }),
+        style({ opacity: 1, height: '*' }),
+      ])
+    ),
   ]),
-  transition(':leave', [
-    animate('300ms ease-in-out', style({ transform: 'translateX(100%)' })),
-  ]),
+  transition(':leave', [animate('200ms', style({ opacity: 0, height: 0 }))]),
 ]);

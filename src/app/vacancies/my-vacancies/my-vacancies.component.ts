@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { user } from 'src/app/auth/store/auth.selectors';
 import { AppState } from 'src/app/store/app.reducer';
+import { startFetchingMyVacancies } from '../store/vacancies.actions';
 import { vacancies } from '../store/vacancies.selectors';
 import { Vacancy } from '../vacancies.types';
-import { startFetchingMyVacancies } from '../store/vacancies.actions';
-import { user } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-my-vacancies',

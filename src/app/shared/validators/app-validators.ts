@@ -56,7 +56,6 @@ export class AppValidators extends Validators {
 
   static passwordStrength(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
-
     const regexLowerCase = /^(?=.*[a-z])/;
     const regexUpperCase = /^(?=.*[A-Z])/;
     const regexDigits = /^(?=.*[0-9])/;

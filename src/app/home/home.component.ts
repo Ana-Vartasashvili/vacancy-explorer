@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../store/app.reducer';
+import { startFetchingLatestVacancies } from '../vacancies/store/vacancies.actions';
 import { vacancies } from '../vacancies/store/vacancies.selectors';
 import { Vacancy } from '../vacancies/vacancies.types';
-import { startFetchingLatestVacancies } from '../vacancies/store/vacancies.actions';
 
 @Component({
   selector: 'app-home',
