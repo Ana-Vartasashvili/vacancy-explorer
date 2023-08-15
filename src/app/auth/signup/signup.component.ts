@@ -60,7 +60,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     const { email, password, firstName, lastName } = this.signupForm.value;
 
     this.store.dispatch(signupStart({ email, password, firstName, lastName }));
-    this.signupForm.reset();
   }
 
   ngOnDestroy(): void {

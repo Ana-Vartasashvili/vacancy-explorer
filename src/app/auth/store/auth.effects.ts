@@ -75,13 +75,18 @@ export class AuthEffects {
                 this.authService.setLogoutTimer(userData.expiresIn * 1000);
               }),
               map(() => handleAuthentication(userData)),
-              catchError((error: any) => handleError(error.code))
+              catchError((error: any) => {
+                this.clearErrorAfterTimeout(clearAuthError);
+                return handleError(error.code);
+              })
             )
           ),
-          catchError((error: any) => handleError(error.code))
+          catchError((error: any) => {
+            this.clearErrorAfterTimeout(clearAuthError);
+            return handleError(error.code);
+          })
         );
-      }),
-      finalize(() => this.clearErrorAfterTimeout(clearAuthError))
+      })
     )
   );
 

@@ -21,7 +21,7 @@
   </div>
 
   <mat-paginator
-    *ngIf="!isLoading && vacancies.length > 0"
+    *ngIf="!isLoading && vacancies.length > 5"
     [length]="allVacanciesCount"
     [pageIndex]="currentPageIndex"
     [pageSize]="currentPageSize"
