@@ -19,7 +19,7 @@ export class SavedVacanciesComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store.select(vacancies).subscribe((vacanciesState) => {
+    this.storeSub = this.store.select(vacancies).subscribe((vacanciesState) => {
       this.savedVacancies = [...vacanciesState.savedVacancies].reverse();
       this.isLoading = vacanciesState.savedVacanciesLoading;
       this.error = vacanciesState.savedVacanciesError;

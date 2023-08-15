@@ -43,18 +43,10 @@
   }
 
   &__title {
-    @include truncateText(30rem);
+    @include truncateText(80%);
     font-size: 2rem;
 
-    @media (max-width: 81rem) {
-      @include truncateText(24rem);
-    }
-
-    @media (max-width: 69rem) {
-      @include truncateText(20rem);
-    }
-
-    @media (max-width: 44rem) {
+    @media (max-width: 25rem) {
       @include truncateText(60vw);
     }
   }
@@ -77,8 +69,7 @@
   }
 
   &__company-name {
-    @include truncateText(23rem);
-    word-break: break-all;
+    @include truncateText(80%);
 
     @media (max-width: 81rem) {
       @include truncateText(18rem);
