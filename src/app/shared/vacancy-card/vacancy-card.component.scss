@@ -2,7 +2,6 @@
 
 .vacancy {
   position: relative;
-  width: 100%;
   padding: 2.5rem;
   border-radius: $border-radius-sm;
   cursor: pointer;
@@ -43,11 +42,15 @@
   }
 
   &__title {
-    @include truncateText(80%);
+    @include truncateText(25rem);
     font-size: 2rem;
 
-    @media (max-width: 25rem) {
-      @include truncateText(60vw);
+    @media (max-width: 46rem) {
+      @include truncateText(80%);
+    }
+
+    @media (max-width: 32rem) {
+      @include truncateText(20rem);
     }
   }
 
@@ -69,7 +72,7 @@
   }
 
   &__company-name {
-    @include truncateText(80%);
+    @include truncateText(25rem);
 
     @media (max-width: 81rem) {
       @include truncateText(18rem);
@@ -91,5 +94,25 @@
   &__manage-btns {
     @include flex(1rem, row, flex-end);
     margin-top: 1rem;
+  }
+}
+
+.vacancies-list-card {
+  .vacancy {
+    &__title {
+      @include truncateText(30rem);
+
+      @media (max-width: 77rem) {
+        @include truncateText(25rem);
+      }
+
+      @media (max-width: 65rem) {
+        @include truncateText(35rem);
+      }
+
+      @media (max-width: 31rem) {
+        @include truncateText(20rem);
+      }
+    }
   }
 }

@@ -18,6 +18,7 @@ import { Vacancy } from 'src/app/vacancies/vacancies.types';
 })
 export class VacancyCardComponent implements OnInit, OnDestroy {
   @Input() vacancy: Vacancy;
+  @Input() className: string;
   isOnVacanciesPage: boolean;
   savedVacancies: Vacancy[];
   savedVacancyIndex: number;

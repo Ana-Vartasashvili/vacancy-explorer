@@ -68,6 +68,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(setVacanciesSearchInputValue({ inputValue: '' }));
     this.vacanciesStoreSub.unsubscribe();
   }
 }

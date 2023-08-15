@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
@@ -20,7 +27,7 @@ import { Options } from './vacancies-filter.types';
   styleUrls: ['./vacancies-filter.component.scss'],
   animations: [ArrowRotateAnimation, FilterBlockAnimation],
 })
-export class VacanciesFilterComponent implements OnInit {
+export class VacanciesFilterComponent implements OnInit, OnDestroy {
   @Input() filterbarIsShown: boolean;
   @Output() sidebarClosed = new EventEmitter();
   filtersForm: FormGroup;
@@ -82,5 +89,10 @@ export class VacanciesFilterComponent implements OnInit {
 
     this.store.dispatch(setQueries({ queries: this.queries }));
     this.store.dispatch(startFetchingVacancies({ page: null }));
+  }
+
+  ngOnDestroy(): void {
+    this.vacanciesFilterService.filtersForm.reset();
+    this.store.dispatch(setQueries({ queries: [] }));
   }
 }

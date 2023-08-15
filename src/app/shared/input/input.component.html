@@ -8,7 +8,9 @@
   >
 
   <input
-    [type]="inputType === 'password' && passwordIsHidden ? 'password' : 'text'"
+    [type]="
+      inputType === 'password' && passwordIsHidden ? 'password' : inputType
+    "
     [id]="formControlName"
     [placeholder]="placeholder"
     [class]="isInvalidAndTouched() ? 'input input--invalid' : 'input'"

@@ -1,5 +1,5 @@
 <a [routerLink]="['/vacancies', vacancy.id]" class="vacancy__link">
-  <div class="vacancy">
+  <div [class.vacancy]="true" [class]="className">
     <h3 class="vacancy__title">{{ vacancy.jobTitle }}</h3>
     <mat-icon
       class="bookmark-icon"
