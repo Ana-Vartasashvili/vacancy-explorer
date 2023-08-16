@@ -49,7 +49,10 @@
       </div>
 
       <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-      <app-vacancies-list></app-vacancies-list>
+      <app-vacancies-list
+        [currentPageIndex]="currentPageIndex"
+        (pageChanged)="onPageChange($event)"
+      ></app-vacancies-list>
     </div>
   </div>
 </section>
