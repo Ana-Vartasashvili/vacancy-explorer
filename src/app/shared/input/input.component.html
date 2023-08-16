@@ -9,7 +9,7 @@
 
   <input
     [type]="
-      inputType === 'password' && passwordIsHidden ? 'password' : inputType
+      inputType === 'password' && passwordIsHidden ? 'password' : getInputType()
     "
     [id]="formControlName"
     [placeholder]="placeholder"

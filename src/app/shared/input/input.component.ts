@@ -54,6 +54,10 @@ export class InputComponent implements ControlValueAccessor {
     this.passwordIsHidden = !this.passwordIsHidden;
   }
 
+  getInputType() {
+    return this.inputType === 'password' ? 'text' : this.inputType;
+  }
+
   getErrorStyle(): { color: string } {
     return {
       color: this.isInvalidAndTouched() ? 'red' : '',
