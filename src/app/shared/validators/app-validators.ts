@@ -77,7 +77,7 @@ export class AppValidators extends Validators {
 
     if (!regexSpecialChars.test(value)) {
       return {
-        isStrong: 'Password must contain special characters - !@#$%^&*',
+        isStrong: 'Password must contain special characters.',
       };
     }
 
