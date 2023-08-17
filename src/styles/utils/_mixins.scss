@@ -63,7 +63,7 @@
   &__error {
     position: absolute;
     bottom: 0.6rem;
-    z-index: 999;
+    z-index: 10;
     color: $color-red;
     font-size: 1.3rem;
   }
